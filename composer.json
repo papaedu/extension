@@ -1,0 +1,50 @@
+{
+    "name": "papaedu/extension",
+    "description": "Papaedu extension.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pipi Zhang",
+            "email": "zhangpipi.o3o@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7",
+        "appstract/laravel-opcache": "^3.2",
+        "bensampo/laravel-enum": "^1.35",
+        "biubiujun/qcloud": "^1.0",
+        "darkaonline/l5-swagger": "^7.0",
+        "guzzlehttp/guzzle": "^6.4",
+        "jenssegers/agent": "^2.6",
+        "nwidart/laravel-modules": "7.0.x-dev",
+        "zgldh/qiniu-laravel-storage": "^0.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Papaedu\\Extension\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Papaedu\\Extension\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "laravel/framework": "^7.0",
+        "phpunit/phpunit": "^8.5"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Papaedu\\Extension\\Providers\\EnumServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=psr12 src/",
+        "fix-style": "phpcbf -p --standard=psr12 src/"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

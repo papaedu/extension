@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Papaedu\Extension\Traits\PapaeduHelpers;
+
+class WhiteListAccess
+{
+    use PapaeduHelpers;
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        if (in_array($request->ip(), config('whitelist.ip'))) {
+            return $next($request);
+        }
+
+        $this->response->errorNotFound();
+    }
+}
