@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Papaedu\Extension\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
