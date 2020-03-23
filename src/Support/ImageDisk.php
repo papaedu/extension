@@ -31,4 +31,15 @@ class ImageDisk extends DiskAbstract
 
         return $url;
     }
+
+    /**
+     * @return string
+     */
+    public function random()
+    {
+        return Arr::random([
+            'course/1Gn5BHUCuLCANBWVphiYBgO1HCAIXYlKJgZcqRP6.png',
+            'course/bFC5xRIGqnCshST789RGX1c3vhsvHYuTzfOgcyiv.jpeg',
+        ]);
+    }
 }
