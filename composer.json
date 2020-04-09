@@ -10,13 +10,8 @@
     ],
     "require": {
         "php": ">=7",
-        "appstract/laravel-opcache": "^3.2",
         "bensampo/laravel-enum": "^1.35",
         "biubiujun/qcloud": "^1.0",
-        "darkaonline/l5-swagger": "^7.0",
-        "guzzlehttp/guzzle": "^6.4",
-        "jenssegers/agent": "^2.6",
-        "nwidart/laravel-modules": "7.0.x-dev",
         "zgldh/qiniu-laravel-storage": "^0.10"
     },
     "autoload": {
