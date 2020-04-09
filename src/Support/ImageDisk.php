@@ -2,6 +2,8 @@
 
 namespace Papaedu\Extension\Support;
 
+use Illuminate\Support\Arr;
+
 class ImageDisk extends DiskAbstract
 {
     /**
@@ -35,7 +37,7 @@ class ImageDisk extends DiskAbstract
     /**
      * @return string
      */
-    public function random()
+    public static function random()
     {
         return Arr::random([
             'course/1Gn5BHUCuLCANBWVphiYBgO1HCAIXYlKJgZcqRP6.png',
