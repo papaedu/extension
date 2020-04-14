@@ -22,10 +22,6 @@ class OperationLog
     public function handle(Request $request, Closure $next)
     {
         if (app()->environment('production')) {
-            $monolog = Log::getMonolog();
-            $logHandler = $monolog->popHandler();
-            Log::useDailyFiles(storage_path('logs/operation.log'), 180, 'debug');
-
             $user = $this->authUser;
             $method = $request->method();
             $uri = $request->path();
@@ -34,16 +30,13 @@ class OperationLog
             $ip = $request->ip();
 
             $message = [
-                join([$user->id, $user->username], ' '),
+                join([$user->id ?? '0', $user->username ?? 'nologin'], ' '),
                 "{$method} {$uri} {$queryString}",
                 $userAgent,
                 $ip,
             ];
 
-            Log::info(join($message, ' | '));
-
-            $monolog->popHandler();
-            $monolog->pushHandler($logHandler);
+            Log::channel('oplog')->info(join($message, ' | '));
         }
 
         return $next($request);
