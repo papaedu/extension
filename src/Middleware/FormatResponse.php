@@ -22,7 +22,7 @@ class FormatResponse
         if ($response instanceof JsonResponse) {
             $data = $response->getData();
 
-            $result['data'] = $data->data ?? [];
+            $result['data'] = $data->data ?? $data;
 
             if ($data->meta ?? '') {
                 $result['meta'] = [
