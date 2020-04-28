@@ -14,21 +14,22 @@ class EnumServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Enum::macro('toKeyValue', function ($removeNone = false) {
-            $keyValue = [];
-            $array = self::toSelectArray();
+        Enum::macro('toFormatArray', function ($removeNone = false) {
+            $array = self::toArray();
+            $formatArray = [];
+
             if ($removeNone) {
-                unset($array[0]);
+                unset($array['None']);
             }
 
-            foreach ($array as $key => $value) {
-                $keyValue[] = [
-                    'key' => $key,
-                    'value' => $value,
+            foreach ($array as $value) {
+                $formatArray[] = [
+                    'key' => $value,
+                    'value' => self::getDescription($value),
                 ];
             }
 
-            return $keyValue;
+            return $formatArray;
         });
 
         Enum::macro('getKeyValue', function ($enumValue) {
