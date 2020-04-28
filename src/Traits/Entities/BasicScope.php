@@ -6,28 +6,21 @@ trait BasicScope
 {
     /**
      * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  array  $createdAt
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeRecent($query)
+    public function scopeCreatedAt($query, array $createdAt)
     {
-        return $query->orderBy('id', 'desc');
+        return $query->whereBetween('created_at', $createdAt);
     }
 
     /**
      * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  array  $updatedAt
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeRecentCreated($query)
+    public function scopeUpdatedAt($query, array $updatedAt)
     {
-        return $query->orderBy('created_at', 'desc');
-    }
-
-    /**
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeRecentUpdated($query)
-    {
-        return $query->orderBy('updated_at', 'desc');
+        return $query->whereBetween('updated_at', $updatedAt);
     }
 }
