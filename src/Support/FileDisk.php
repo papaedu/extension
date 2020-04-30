@@ -16,8 +16,9 @@ class FileDisk extends DiskAbstract
      */
     public static function get(string $path, string $default = '')
     {
+        $path = $path ?: $default;
         if (!$path) {
-            return $default ?: '';
+            return '';
         }
 
         return self::getDisk()->url(['path' => $path, 'domainType' => 'https']);

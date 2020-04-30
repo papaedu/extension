@@ -16,8 +16,9 @@ class AudioDisk extends DiskAbstract
      */
     public static function get(string $path, string $default = '')
     {
+        $path = $path ?: $default;
         if (!$path) {
-            return $default ?: '';
+            return '';
         }
 
         return parent::getDisk()->url(['path' => $path, 'domainType' => 'https']);

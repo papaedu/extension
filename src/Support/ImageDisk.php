@@ -19,16 +19,12 @@ class ImageDisk extends DiskAbstract
      */
     public static function get(string $path, string $scale = '', string $default = '')
     {
+        $path = $path ? $path : $default;
         if (!$path) {
-            if ($default) {
-                $url = $default;
-            } else {
-                return '';
-            }
-        } else {
-            $url = self::getDisk()->url(['path' => $path, 'domainType' => 'https']);
+            return '';
         }
 
+        $url = self::getDisk()->url($path);
         $url .= $scale ? "-{$scale}" : '';
 
         return $url;
