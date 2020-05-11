@@ -30,13 +30,13 @@ class OperationLog
             $ip = $request->ip();
 
             $message = [
-                join([$user->id ?? '0', $user->username ?? 'nologin'], ' '),
+                implode(' ', [$user->id ?? '0', $user->username ?? 'nologin']),
                 "{$method} {$uri} {$queryString}",
                 $userAgent,
                 $ip,
             ];
 
-            Log::channel('oplog')->info(join($message, ' | '));
+            Log::channel('oplog')->info(implode(' | ', $message));
         }
 
         return $next($request);
