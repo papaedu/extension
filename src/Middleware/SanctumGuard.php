@@ -20,8 +20,7 @@ class SanctumGuard
     public function handle($request, Closure $next, $provider = '')
     {
         if (!$provider) {
-            $guard = config('auth.defaults.guard');
-            $provider = config("auth.guards.{$guard}.provider");
+            $provider = config('auth.defaults.sanctum');
         }
 
         $model = config("auth.providers.{$provider}.model");
