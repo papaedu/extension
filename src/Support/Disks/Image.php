@@ -1,15 +1,15 @@
 <?php
 
-namespace Papaedu\Extension\Support;
+namespace Papaedu\Extension\Support\Disks;
 
 use Illuminate\Support\Arr;
 
-class ImageDisk extends DiskAbstract
+class Image extends DiskAbstract
 {
     /**
      * @var string
      */
-    protected static $diskName = 'qiniu-image';
+    protected $diskName = 'qiniu-image';
 
     /**
      * @param  string  $path
@@ -17,14 +17,9 @@ class ImageDisk extends DiskAbstract
      * @param  string  $default
      * @return string
      */
-    public static function get(string $path, string $scale = '', string $default = '')
+    public function url(string $path, string $scale = '', string $default = '')
     {
-        $path = $path ? $path : $default;
-        if (!$path) {
-            return '';
-        }
-
-        $url = self::getDisk()->url($path);
+        $url = parent::url($path, $default);
         $url .= $scale ? "-{$scale}" : '';
 
         return $url;
@@ -33,7 +28,7 @@ class ImageDisk extends DiskAbstract
     /**
      * @return string
      */
-    public static function random()
+    public function random()
     {
         return Arr::random([
             'course/1Gn5BHUCuLCANBWVphiYBgO1HCAIXYlKJgZcqRP6.png',
