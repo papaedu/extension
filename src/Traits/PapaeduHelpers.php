@@ -29,7 +29,7 @@ trait PapaeduHelpers
      */
     protected function authUser()
     {
-        return Auth::user();
+        return Auth::guard('sanctum')->user();
     }
 
     /**
