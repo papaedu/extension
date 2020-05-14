@@ -35,4 +35,9 @@ class Image extends DiskAbstract
             'course/bFC5xRIGqnCshST789RGX1c3vhsvHYuTzfOgcyiv.jpeg',
         ]);
     }
+
+    protected function getDomain()
+    {
+        return config('filesystems.disks.qiniu-image.domains.https');
+    }
 }

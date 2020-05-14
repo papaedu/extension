@@ -25,4 +25,9 @@ class Vod extends DiskAbstract
 
         return Str::finish(config('qcloud.vod.host', ''), '/') . ltrim($path, '/');
     }
+
+    protected function getDomain()
+    {
+        return config('qcloud.vod.host');
+    }
 }

@@ -57,7 +57,11 @@ abstract class DiskAbstract
      */
     public function parseUrl(string $url)
     {
-        return ltrim(parse_url($url, PHP_URL_PATH), '/');
+        if (parse_url($url, PHP_URL_HOST) == $this->getDomain()) {
+            return ltrim(parse_url($url, PHP_URL_PATH), '/');
+        }
+
+        return $url;
     }
 
     /**
@@ -92,5 +96,13 @@ abstract class DiskAbstract
     public function getUploadToken()
     {
         return $this->getDisk()->getDriver()->uploadToken();
+    }
+
+    /**
+     * 返回域名
+     */
+    protected function getDomain()
+    {
+        return '';
     }
 }
