@@ -33,6 +33,16 @@ trait PapaeduHelpers
     }
 
     /**
+     * Determine if the current user is authenticated.
+     *
+     * @return bool
+     */
+    public function authCheck()
+    {
+        return Auth::guard('sanctum')->check();
+    }
+
+    /**
      * Magically handle calls to certain properties.
      *
      * @param  string  $key
