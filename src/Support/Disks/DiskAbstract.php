@@ -5,7 +5,6 @@ namespace Papaedu\Extension\Support\Disks;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
-use Papaedu\Extension\Traits\DiskHelpers;
 
 abstract class DiskAbstract
 {
@@ -68,12 +67,12 @@ abstract class DiskAbstract
      * 上传
      *
      * @param  string  $module
-     * @param  \Illuminate\Http\UploadedFile  $image
+     * @param  \Illuminate\Http\UploadedFile|string  $file
      * @return string
      */
-    public function put(string $module, UploadedFile $image)
+    public function put(string $module, $file)
     {
-        return $this->getDisk()->put($this->getPathPrefix($module), $image);
+        return $this->getDisk()->put($this->getPathPrefix($module), $file);
     }
 
     /**
