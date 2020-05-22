@@ -4,23 +4,47 @@ namespace Papaedu\Extension\Support\Disks;
 
 class Disk
 {
+    private static $image;
+
+    private static $audio;
+
+    private static $file;
+
+    private static $vod;
+
     public static function image()
     {
-        return new Image();
-    }
+        if (!self::$image) {
+            self::$image = new Image();
+        }
 
-    public static function file()
-    {
-        return new File();
+        return self::$image;
     }
 
     public static function audio()
     {
-        return new Audio();
+        if (!self::$audio) {
+            self::$audio = new Audio();
+        }
+
+        return self::$audio;
+    }
+
+    public static function file()
+    {
+        if (!self::$file) {
+            self::$file = new File();
+        }
+
+        return self::$file;
     }
 
     public static function vod()
     {
-        return new Vod();
+        if (!self::$vod) {
+            self::$vod = new Vod();
+        }
+
+        return self::$vod;
     }
 }
