@@ -29,7 +29,7 @@ trait DiskHelpers
      */
     public static function getFilename(string $ext)
     {
-        $filename = Str::random(40);
+        $filename = Str::random(32);
 
         return "{$filename}.$ext";
     }
