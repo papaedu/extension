@@ -15,6 +15,15 @@ class RuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
+    }
+
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
         Validator::extend('image_exists', function ($attribute, $value, $parameters, $validator) {
             return Disk::image()->exists($value);
         }, '图片不存在或上传失败');
@@ -26,14 +35,5 @@ class RuleServiceProvider extends ServiceProvider
         Validator::extend('file_exists', function ($attribute, $value, $parameters, $validator) {
             return Disk::file()->exists($value);
         }, '文件不存在或上传失败');
-    }
-
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
     }
 }
