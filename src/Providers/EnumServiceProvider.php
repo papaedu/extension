@@ -14,7 +14,7 @@ class EnumServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Enum::macro('toFormatArray', function ($removeNone = false) {
+        Enum::macro('toFormatArray', function ($removeNone = true) {
             $array = self::toArray();
             $formatArray = [];
 
