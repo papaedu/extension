@@ -12,6 +12,7 @@
         "php": ">=7",
         "bensampo/laravel-enum": "^1.35",
         "biubiujun/qcloud": "^1.0",
+        "overtrue/easy-sms": "^1.1",
         "zgldh/qiniu-laravel-storage": "^0.10"
     },
     "autoload": {
@@ -31,7 +32,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Papaedu\\Extension\\Providers\\EnumServiceProvider"
+                "Papaedu\\Extension\\Providers\\EnumServiceProvider",
+                "Papaedu\\Extension\\Providers\\ChannelServiceProvider"
             ]
         }
     },
