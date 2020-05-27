@@ -37,12 +37,11 @@ class Geetest
      */
     public function preProcess(array $param, int $newCaptcha = 1)
     {
-        $response = Http::timeout(1)->get($this->domain . 'register.php', array_merge([
+        $data = array_merge([
             'gt' => $this->config['captcha_id'],
             'new_captcha' => $newCaptcha,
-        ], $param));
-        $challenge = $response->body();
-
+        ], $param);
+        $challenge = Http::timeout(1)->get($this->domain . 'register.php', $data)->body();
         if (strlen($challenge) != 32) {
             $this->failbackProcess();
 
@@ -110,15 +109,16 @@ class Geetest
         if (!$this->checkValidate($challenge, $validate)) {
             return false;
         }
+
         $data = array_merge([
-            "seccode" => $secCode,
-            "timestamp" => time(),
-            "challenge" => $challenge,
-            "captchaid" => $this->config['captcha_id'],
-            "json_format" => $jsonFormat,
-            "sdk" => self::GT_SDK_VERSION,
+            'seccode' => $secCode,
+            'timestamp' => time(),
+            'challenge' => $challenge,
+            'captchaid' => $this->config['captcha_id'],
+            'json_format' => $jsonFormat,
+            'sdk' => self::GT_SDK_VERSION,
         ], $param);
-        $codeValidate = Http::post('http://api.geetest.com/validate.php', $data);
+        $codeValidate = Http::timeout(1)->asForm()->post($this->domain . 'validate.php', $data)->body();
         $obj = json_decode($codeValidate, true);
         if ($obj === false) {
             return false;
