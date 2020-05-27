@@ -4,7 +4,7 @@ namespace Papaedu\Extension\Support\Disks;
 
 use Illuminate\Support\Str;
 
-trait DiskHelpers
+trait DiskTrait
 {
     /**
      * @return string

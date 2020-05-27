@@ -3,11 +3,11 @@
 namespace Papaedu\Extension\Middleware;
 
 use Closure;
-use Papaedu\Extension\Traits\PapaeduHelpers;
+use Papaedu\Extension\Traits\PapaeduTrait;
 
 class SanctumGuard
 {
-    use PapaeduHelpers;
+    use PapaeduTrait;
 
     /**
      * Handle an incoming request.

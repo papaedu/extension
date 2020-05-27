@@ -10,7 +10,7 @@ use Papaedu\Extension\Support\Response;
  * @property \Papaedu\Extension\Support\Response $response
  * @property \Modules\Admin\Entities\Admin|\Modules\Teacher\Entities\Teacher|\Modules\User\Entities\User $authUser
  */
-trait PapaeduHelpers
+trait PapaeduTrait
 {
     /**
      * Get the response.

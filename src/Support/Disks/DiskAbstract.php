@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 abstract class DiskAbstract
 {
-    use DiskHelpers;
+    use DiskTrait;
 
     /**
      * @var string
@@ -76,7 +76,7 @@ abstract class DiskAbstract
 
     /**
      * 是否存在
-     * 
+     *
      * @param  string  $path
      * @return bool
      */

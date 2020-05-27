@@ -4,7 +4,7 @@ namespace Papaedu\Extension\Traits;
 
 use Illuminate\Testing\TestResponse;
 
-trait TestHelpers
+trait TestTrait
 {
     protected $paginateData = [
         'meta' => [
