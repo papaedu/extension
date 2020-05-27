@@ -5,6 +5,7 @@ namespace Papaedu\Extension\Traits\Auth;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 trait AuthenticatesUsers
@@ -93,15 +94,25 @@ trait AuthenticatesUsers
      * The user has been authenticated.
      *
      * @param  mixed  $user
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function authenticated($user)
     {
+        $this->valiateUuid();
+
         return $this->response->array([
             'access_token' => $user->createToken('front')->plainTextToken,
             'token_type' => 'Bearer',
             'uuid' => $user->uuid,
         ]);
+    }
+
+    protected function valiateUuid()
+    {
+        if (!$this->guard()->user()->uuid) {
+            $this->guard()->user()->uuid = str_replace('-', '', Str::uuid()->toString());
+            $this->guard()->user()->save();
+        }
     }
 
     /**
