@@ -9,8 +9,6 @@ use Overtrue\EasySms\EasySms;
 
 class EasySmsChannel
 {
-    protected $client;
-
     /**
      * @var \Overtrue\EasySms\EasySms
      */
