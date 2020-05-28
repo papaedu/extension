@@ -33,12 +33,10 @@
         "laravel": {
             "providers": [
                 "Papaedu\\Extension\\Providers\\EnumServiceProvider",
-                "Papaedu\\Extension\\Providers\\ChannelServiceProvider",
-                "Papaedu\\Extension\\Providers\\UmengPushServiceProvider"
+                "Papaedu\\Extension\\Providers\\ChannelServiceProvider"
             ],
             "aliases": {
-                "Geetest": "Papaedu\\Extension\\Facades\\Geetest",
-                "UmengPush": "Papaedu\\Extension\\Facades\\UmengPush"
+                "Geetest": "Papaedu\\Extension\\Facades\\Geetest"
             }
         }
     },
