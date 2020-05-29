@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\Traits\Auth;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -38,9 +39,10 @@ trait Authenticated
     /**
      * Before return log info response.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
      */
-    protected function beforeResponse($user)
+    protected function beforeResponse(Request $request, $user)
     {
     }
 
