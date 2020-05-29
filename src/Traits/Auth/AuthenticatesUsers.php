@@ -85,6 +85,7 @@ trait AuthenticatesUsers
     protected function sendLoginResponse(Request $request)
     {
         $this->clearLoginAttempts($request);
+        $this->beforeResponse($this->guard()->user());
 
         return $this->authenticated($this->guard()->user());
     }

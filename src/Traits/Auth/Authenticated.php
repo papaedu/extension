@@ -7,8 +7,6 @@ use Illuminate\Support\Str;
 
 trait Authenticated
 {
-    protected $isValidateUuid = true;
-
     /**
      * The user has been authenticated.
      *
@@ -17,8 +15,6 @@ trait Authenticated
      */
     protected function authenticated($user)
     {
-        $this->validateUuid($user);
-
         return $this->response->array([
             'access_token' => $user->createToken('front')->plainTextToken,
             'token_type' => 'Bearer',
@@ -33,10 +29,19 @@ trait Authenticated
      */
     protected function validateUuid($user)
     {
-        if ($this->isValidateUuid && !$user->uuid) {
+        if (!$user->uuid) {
             $user->uuid = str_replace('-', '', Str::uuid()->toString());
             $user->save();
         }
+    }
+
+    /**
+     * Before return log info response.
+     *
+     * @param  mixed  $user
+     */
+    protected function beforeResponse($user)
+    {
     }
 
     /**
