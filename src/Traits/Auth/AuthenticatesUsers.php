@@ -4,12 +4,11 @@ namespace Papaedu\Extension\Traits\Auth;
 
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 trait AuthenticatesUsers
 {
+    use Authenticated;
     use ThrottlesLogins;
 
     /**
@@ -91,34 +90,6 @@ trait AuthenticatesUsers
     }
 
     /**
-     * The user has been authenticated.
-     *
-     * @param  mixed  $user
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function authenticated($user)
-    {
-        $this->validateUuid();
-
-        return $this->response->array([
-            'access_token' => $user->createToken('front')->plainTextToken,
-            'token_type' => 'Bearer',
-            'uuid' => $user->uuid,
-        ]);
-    }
-
-    /**
-     * Validate user uuid, if not generate.
-     */
-    protected function validateUuid()
-    {
-        if (!$this->guard()->user()->uuid) {
-            $this->guard()->user()->uuid = str_replace('-', '', Str::uuid()->toString());
-            $this->guard()->user()->save();
-        }
-    }
-
-    /**
      * Get the failed login response instance.
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -152,13 +123,4 @@ trait AuthenticatesUsers
         return 'username';
     }
 
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard();
-    }
 }
