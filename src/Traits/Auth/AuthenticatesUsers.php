@@ -81,7 +81,7 @@ trait AuthenticatesUsers
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function sendLoginResponse(Request $request)
     {
@@ -98,7 +98,7 @@ trait AuthenticatesUsers
      */
     protected function authenticated($user)
     {
-        $this->valiateUuid();
+        $this->validateUuid();
 
         return $this->response->array([
             'access_token' => $user->createToken('front')->plainTextToken,
@@ -107,7 +107,10 @@ trait AuthenticatesUsers
         ]);
     }
 
-    protected function valiateUuid()
+    /**
+     * Validate user uuid, if not generate.
+     */
+    protected function validateUuid()
     {
         if (!$this->guard()->user()->uuid) {
             $this->guard()->user()->uuid = str_replace('-', '', Str::uuid()->toString());
