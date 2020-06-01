@@ -6,9 +6,9 @@ use Papaedu\Extension\Facades\Geetest;
 
 trait GeetestTrait
 {
-    public function captcha(string $clientType, $userId = 'UnLoginUser')
+    public function captcha(string $appName, string $clientType, $userId = 'UnLoginUser')
     {
-        $status = Geetest::preProcess([
+        $status = Geetest::config($appName)->preProcess([
             'user_id' => $userId,
             'client_type' => $clientType,
             'ip_address' => request()->ip(),
@@ -16,21 +16,21 @@ trait GeetestTrait
         session()->put('gtserver', $status);
         session()->put('user_id', $userId);
 
-        return Geetest::getResponse();
+        return Geetest::config($appName)->getResponse();
     }
 
-    public function verify(string $clientType, $userId = 'UnLoginUser')
+    public function verify(string $appName, string $clientType, $userId = 'UnLoginUser')
     {
         [$geetestChallenge, $geetestValidate, $geetestSeccode] = array_values(request()->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'));
 
         if (1 == session()->get('gtserver')) {
-            return Geetest::successValidate($geetestChallenge, $geetestValidate, $geetestSeccode, [
+            return Geetest::config($appName)->successValidate($geetestChallenge, $geetestValidate, $geetestSeccode, [
                 'user_id' => $userId,
                 'client_type' => $clientType,
                 'ip_address' => request()->ip(),
             ]);
         } else {
-            return Geetest::failValidate($geetestChallenge, $geetestValidate, $geetestSeccode);
+            return Geetest::config($appName)->failValidate($geetestChallenge, $geetestValidate, $geetestSeccode);
         }
     }
 }

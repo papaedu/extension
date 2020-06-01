@@ -14,9 +14,12 @@ class GeetestServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Geetest::class, function ($app) {
-            return new Geetest($app['config']['geetest']);
-        });
+        $configs = config('geetest');
+        foreach ($configs as $name => $config) {
+            $this->app->singleton("geetest.{$name}", function ($app) use ($config) {
+                return new Geetest($config);
+            });
+        }
     }
 
     /**
