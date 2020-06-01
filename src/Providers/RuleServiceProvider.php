@@ -27,18 +27,18 @@ class RuleServiceProvider extends ServiceProvider
     {
         Validator::extend('image_exists', function ($attribute, $value, $parameters, $validator) {
             return Disk::image()->exists($value);
-        }, '图片不存在或上传失败');
+        }, ':attribute不存在或上传失败');
 
         Validator::extend('audio_exists', function ($attribute, $value, $parameters, $validator) {
             return Disk::audio()->exists($value);
-        }, '音频不存在或上传失败');
+        }, ':attribute不存在或上传失败');
 
         Validator::extend('file_exists', function ($attribute, $value, $parameters, $validator) {
             return Disk::file()->exists($value);
-        }, '文件不存在或上传失败');
+        }, ':attribute不存在或上传失败');
 
         Validator::extend('mobile', function ($attributes, $value, $parameters, $validator) {
             return Extend::isMobile($value);
-        }, '手机号格式错误');
+        }, ':attribute格式错误');
     }
 }
