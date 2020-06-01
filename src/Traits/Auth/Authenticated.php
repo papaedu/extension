@@ -17,7 +17,7 @@ trait Authenticated
     protected function authenticated($user)
     {
         return $this->response->array([
-            'access_token' => $user->createToken('front')->plainTextToken,
+            'access_token' => $user->createToken($this->tokenName())->plainTextToken,
             'token_type' => 'Bearer',
             'uuid' => $user->uuid,
         ]);
@@ -54,5 +54,10 @@ trait Authenticated
     protected function guard()
     {
         return Auth::guard();
+    }
+
+    public function tokenName()
+    {
+        return 'user';
     }
 }
