@@ -176,7 +176,7 @@ class Geetest
         $data['sign'] = bin2hex($sign);
 
         $url = 'https://onelogin.geetest.com/check_phone';
-        $result = Http::timeout(1)->asForm()->post($url, $data)->json();
+        $result = Http::timeout(1)->asJson()->post($url, $data)->json();
 
         return $result['result'] ?? '';
     }
