@@ -62,7 +62,7 @@ class Geetest
         $this->response = [
             'success' => 1,
             'gt' => $this->config['captcha_id'],
-            'challenge' => md5($challenge . $this->config['private_key']),
+            'challenge' => md5($challenge . $this->config['captcha_key']),
             'new_captcha' => 1,
         ];
     }
@@ -147,7 +147,7 @@ class Geetest
      */
     private function checkValidate(string $challenge, string $validate)
     {
-        if (strlen($validate) != 32 || md5($this->config['private_key'] . 'geetest' . $challenge) != $validate) {
+        if (strlen($validate) != 32 || md5($this->config['captcha_key'] . 'geetest' . $challenge) != $validate) {
             return false;
         }
 
@@ -155,30 +155,28 @@ class Geetest
     }
 
     /**
-     * @param $err
+     * 一键登录
+     *
+     * @param $processId
+     * @param $authCode
+     * @param $token
+     * @return string
      */
-    private function triggerError($err)
-    {
-        trigger_error($err);
-    }
-
     public function oneLoginCheckPhone($processId, $authCode, $token)
     {
-        $query = [
+        $data = [
             'process_id' => $processId,
             'token' => $token,
             'timestamp' => intval(microtime(true) * 1000),
         ];
         if ($authCode) {
-            $query['authcode'] = $authCode;
+            $data['authcode'] = $authCode;
         }
-        $sign = hash_hmac('sha256', "{$this->appId}&&{$query['timestamp']}", $this->appKey, true);
-        $query['sign'] = bin2hex($sign);
+        $sign = hash_hmac('sha256', "{$this->config['one_login_id']}&&{$data['timestamp']}", $this->config['one_login_key'], true);
+        $data['sign'] = bin2hex($sign);
 
         $url = 'https://onelogin.geetest.com/check_phone';
-        $result = $this->postRequest($url, $query, true);
-        \Log::info('geetest response:' . $result);
-        $result = \GuzzleHttp\json_decode($result, true);
+        $result = Http::timeout(1)->asForm()->post($url, $data)->json();
 
         return $result['result'] ?? '';
     }
