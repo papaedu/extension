@@ -2,11 +2,13 @@
 
 namespace Papaedu\Extension\Support;
 
-class Str
+class Extend
 {
     const RomanNumeral = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'xiii'];
 
     /**
+     * 是否为罗马数字
+     *
      * @param  string  $numeral
      * @return bool
      */
@@ -16,6 +18,8 @@ class Str
     }
 
     /**
+     * 随机数字
+     *
      * @param  int  $length
      * @return string
      */
@@ -27,5 +31,16 @@ class Str
         }
 
         return $random;
+    }
+
+    /**
+     * 是否为手机号
+     *
+     * @param  string  $mobile
+     * @return false|int
+     */
+    public static function isMobile(string $mobile)
+    {
+        return preg_match('/(1[3-9])\\d{9}/', $mobile);
     }
 }

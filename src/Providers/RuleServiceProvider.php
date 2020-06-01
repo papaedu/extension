@@ -5,6 +5,7 @@ namespace Papaedu\Extension\Providers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Papaedu\Extension\Support\Disks\Disk;
+use Papaedu\Extension\Support\Extend;
 
 class RuleServiceProvider extends ServiceProvider
 {
@@ -35,5 +36,9 @@ class RuleServiceProvider extends ServiceProvider
         Validator::extend('file_exists', function ($attribute, $value, $parameters, $validator) {
             return Disk::file()->exists($value);
         }, '文件不存在或上传失败');
+
+        Validator::extend('mobile', function ($attributes, $value, $parameters, $validator) {
+            return Extend::isMobile($value);
+        }, '手机号格式错误');
     }
 }
