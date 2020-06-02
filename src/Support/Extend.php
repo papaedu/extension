@@ -43,4 +43,15 @@ class Extend
     {
         return preg_match('/(1[3-9])\\d{9}/', $mobile);
     }
+
+    /**
+     * 密码强度
+     *
+     * @param  string  $password
+     * @return false|int
+     */
+    public static function passwordStrength(string $password)
+    {
+        return preg_match('/^(?=.*[0-9])(?=.*[a-zA-Z!@_#$%^&*()\-+=,.?]).{8,32}$/', $password);
+    }
 }

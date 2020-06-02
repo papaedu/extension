@@ -40,5 +40,9 @@ class RuleServiceProvider extends ServiceProvider
         Validator::extend('mobile', function ($attributes, $value, $parameters, $validator) {
             return Extend::isMobile($value);
         }, ':attribute格式错误');
+
+        Validator::extend('password', function ($attributes, $value, $parameters, $validator) {
+            return Extend::passwordStrength($value);
+        }, ':attribute必须包含数字，且必须包含字母或其它符号（!@_#$%^&*()-+=,.?）');
     }
 }
