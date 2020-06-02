@@ -56,6 +56,21 @@ trait Authenticated
         return Auth::guard();
     }
 
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
+    }
+
+    /**
+     * Get the sanctum token name to be used by the controller.
+     *
+     * @return string
+     */
     public function tokenName()
     {
         return 'user';
