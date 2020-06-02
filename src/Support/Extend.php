@@ -41,7 +41,7 @@ class Extend
      */
     public static function isMobile(string $mobile)
     {
-        return preg_match('/(1[3-9])\\d{9}/', $mobile);
+        return preg_match('/^(1[3-9])\\d{9}$/', $mobile);
     }
 
     /**
@@ -52,6 +52,6 @@ class Extend
      */
     public static function passwordStrength(string $password)
     {
-        return preg_match('/^(?=.*[0-9])(?=.*[a-zA-Z!@_#$%^&*()\-+=,.?]).{8,32}$/', $password);
+        return preg_match('/^(?=.*[0-9])(?=.*[a-zA-Z!@_#$%^&*()\-+=,.?]).{8,16}$/', $password);
     }
 }
