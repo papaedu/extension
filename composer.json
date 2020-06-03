@@ -16,13 +16,8 @@
         "zgldh/qiniu-laravel-storage": "^0.10"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.6",
-        "beyondcode/laravel-query-detector": "^1.2",
         "laravel/framework": "^7.0",
-        "nunomaduro/larastan": "^0.5.3",
-        "phpunit/phpunit": "^8.5",
-        "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan-strict-rules": "^0.12.2"
+        "phpunit/phpunit": "^8.5"
     },
     "autoload": {
         "psr-4": {
