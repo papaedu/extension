@@ -86,6 +86,17 @@ abstract class DiskAbstract
     }
 
     /**
+     * 删除
+     *
+     * @param  string  $path
+     * @return bool
+     */
+    public function delete(string $path)
+    {
+        return $this->getDisk()->delete($path);
+    }
+
+    /**
      * 获取随机文件名
      *
      * @param  string  $module
@@ -100,6 +111,8 @@ abstract class DiskAbstract
     /**
      * 获取上传Token
      *
+     * @param  string  $path
+     * @param  string  $mimeLimit
      * @return string
      */
     public function getUploadToken(string $path, string $mimeLimit = '')
