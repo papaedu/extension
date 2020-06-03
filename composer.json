@@ -15,6 +15,15 @@
         "overtrue/easy-sms": "^1.1",
         "zgldh/qiniu-laravel-storage": "^0.10"
     },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.6",
+        "beyondcode/laravel-query-detector": "^1.2",
+        "laravel/framework": "^7.0",
+        "nunomaduro/larastan": "^0.5.3",
+        "phpunit/phpunit": "^8.5",
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan-strict-rules": "^0.12.2"
+    },
     "autoload": {
         "psr-4": {
             "Papaedu\\Extension\\": "src"
@@ -24,10 +33,6 @@
         "psr-4": {
             "Papaedu\\Extension\\Tests\\": "tests/"
         }
-    },
-    "require-dev": {
-        "laravel/framework": "^7.0",
-        "phpunit/phpunit": "^8.5"
     },
     "extra": {
         "laravel": {
