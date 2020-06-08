@@ -22,14 +22,18 @@ class FormatResponse
         if ($response instanceof JsonResponse) {
             $data = $response->getData();
 
-            $result['data'] = $data->data ?? $data;
+            if (isset($data->data)) {
+                $result['data'] = $data->data;
 
-            if ($data->meta ?? '') {
-                $result['meta'] = [
-                    'current_page' => $data->meta->current_page,
-                    'last_page' => $data->meta->last_page,
-                    'total' => $data->meta->total,
-                ];
+                if (isset($data->meta)) {
+                    $result['meta'] = [
+                        'current_page' => $data->meta->current_page,
+                        'last_page' => $data->meta->last_page,
+                        'total' => $data->meta->total,
+                    ];
+                }
+            } else {
+                $result = $data;
             }
 
             $response = $response->setData($result);
