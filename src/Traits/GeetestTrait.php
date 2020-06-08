@@ -6,7 +6,13 @@ use Papaedu\Extension\Facades\Geetest;
 
 trait GeetestTrait
 {
-    public function captcha(string $appName, string $clientType, $userId = 'UnLoginUser')
+    /**
+     * @param  string  $appName
+     * @param  string  $clientType
+     * @param  string  $userId
+     * @return array
+     */
+    public function captchaGeetest(string $appName, string $clientType, $userId = 'UnLoginUser')
     {
         $status = Geetest::config($appName)->preProcess([
             'user_id' => $userId,
@@ -19,7 +25,13 @@ trait GeetestTrait
         return Geetest::config($appName)->getResponse();
     }
 
-    public function verify(string $appName, string $clientType, $userId = 'UnLoginUser')
+    /**
+     * @param  string  $appName
+     * @param  string  $clientType
+     * @param  string  $userId
+     * @return bool
+     */
+    public function validateGeetest(string $appName, string $clientType, $userId = 'UnLoginUser')
     {
         [$geetestChallenge, $geetestValidate, $geetestSeccode] = array_values(request()->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'));
 
