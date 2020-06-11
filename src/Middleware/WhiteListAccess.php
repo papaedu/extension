@@ -19,7 +19,7 @@ class WhiteListAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array($request->ip(), config('whitelist.ip'))) {
+        if (!config('whitelist.enable') || in_array($request->ip(), config('whitelist.ip'))) {
             return $next($request);
         }
 
