@@ -10,10 +10,11 @@
     ],
     "require": {
         "php": ">=7",
+        "ext-openssl": "*",
         "bensampo/laravel-enum": "^1.35",
         "biubiujun/qcloud": "^1.0",
         "overtrue/easy-sms": "^1.1",
-        "zgldh/qiniu-laravel-storage": "^0.10"
+        "zgldh/qiniu-laravel-storage": "^0.10",
     },
     "require-dev": {
         "laravel/framework": "^7.0",
