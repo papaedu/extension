@@ -160,7 +160,7 @@ class Geetest
      * @param $processId
      * @param $authCode
      * @param $token
-     * @return string
+     * @return false|string
      */
     public function oneLoginCheckPhone($processId, $authCode, $token)
     {
@@ -176,7 +176,15 @@ class Geetest
         $data['sign'] = bin2hex($sign);
 
         $url = 'https://onelogin.geetest.com/check_phone';
-        $result = Http::timeout(1)->asJson()->post($url, $data)->json();
+        $response = Http::timeout(1)->asJson()->post($url, $data);
+        if (200 != $response->status()) {
+            return false;
+        }
+
+        $result = $response->json();
+        if (200 != $result['status']) {
+            return false;
+        }
 
         return $result['result'] ?? '';
     }
