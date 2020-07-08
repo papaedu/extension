@@ -3,12 +3,10 @@
 namespace Papaedu\Extension\Middleware;
 
 use Closure;
-use Papaedu\Extension\Traits\PapaeduTrait;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class SanctumGuard
 {
-    use PapaeduTrait;
-
     /**
      * Handle an incoming request.
      *
@@ -16,6 +14,7 @@ class SanctumGuard
      * @param  \Closure  $next
      * @param  string  $provider
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function handle($request, Closure $next, $provider = '')
     {
@@ -25,7 +24,7 @@ class SanctumGuard
 
         $model = config("auth.providers.{$provider}.model");
         if (!$request->user() instanceof $model) {
-            $this->response->errorUnauthorized();
+            throw new AuthorizationException('Unauthorized');
         }
 
         return $next($request);
