@@ -2,7 +2,7 @@
 
 namespace Papaedu\Extension\Traits\Entities;
 
-trait BasicScope
+trait TimestampScope
 {
     /**
      * @param  \Illuminate\Database\Eloquent\Builder  $query
