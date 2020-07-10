@@ -35,7 +35,7 @@ abstract class DiskAbstract
      */
     public function url(string $path, string $default = '')
     {
-        $path = $path ?: $default;
+        $path = $path ? $path : $default;
         if (!$path) {
             return '';
         }
