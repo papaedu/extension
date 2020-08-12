@@ -33,7 +33,16 @@ class MultipleOf implements Rule
             return false;
         }
 
-        return $value % Arr::first($this->parameters) == 0;
+        $divisor = Arr::first($this->parameters);
+        if (!is_int($divisor)) {
+            $digit = strlen($divisor) - strpos($divisor, '.') - 1;
+            $digit = pow(10, $digit);
+
+            $divisor *= $digit;
+            $value *= $digit;
+        }
+
+        return $value % $divisor == 0;
     }
 
     /**
