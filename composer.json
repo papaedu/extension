@@ -13,6 +13,7 @@
         "ext-openssl": "*",
         "bensampo/laravel-enum": "^1.35",
         "biubiujun/qcloud": "^1.0",
+        "james-heinrich/getid3": "^1.9",
         "overtrue/easy-sms": "^1.1",
         "zgldh/qiniu-laravel-storage": "^0.10"
     },
