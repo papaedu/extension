@@ -35,7 +35,7 @@ class Audio extends DiskAbstract
             }
             fclose($remote);
 
-            return ceil($fileInfo['playtime_seconds'] ?? 0);
+            return round($fileInfo['playtime_seconds'] ?? 0);
         }
 
         return 0;
