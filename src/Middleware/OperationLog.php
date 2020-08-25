@@ -25,7 +25,7 @@ class OperationLog
             $user = $this->authUser;
             $method = $request->method();
             $uri = $request->path();
-            $queryString = http_build_query($request->except(['password', 'sn', 'token']));
+            $queryString = urldecode(http_build_query($request->except(['password', 'sn', 'token'])));
             $userAgent = Agent::getUserAgent();
             $ip = $request->ip();
 
