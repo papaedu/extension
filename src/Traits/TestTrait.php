@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\Traits;
 
+use Illuminate\Http\Response;
 use Illuminate\Testing\TestResponse;
 
 trait TestTrait
@@ -55,5 +56,17 @@ trait TestTrait
             ->assertJsonStructure([
                 'data' => $data,
             ]);
+    }
+
+    /**
+     * 断言错误请求返回信息
+     *
+     * @param  \Illuminate\Testing\TestResponse  $response
+     * @param  string  $message
+     */
+    protected function assertJsonBadRequestMessage(TestResponse $response, string $message)
+    {
+        $response->assertStatus(Response::HTTP_BAD_REQUEST)
+            ->assertJsonFragment(['message' => $message]);
     }
 }
