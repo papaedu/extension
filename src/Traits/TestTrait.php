@@ -6,14 +6,6 @@ use Illuminate\Testing\TestResponse;
 
 trait TestTrait
 {
-    protected $paginateData = [
-        'meta' => [
-            'current_page',
-            'last_page',
-            'total',
-        ],
-    ];
-
     /**
      * 断言带分页的列表结构
      *
@@ -22,12 +14,17 @@ trait TestTrait
      */
     protected function assertJsonStructurePaginate(TestResponse $response, array $data)
     {
-        $response->assertJsonStructure([
-            'data' => [
-                $data,
-            ],
-        ]);
-        $response->assertJsonStructure($this->paginateData);
+        $response->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    $data,
+                ],
+                'meta' => [
+                    'current_page',
+                    'last_page',
+                    'total',
+                ],
+            ]);
     }
 
     /**
@@ -38,11 +35,12 @@ trait TestTrait
      */
     protected function assertJsonStructure(TestResponse $response, array $data)
     {
-        $response->assertJsonStructure([
-            'data' => [
-                $data,
-            ],
-        ]);
+        $response->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    $data,
+                ],
+            ]);
     }
 
     /**
@@ -53,8 +51,9 @@ trait TestTrait
      */
     protected function assertJsonStructureView(TestResponse $response, array $data)
     {
-        $response->assertJsonStructure([
-            'data' => $data,
-        ]);
+        $response->assertOk()
+            ->assertJsonStructure([
+                'data' => $data,
+            ]);
     }
 }
