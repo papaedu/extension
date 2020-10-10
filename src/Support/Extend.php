@@ -21,16 +21,27 @@ class Extend
      * 随机数字
      *
      * @param  int  $length
+     * @return false|string
+     */
+    public static function randomNumeric($length = 6)
+    {
+        $str = '1234567890';
+        $rand_str = str_shuffle($str);
+
+        return substr($rand_str, 0, $length);
+    }
+
+    /**
+     * 生成订单号
+     *
+     * @param  int  $length
      * @return string
      */
-    public static function randomNumeric($length = 8)
+    public static function generateOrderSn($length = 18)
     {
-        $random = '';
-        for ($i = 0; $i < $length; $i++) {
-            $random .= mt_rand(0, 9);
-        }
+        $now = now();
 
-        return $random;
+        return $now->format('ymdHis') . substr($now->micro, -3) . self::randomNumeric($length - 15);
     }
 
     /**
