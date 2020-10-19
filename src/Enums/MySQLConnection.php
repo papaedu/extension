@@ -16,6 +16,8 @@ final class MySQLConnection
 
     const Revision = 'mysql_revision';
 
+    const Training = 'mysql_training';
+
     const Abroad = 'mysql_abroad';
 
     const Analytics = 'mysql_analytics';
