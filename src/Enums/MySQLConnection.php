@@ -14,8 +14,6 @@ final class MySQLConnection
 
     const Question = 'mysql_question';
 
-    const Revision = 'mysql_revision';
-
     const Training = 'mysql_training';
 
     const Abroad = 'mysql_abroad';
