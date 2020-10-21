@@ -19,4 +19,6 @@ final class MySQLConnection
     const Abroad = 'mysql_abroad';
 
     const Analytics = 'mysql_analytics';
+
+    const MeetYou = 'mysql_meetyou';
 }
