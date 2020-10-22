@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 trait Authenticated
 {
+    protected $hasUuid = true;
+
     /**
      * The user has been authenticated.
      *
@@ -16,11 +18,15 @@ trait Authenticated
      */
     protected function authenticated($user)
     {
-        return $this->response->array([
+        $result = [
             'access_token' => $user->createToken($this->tokenName())->plainTextToken,
             'token_type' => 'Bearer',
-            'uuid' => $user->uuid,
-        ]);
+        ];
+        if (true === $this->hasUuid) {
+            $result['uuid'] = $user->uuid;
+        }
+
+        return $this->response->array($result);
     }
 
     /**
@@ -30,7 +36,7 @@ trait Authenticated
      */
     protected function validateUuid($user)
     {
-        if (!$user->uuid) {
+        if (true === $this->hasUuid && !$user->uuid) {
             $user->uuid = str_replace('-', '', Str::uuid()->toString());
             $user->save();
         }
