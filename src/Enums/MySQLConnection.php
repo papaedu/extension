@@ -20,5 +20,5 @@ final class MySQLConnection
 
     const Analytics = 'mysql_analytics';
 
-    const MeetYou = 'mysql_meetyou';
+    const Begin = 'mysql_begin';
 }
