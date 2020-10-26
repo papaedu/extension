@@ -21,8 +21,8 @@ class Birthday
     {
         if ($birthday instanceof DateTimeInterface) {
             $this->birthday = $birthday;
-        } elseif (is_null($birthday)) {
-            $this->birthday = now();
+        } elseif (!$birthday) {
+            $this->birthday = null;
         } else {
             $this->birthday = Carbon::parse($birthday);
         }
@@ -44,6 +44,10 @@ class Birthday
      */
     public function constellation()
     {
+        if (is_null($this->birthday)) {
+            return '';
+        }
+
         $constellations = ['摩羯座', '水瓶座', '双鱼座', '白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座'];
         $days = [22, 20, 19, 21, 20, 21, 22, 23, 23, 23, 24, 23, 22];
 
