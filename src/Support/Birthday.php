@@ -3,39 +3,55 @@
 namespace Papaedu\Extension\Support;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 
 class Birthday
 {
-    const Constellations = [
-        '白羊座' => ['3-21', '4-19'],
-        '金牛座' => ['4-20', '5-20'],
-        '双子座' => ['5-21', '6-21'],
-        '巨蟹座' => ['6-22', '7-22'],
-        '狮子座' => ['7-23', '8-22'],
-        '处女座' => ['8-23', '9-22'],
-        '天秤座' => ['9-23', '10-23'],
-        '天蝎座' => ['10-24', '11-22'],
-        '射手座' => ['11-23', '12-21'],
-        '摩羯座' => ['12-22', '1-19'],
-        '水瓶座' => ['1-20', '2-18'],
-        '双鱼座' => ['2-19', '3-20'],
-    ];
+    /**
+     * @var \Carbon\Carbon
+     */
+    private $birthday;
 
     /**
-     * 获取星座
+     * Birthday constructor.
      *
-     * @param  string  $birthday
-     * @return bool|int|string
+     * @param  string|null  $birthday
      */
-    public function getConstellation(string $birthday)
+    public function __construct($birthday = null)
     {
-        $birthday = Carbon::parse($birthday);
-        foreach (self::Constellations as $constellation => $date) {
-            if ($birthday->between("{$birthday->year}-{$date[0]}", "{$birthday->year}-{$date[1]}")) {
-                return $constellation;
-            }
+        if ($birthday instanceof DateTimeInterface) {
+            $this->birthday = $birthday;
+        } elseif (is_null($birthday)) {
+            $this->birthday = now();
+        } else {
+            $this->birthday = Carbon::parse($birthday);
+        }
+    }
+
+    /**
+     * @param  string|null  $birthday
+     * @return static
+     */
+    public static function parse($birthday = null)
+    {
+        return new static($birthday);
+    }
+
+    /**
+     * 星座
+     *
+     * @return string
+     */
+    public function constellation()
+    {
+        $constellations = ['摩羯座', '水瓶座', '双鱼座', '白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座'];
+        $days = [22, 20, 19, 21, 20, 21, 22, 23, 23, 23, 24, 23, 22];
+
+        $index = $this->birthday->month;
+        if ($this->birthday->day < $days[$this->birthday->month]) {
+            $index--;
         }
 
-        return false;
+        return $constellations[$index];
     }
 }
