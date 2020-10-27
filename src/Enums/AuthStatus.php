@@ -8,7 +8,7 @@ final class AuthStatus extends Enum
 {
     const Normal = 0;
 
-    const NoCompleteInformation = 11;
+    const IncompleteInformation = 11;
 
     const Disabled = 99;
 
@@ -17,7 +17,7 @@ final class AuthStatus extends Enum
         if ($value === self::Normal) {
             return '正常';
         }
-        if ($value === self::NoCompleteInformation) {
+        if ($value === self::IncompleteInformation) {
             return '未完善信息';
         }
         if ($value === self::Disabled) {
