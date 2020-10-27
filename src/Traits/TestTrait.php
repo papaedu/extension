@@ -69,4 +69,20 @@ trait TestTrait
         $response->assertStatus(Response::HTTP_BAD_REQUEST)
             ->assertJsonFragment(['message' => $message]);
     }
+
+    /**
+     * 断言错误请求返回信息和Code
+     *
+     * @param  \Illuminate\Testing\TestResponse  $response
+     * @param  string  $message
+     * @param  int  $code
+     */
+    protected function assertJsonBadRequestMessageAndCode(TestResponse $response, string $message, int $code)
+    {
+        $response->assertStatus(Response::HTTP_BAD_REQUEST)
+            ->assertJsonFragment([
+                'message' => $message,
+                'code' => $code,
+            ]);
+    }
 }
