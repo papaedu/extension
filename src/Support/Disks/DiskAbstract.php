@@ -66,11 +66,12 @@ abstract class DiskAbstract
      * 上传
      *
      * @param  \Illuminate\Http\UploadedFile|string  $file
+     * @param  string  $prefix
      * @return string
      */
-    public function put($file)
+    public function put($file, string $prefix = '')
     {
-        return $this->getDisk()->put($this->getPathPrefix(), $file);
+        return $this->getDisk()->put($this->getPathPrefix($prefix), $file);
     }
 
     /**
@@ -99,11 +100,12 @@ abstract class DiskAbstract
      * 获取随机文件名
      *
      * @param  string  $ext
+     * @param  string  $prefix
      * @return string
      */
-    public function getKey(string $ext)
+    public function getKey(string $ext, string $prefix = '')
     {
-        $key = $this->getPathPrefix() . $this->getFilename($ext);
+        $key = $this->getPathPrefix($prefix) . $this->getFilename($ext);
         if ($this->exists($key)) {
             return $this->getKey($ext);
         }
