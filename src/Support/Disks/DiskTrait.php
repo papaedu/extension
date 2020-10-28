@@ -20,7 +20,12 @@ trait DiskTrait
      */
     public static function getPathPrefix(string $prefix = '')
     {
-        return self::getTestPathPrefix() . date('Y/m/d/') . trim($prefix, '/');
+        $path = self::getTestPathPrefix() . date('Y/m/d/');
+        if ($prefix) {
+            return $path . trim($prefix, '/');
+        }
+
+        return trim($path, '/');
     }
 
     /**
