@@ -105,7 +105,7 @@ abstract class DiskAbstract
      */
     public function getKey(string $ext, string $prefix = '')
     {
-        $key = $this->getPathPrefix($prefix) . $this->getFilename($ext);
+        $key = $this->getPathPrefix($prefix) . '/' . $this->getFilename($ext);
         if ($this->exists($key)) {
             return $this->getKey($ext);
         }

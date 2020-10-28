@@ -20,7 +20,7 @@ trait DiskTrait
      */
     public static function getPathPrefix(string $prefix = '')
     {
-        return self::getTestPathPrefix() . Str::finish(date('Y/m/d/' . $prefix), '/');
+        return self::getTestPathPrefix() . date('Y/m/d/') . trim($prefix, '/');
     }
 
     /**
@@ -29,7 +29,7 @@ trait DiskTrait
      */
     public static function getFilename(string $ext)
     {
-        $filename = Str::random(32);
+        $filename = Str::random(40);
 
         return "{$filename}.$ext";
     }
