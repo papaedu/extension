@@ -15,12 +15,11 @@ trait DiskTrait
     }
 
     /**
-     * @param  string  $module
      * @return mixed
      */
-    public static function getPathPrefix(string $module)
+    public static function getPathPrefix()
     {
-        return self::getTestPathPrefix() . Str::finish($module, '/');
+        return self::getTestPathPrefix() . date('Y/m/d/');
     }
 
     /**

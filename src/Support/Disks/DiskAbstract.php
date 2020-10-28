@@ -65,13 +65,12 @@ abstract class DiskAbstract
     /**
      * 上传
      *
-     * @param  string  $module
      * @param  \Illuminate\Http\UploadedFile|string  $file
      * @return string
      */
-    public function put(string $module, $file)
+    public function put($file)
     {
-        return $this->getDisk()->put($this->getPathPrefix($module), $file);
+        return $this->getDisk()->put($this->getPathPrefix(), $file);
     }
 
     /**
@@ -99,13 +98,17 @@ abstract class DiskAbstract
     /**
      * 获取随机文件名
      *
-     * @param  string  $module
      * @param  string  $ext
      * @return string
      */
-    public function getKey(string $module, string $ext)
+    public function getKey(string $ext)
     {
-        return $this->getPathPrefix($module) . $this->getFilename($ext);
+        $key = $this->getPathPrefix() . $this->getFilename($ext);
+        if ($this->exists($key)) {
+            return $this->getKey($ext);
+        }
+
+        return $key;
     }
 
     /**
@@ -117,7 +120,7 @@ abstract class DiskAbstract
      */
     public function getUploadToken(string $path, string $mimeLimit = '')
     {
-        $policy = $mimeLimit ? ['mineLimit' => $mimeLimit] : [];
+        $policy = $mimeLimit ? ['mimeLimit' => $mimeLimit] : [];
 
         return $this->getDisk()->getDriver()->uploadToken($path, 3600, $policy);
     }
