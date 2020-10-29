@@ -11,13 +11,13 @@
     "require": {
         "php": ">=7",
         "ext-openssl": "*",
-        "bensampo/laravel-enum": "^1.35|^3.0",
+        "bensampo/laravel-enum": "^1.35",
         "biubiujun/qcloud": "^1.0",
         "james-heinrich/getid3": "^1.9",
         "jenssegers/agent": "^2.6",
         "overtrue/easy-sms": "^1.1",
         "zgldh/qiniu-laravel-storage": "^0.10",
-        "vinkla/hashids": "^8.1|^9.0"
+        "vinkla/hashids": "^8.1"
     },
     "autoload": {
         "psr-4": {
