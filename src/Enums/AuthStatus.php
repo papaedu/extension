@@ -10,7 +10,9 @@ final class AuthStatus extends Enum
 
     const IncompleteInformation = 11;
 
-    const Disabled = 99;
+    const Ban = 98;
+
+    const Disable = 99;
 
     public static function getDescription($value): string
     {
@@ -20,10 +22,21 @@ final class AuthStatus extends Enum
         if ($value === self::IncompleteInformation) {
             return '未完善信息';
         }
-        if ($value === self::Disabled) {
-            return '已停用';
+        if ($value === self::Ban) {
+            return '禁用';
+        }
+        if ($value === self::Disable) {
+            return '停用';
         }
 
         return parent::getDescription($value);
+    }
+
+    public static function isDisable($value)
+    {
+        return in_array($value, [
+            self::Ban,
+            self::Disable,
+        ]);
     }
 }
