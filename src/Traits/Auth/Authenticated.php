@@ -36,7 +36,7 @@ trait Authenticated
      */
     protected function validateUuid($user)
     {
-        if (true === $this->hasUuid && !$user->uuid) {
+        if (!$user->uuid) {
             $user->uuid = str_replace('-', '', Str::uuid()->toString());
             $user->save();
         }
