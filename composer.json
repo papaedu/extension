@@ -32,9 +32,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Papaedu\\Extension\\Providers\\EnumServiceProvider",
-                "Papaedu\\Extension\\Providers\\RuleServiceProvider",
-                "Papaedu\\Extension\\Providers\\ChannelServiceProvider"
+                "Papaedu\\Extension\\ServiceProvider"
             ],
             "aliases": {
                 "Geetest": "Papaedu\\Extension\\Facades\\Geetest"
