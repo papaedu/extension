@@ -20,7 +20,9 @@ class Image extends DiskAbstract
     public function url(string $path, string $scale = '', string $default = '')
     {
         $url = parent::url($path, $default);
-        $url .= $scale ? "-{$scale}" : '';
+        if ($url && $scale) {
+            $url .= "-{$scale}";
+        }
 
         return $url;
     }
