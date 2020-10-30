@@ -4,14 +4,21 @@ namespace Papaedu\Extension\Traits;
 
 use ErrorException;
 use Illuminate\Support\Facades\Auth;
+use Papaedu\Extension\Support\Logger;
 use Papaedu\Extension\Support\Response;
 
 /**
  * @property \Papaedu\Extension\Support\Response $response
  * @property \Modules\Admin\Entities\Admin|\Modules\Teacher\Entities\Teacher|\Modules\User\Entities\User $authUser
+ * @property \Papaedu\Extension\Support\Logger $logger
  */
-trait PapaeduHelpers
+trait PapaeduTrait
 {
+    /**
+     * @var string
+     */
+    protected $loggerModule = '';
+
     /**
      * Get the response.
      *
@@ -29,7 +36,22 @@ trait PapaeduHelpers
      */
     protected function authUser()
     {
-        return Auth::user();
+        return Auth::guard('sanctum')->user();
+    }
+
+    /**
+     * Determine if the current user is authenticated.
+     *
+     * @return bool
+     */
+    public function authCheck()
+    {
+        return Auth::guard('sanctum')->check();
+    }
+
+    protected function logger()
+    {
+        return app(Logger::class, ['module' => $this->loggerModule]);
     }
 
     /**
@@ -39,10 +61,10 @@ trait PapaeduHelpers
      * @return mixed
      * @throws \ErrorException
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         $callable = [
-            'response', 'authUser',
+            'response', 'authUser', 'logger',
         ];
 
         if (in_array($key, $callable) && method_exists($this, $key)) {

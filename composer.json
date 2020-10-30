@@ -10,14 +10,15 @@
     ],
     "require": {
         "php": ">=7",
-        "appstract/laravel-opcache": "^3.2",
+        "ext-openssl": "*",
         "bensampo/laravel-enum": "^1.35",
         "biubiujun/qcloud": "^1.0",
-        "darkaonline/l5-swagger": "^7.0",
-        "guzzlehttp/guzzle": "^6.4",
+        "james-heinrich/getid3": "^1.9",
         "jenssegers/agent": "^2.6",
-        "nwidart/laravel-modules": "7.0.x-dev",
-        "zgldh/qiniu-laravel-storage": "^0.10"
+        "overtrue/easy-sms": "^1.1",
+        "zgldh/qiniu-laravel-storage": "^0.10",
+        "qiniu/php-sdk": "7.2.10",
+        "vinkla/hashids": "^8.1"
     },
     "autoload": {
         "psr-4": {
@@ -29,15 +30,14 @@
             "Papaedu\\Extension\\Tests\\": "tests/"
         }
     },
-    "require-dev": {
-        "laravel/framework": "^7.0",
-        "phpunit/phpunit": "^8.5"
-    },
     "extra": {
         "laravel": {
             "providers": [
-                "Papaedu\\Extension\\Providers\\EnumServiceProvider"
-            ]
+                "Papaedu\\Extension\\ServiceProvider"
+            ],
+            "aliases": {
+                "Geetest": "Papaedu\\Extension\\Facades\\Geetest"
+            }
         }
     },
     "scripts": {

@@ -20,19 +20,18 @@ class FormatResponse
         $response = $next($request);
 
         if ($response instanceof JsonResponse) {
-            $data = $response->getData();
+            $data = $response->getData(true);
 
-            $result['data'] = $data->data ?? [];
-
-            if ($data->meta ?? '') {
-                $result['meta'] = [
-                    'current_page' => $data->meta->current_page,
-                    'last_page' => $data->meta->last_page,
-                    'total' => $data->meta->total,
+            if (isset($data['meta'])) {
+                $meta = [
+                    'current_page' => $data['meta']['current_page'],
+                    'last_page' => $data['meta']['last_page'],
+                    'total' => $data['meta']['total'],
                 ];
+                $data['meta'] = $meta;
             }
-
-            $response = $response->setData($result);
+            unset($data['links']);
+            $response = $response->setData($data);
         }
 
         return $response;

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Papaedu\Extension\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Papaedu\Extension\Traits\PapaeduHelpers;
+use Papaedu\Extension\Traits\PapaeduTrait;
 
 class WhiteListAccess
 {
-    use PapaeduHelpers;
+    use PapaeduTrait;
 
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class WhiteListAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array($request->ip(), config('whitelist.ip'))) {
+        if (!config('whitelist.enable') || in_array($request->ip(), config('whitelist.ip'))) {
             return $next($request);
         }
 

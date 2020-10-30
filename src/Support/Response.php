@@ -102,71 +102,60 @@ class Response
      * Return a 400 bad request error.
      *
      * @param  string  $message
-     * @return void
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @param  int|null  $code
      */
-    public function errorBadRequest($message = 'Bad Request')
+    public function errorBadRequest($message = 'Bad Request', ?int $code = 0)
     {
-        $this->error($message, HttpResponse::HTTP_BAD_REQUEST);
+        throw new HttpException(HttpResponse::HTTP_BAD_REQUEST, $message, null, [], $code);
     }
 
     /**
      * Return a 401 unauthorized error.
      *
      * @param  string  $message
-     * @return void
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function errorUnauthorized($message = 'Unauthorized')
     {
-        $this->error($message, HttpResponse::HTTP_UNAUTHORIZED);
+        throw new HttpException(HttpResponse::HTTP_UNAUTHORIZED, $message);
     }
 
     /**
      * Return a 403 forbidden error.
      *
      * @param  string  $message
-     * @return void
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function errorForbidden($message = 'Forbidden')
     {
-        $this->error($message, HttpResponse::HTTP_FORBIDDEN);
+        throw new HttpException(HttpResponse::HTTP_FORBIDDEN, $message);
     }
 
     /**
      * Return a 404 not found error.
      *
      * @param  string  $message
-     * @return void
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function errorNotFound($message = 'Not Found')
     {
-        $this->error($message, HttpResponse::HTTP_NOT_FOUND);
+        throw new HttpException(HttpResponse::HTTP_NOT_FOUND, $message);
     }
 
     /**
      * Return a 405 method not allowed error.
      *
      * @param  string  $message
-     * @return void
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function errorMethodNotAllowed($message = 'Method Not Allowed')
     {
-        $this->error($message, HttpResponse::HTTP_METHOD_NOT_ALLOWED);
+        throw new HttpException(HttpResponse::HTTP_METHOD_NOT_ALLOWED, $message);
     }
 
     /**
      * Return a 500 internal server error.
      *
      * @param  string  $message
-     * @return void
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function errorInternalServerError($message = 'Internal Server Error')
     {
-        $this->error($message, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+        throw new HttpException(HttpResponse::HTTP_INTERNAL_SERVER_ERROR, $message);
     }
 }
