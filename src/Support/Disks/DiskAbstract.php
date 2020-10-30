@@ -93,7 +93,7 @@ abstract class DiskAbstract
      */
     public function delete(string $path)
     {
-        return $this->getDisk()->delete($path);
+        return $this->getDisk()->delete($this->parseUrl($path));
     }
 
     /**
