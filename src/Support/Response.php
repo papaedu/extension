@@ -2,7 +2,7 @@
 
 namespace Papaedu\Extension\Support;
 
-use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -16,7 +16,7 @@ class Response
      */
     public function array(array $data)
     {
-        return response()->json(['data' => $data]);
+        return new JsonResponse(['data' => $data]);
     }
 
     /**
@@ -27,7 +27,7 @@ class Response
      */
     public function collection(Collection $collection)
     {
-        return response()->json(['data' => $collection->toArray()]);
+        return new JsonResponse(['data' => $collection->toArray()]);
     }
 
     /**
@@ -38,7 +38,7 @@ class Response
      */
     public function string(string $string)
     {
-        return response()->json($string);
+        return new JsonResponse($string);
     }
 
     /**
@@ -50,7 +50,9 @@ class Response
      */
     public function jsonp(string $callback, array $data)
     {
-        return response()->jsonp($callback, ['data' => $data]);
+        $jsonResponse = new JsonResponse(['data' => $data]);
+
+        return $jsonResponse->withCallback($callback);
     }
 
     /**
@@ -61,7 +63,7 @@ class Response
      */
     public function created(array $content = [])
     {
-        return response()->json($content ? ['data' => $content] : [], HttpResponse::HTTP_CREATED);
+        return new JsonResponse($content ? ['data' => $content] : [], 201);
     }
 
     /**
@@ -72,17 +74,17 @@ class Response
      */
     public function accepted(array $content = [])
     {
-        return response()->json($content ? ['data' => $content] : [], HttpResponse::HTTP_ACCEPTED);
+        return new JsonResponse($content ? ['data' => $content] : [], 202);
     }
 
     /**
      * Respond with a no content response.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function noContent()
     {
-        return response()->noContent();
+        return new JsonResponse('', 204);
     }
 
     /**
@@ -93,7 +95,7 @@ class Response
      * @return void
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
-    public function error($message, $statusCode)
+    public function error(string $message, int $statusCode)
     {
         throw new HttpException($statusCode, $message);
     }
@@ -106,7 +108,7 @@ class Response
      */
     public function errorBadRequest($message = 'Bad Request', ?int $code = 0)
     {
-        throw new HttpException(HttpResponse::HTTP_BAD_REQUEST, $message, null, [], $code);
+        throw new HttpException(400, $message, null, [], $code);
     }
 
     /**
@@ -116,7 +118,7 @@ class Response
      */
     public function errorUnauthorized($message = 'Unauthorized')
     {
-        throw new HttpException(HttpResponse::HTTP_UNAUTHORIZED, $message);
+        throw new HttpException(401, $message);
     }
 
     /**
@@ -126,7 +128,7 @@ class Response
      */
     public function errorForbidden($message = 'Forbidden')
     {
-        throw new HttpException(HttpResponse::HTTP_FORBIDDEN, $message);
+        throw new HttpException(403, $message);
     }
 
     /**
@@ -136,7 +138,7 @@ class Response
      */
     public function errorNotFound($message = 'Not Found')
     {
-        throw new HttpException(HttpResponse::HTTP_NOT_FOUND, $message);
+        throw new HttpException(404, $message);
     }
 
     /**
@@ -146,7 +148,7 @@ class Response
      */
     public function errorMethodNotAllowed($message = 'Method Not Allowed')
     {
-        throw new HttpException(HttpResponse::HTTP_METHOD_NOT_ALLOWED, $message);
+        throw new HttpException(405, $message);
     }
 
     /**
@@ -156,6 +158,6 @@ class Response
      */
     public function errorInternalServerError($message = 'Internal Server Error')
     {
-        throw new HttpException(HttpResponse::HTTP_INTERNAL_SERVER_ERROR, $message);
+        throw new HttpException(500, $message);
     }
 }
