@@ -6,11 +6,11 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Jenssegers\Agent\Facades\Agent;
-use Papaedu\Extension\Traits\PapaeduTrait;
+use Papaedu\Extension\Traits\ExtensionTrait;
 
 class OperationLog
 {
-    use PapaeduTrait;
+    use ExtensionTrait;
 
     /**
      * Handle an incoming request.

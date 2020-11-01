@@ -9,16 +9,21 @@
         }
     ],
     "require": {
-        "php": ">=7",
-        "ext-openssl": "*",
         "bensampo/laravel-enum": "^1.35",
         "biubiujun/qcloud": "^1.0",
         "james-heinrich/getid3": "^1.9",
         "jenssegers/agent": "^2.6",
         "overtrue/easy-sms": "^1.1",
+        "overtrue/laravel-wechat": "^6.0",
         "zgldh/qiniu-laravel-storage": "^0.10",
         "qiniu/php-sdk": "7.2.10",
         "vinkla/hashids": "^8.1"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "laravel/framework": "^7.0",
+        "phpstan/phpstan": "^0.12.0",
+        "phpunit/phpunit": "^9.3"
     },
     "autoload": {
         "psr-4": {

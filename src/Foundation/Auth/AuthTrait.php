@@ -1,32 +1,30 @@
 <?php
 
-namespace Papaedu\Extension\Traits\Auth;
+namespace Papaedu\Extension\Foundation\Auth;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-trait Authenticated
+trait AuthTrait
 {
-    protected $hasUuid = true;
-
     /**
      * The user has been authenticated.
      *
      * @param  mixed  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function authenticated($user)
+    protected function tokenResponse($user)
     {
-        $result = [
+        $data = [
             'access_token' => $user->createToken($this->tokenName())->plainTextToken,
             'token_type' => 'Bearer',
         ];
-        if (true === $this->hasUuid) {
-            $result['uuid'] = $user->uuid;
+        if (isset($user->uuid)) {
+            $data['uuid'] = $user->uuid;
         }
 
-        return $this->response->array($result);
+        return new JsonResponse(['data' => $data]);
     }
 
     /**
@@ -40,26 +38,6 @@ trait Authenticated
             $user->uuid = str_replace('-', '', Str::uuid()->toString());
             $user->save();
         }
-    }
-
-    /**
-     * Before return log info response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     */
-    protected function beforeResponse(Request $request, $user)
-    {
-    }
-
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard();
     }
 
     /**
@@ -80,5 +58,15 @@ trait Authenticated
     public function tokenName()
     {
         return 'user';
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard();
     }
 }

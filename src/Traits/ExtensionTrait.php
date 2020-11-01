@@ -3,16 +3,14 @@
 namespace Papaedu\Extension\Traits;
 
 use ErrorException;
-use Illuminate\Support\Facades\Auth;
 use Papaedu\Extension\Support\Logger;
 use Papaedu\Extension\Support\Response;
 
 /**
  * @property \Papaedu\Extension\Support\Response $response
- * @property \Modules\Admin\Entities\Admin|\Modules\Teacher\Entities\Teacher|\Modules\User\Entities\User $authUser
  * @property \Papaedu\Extension\Support\Logger $logger
  */
-trait PapaeduTrait
+trait ExtensionTrait
 {
     /**
      * @var string
@@ -27,26 +25,6 @@ trait PapaeduTrait
     protected function response()
     {
         return app(Response::class);
-    }
-
-    /**
-     * Get the authenticated user.
-     *
-     * @return \Modules\Admin\Entities\Admin|\Modules\Teacher\Entities\Teacher|\Modules\User\Entities\User|\Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    protected function authUser()
-    {
-        return Auth::guard('sanctum')->user();
-    }
-
-    /**
-     * Determine if the current user is authenticated.
-     *
-     * @return bool
-     */
-    public function authCheck()
-    {
-        return Auth::guard('sanctum')->check();
     }
 
     protected function logger()
@@ -64,13 +42,13 @@ trait PapaeduTrait
     public function __get(string $key)
     {
         $callable = [
-            'response', 'authUser', 'logger',
+            'response', 'logger',
         ];
 
         if (in_array($key, $callable) && method_exists($this, $key)) {
             return $this->$key();
         }
 
-        throw new ErrorException('Undefined property ' . get_class($this) . '::' . $key);
+        throw new ErrorException('Undefined property '.get_class($this).'::'.$key);
     }
 }

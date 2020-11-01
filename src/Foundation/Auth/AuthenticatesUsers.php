@@ -1,21 +1,21 @@
 <?php
 
-namespace Papaedu\Extension\Traits\Auth;
+namespace Papaedu\Extension\Foundation\Auth;
 
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 trait AuthenticatesUsers
 {
-    use Authenticated;
+    use AuthTrait;
     use ThrottlesLogins;
 
     /**
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse|void
+     * @return \Illuminate\Http\JsonResponse|void
      * @throws \Illuminate\Validation\ValidationException
      */
     public function login(Request $request)
@@ -52,6 +52,15 @@ trait AuthenticatesUsers
      */
     protected function validateLogin(Request $request)
     {
+        $request->validate([
+            $this->username() => ['required', 'mobile'],
+            'password' => ['required', 'min:8'],
+        ], [
+            'password.min' => trans('extension::auth.failed'),
+        ], [
+            $this->username() => trans('extension::field.username'),
+            'password' => trans('extension::field.password'),
+        ]);
     }
 
     /**
@@ -85,9 +94,24 @@ trait AuthenticatesUsers
     protected function sendLoginResponse(Request $request)
     {
         $this->clearLoginAttempts($request);
-        $this->beforeResponse($request, $this->guard()->user());
 
-        return $this->authenticated($this->guard()->user());
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
+        }
+
+        return $this->tokenResponse($this->guard()->user());
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        //
     }
 
     /**
@@ -98,19 +122,35 @@ trait AuthenticatesUsers
     protected function sendFailedLoginResponse()
     {
         throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
+            $this->username() => [trans('extension::auth.failed')],
         ]);
     }
 
     /**
      * Log the user out of the application.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
         $this->guard()->user()->currentAccessToken()->delete();
 
-        return $this->response->noContent();
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return new JsonResponse('', 204);
+    }
+
+    /**
+     * The user has logged out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function loggedOut(Request $request)
+    {
+        //
     }
 }
