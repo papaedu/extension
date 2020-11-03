@@ -63,15 +63,20 @@ abstract class DiskAbstract
     }
 
     /**
-     *
+     * 上传
      *
      * @param  \Illuminate\Http\UploadedFile|string  $file
+     * @param  string  $ext
      * @param  string|null  $prefix
      * @return string
      */
-    public function put($file, ?string $prefix = null)
+    public function put($file, string $ext = '', ?string $prefix = null)
     {
-        return $this->getDisk()->put($this->getPathPrefix($prefix), $file);
+        $path = is_string($file) ? $this->getKey($ext, $prefix) : $this->getPathPrefix($prefix);
+
+        $result = $this->getDisk()->put($path, $file);
+
+        return is_string($file) ? $path : $result;
     }
 
     /**
