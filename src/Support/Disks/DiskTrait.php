@@ -15,10 +15,10 @@ trait DiskTrait
     }
 
     /**
-     * @param  string  $prefix
+     * @param  string|null  $prefix
      * @return string
      */
-    public static function getPathPrefix(string $prefix = '')
+    public static function getPathPrefix(?string $prefix = null)
     {
         $path = self::getTestPathPrefix() . date('Y/m/d/');
         if ($prefix) {
