@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Papaedu\Extension\Foundation\Auth\AuthenticatesUsers;
+use Papaedu\Extension\Foundation\Socialite\SocialiteWeChat;
+
+class LoginController extends Controller
+{
+    use AuthenticatesUsers;
+    use SocialiteWeChat;
+}

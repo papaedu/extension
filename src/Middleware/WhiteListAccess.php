@@ -4,11 +4,11 @@ namespace Papaedu\Extension\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Papaedu\Extension\Traits\PapaeduTrait;
+use Papaedu\Extension\Traits\ExtensionTrait;
 
 class WhiteListAccess
 {
-    use PapaeduTrait;
+    use ExtensionTrait;
 
     /**
      * Handle an incoming request.
