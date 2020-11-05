@@ -22,8 +22,10 @@ class EasySmsChannel
     /**
      * Send the notification.
      *
-     * @param $notifiable
-     * @param  Notification  $notification
+     * @param  \Illuminate\Database\Eloquent\Model|\Illuminate\Notifications\AnonymousNotifiable|string  $notifiable
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
+     * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
      */
     public function send($notifiable, Notification $notification)
     {

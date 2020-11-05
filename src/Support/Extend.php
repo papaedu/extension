@@ -37,11 +37,11 @@ class Extend
      * @param  int  $length
      * @return string
      */
-    public static function generateOrderSn($length = 18)
+    public static function generateOrderSn(int $length = 18)
     {
         $now = now();
 
-        return $now->format('ymdHis') . substr($now->micro, -3) . self::randomNumeric($length - 15);
+        return $now->format('ymdHis').substr($now->micro, -3).self::randomNumeric($length - 15);
     }
 
     /**
