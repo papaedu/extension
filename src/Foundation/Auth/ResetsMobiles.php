@@ -58,7 +58,7 @@ trait ResetsMobiles
     {
         CaptchaValidator::clear($request->new_mobile);
 
-        if ($response = $this->reseted($request, $this->guard()->user())) {
+        if ($response = $this->beforeResetResponse($request, $this->guard()->user())) {
             return $response;
         }
 
@@ -72,7 +72,7 @@ trait ResetsMobiles
      * @param  mixed  $user
      * @return mixed
      */
-    protected function reseted(Request $request, $user)
+    protected function beforeResetResponse(Request $request, $user)
     {
         //
     }
