@@ -30,7 +30,9 @@ class FormatResponse
                 ];
                 $data['meta'] = $meta;
             }
-            unset($data['links']);
+            if (isset($data['links'])) {
+                unset($data['links']);
+            }
             $response = $response->setData($data);
         }
 
