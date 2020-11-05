@@ -6,6 +6,7 @@ use BenSampo\Enum\Enum;
 use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Overtrue\EasySms\EasySms;
 use Papaedu\Extension\Commands\ControllerCommand;
+use Papaedu\Extension\Rules\Captcha;
 use Papaedu\Extension\Rules\MultipleOf;
 use Papaedu\Extension\Rules\RequiredMultiIf;
 use Papaedu\Extension\Support\Disks\Disk;
@@ -152,6 +153,10 @@ class ServiceProvider extends LaravelProvider
         $this->app['validator']->extend('multiple_of', function ($attributes, $value, $parameters, $validator) {
             return (new MultipleOf($parameters))->passes($attributes, $value);
         }, ':attribute格式错误');
+
+        $this->app['validator']->extend('captcha', function ($attributes, $value, $parameters, $validator) {
+            return (new Captcha($parameters, $validator))->passes($attributes, $value);
+        }, ':attribute错误');
 
         $this->app['validator']->extendImplicit('required_multiple_if', function ($attributes, $value, $parameters, $validator) {
             return (new RequiredMultiIf($parameters, $validator))->passes($attributes, $value);
