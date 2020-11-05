@@ -5,6 +5,7 @@ namespace Papaedu\Extension\Foundation\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Papaedu\Extension\Enums\OperationLogType;
 use Papaedu\Extension\Support\CaptchaValidator;
 
 trait AuthenticatesUsersByCaptcha
@@ -74,7 +75,10 @@ trait AuthenticatesUsersByCaptcha
     {
         $user = $this->create($request->input($this->username()));
         if ($user->wasRecentlyCreated) {
+            $user->setAttribute('operation_log_type', OperationLogType::RegisterByCaptcha);
             event(new Registered($user));
+        } else {
+            $user->setAttribute('operation_log_type', OperationLogType::LoginByCaptcha);
         }
 
         $this->guard()->login($user);

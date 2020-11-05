@@ -5,6 +5,7 @@ namespace Papaedu\Extension\Foundation\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Papaedu\Extension\Enums\OperationLogType;
 use Papaedu\Extension\Facades\Geetest;
 
 trait AuthenticatesUsersByOnelogin
@@ -77,7 +78,10 @@ trait AuthenticatesUsersByOnelogin
 
         $user = $this->create($mobile);
         if ($user->wasRecentlyCreated) {
+            $user->setAttribute('operation_log_type', OperationLogType::RegisterByOnelogin);
             event(new Registered($user));
+        } else {
+            $user->setAttribute('operation_log_type', OperationLogType::LoginByOnelogin);
         }
 
         $this->guard()->login($user);

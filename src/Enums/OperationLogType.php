@@ -4,7 +4,7 @@ namespace Papaedu\Extension\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class OperateLogType extends Enum
+final class OperationLogType extends Enum
 {
     const RegisterByPassword = 11;
 
@@ -31,10 +31,10 @@ final class OperateLogType extends Enum
         if ($value === self::RegisterByPassword) {
             return '注册';
         }
-        if ($value === self::Register) {
+        if ($value === self::RegisterByCaptcha) {
             return '注册（验证码登录）';
         }
-        if ($value === self::Register) {
+        if ($value === self::RegisterByOnelogin) {
             return '注册（一键登录）';
         }
         if ($value === self::LoginByPassword) {
