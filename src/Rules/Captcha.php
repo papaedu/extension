@@ -33,7 +33,7 @@ class Captcha implements ImplicitRule
      */
     public function passes($attribute, $value)
     {
-        if (!$mobile = $this->validator->getData()[$parameters[0] ?? 'username'] ?? '') {
+        if (!$mobile = $this->validator->getData()[$this->parameters[0] ?? 'username'] ?? '') {
             return false;
         }
 
