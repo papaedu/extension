@@ -27,7 +27,7 @@ class UmengPushChannel
     /**
      * Send the notification.
      *
-     * @param $notifiable
+     * @param  \Illuminate\Database\Eloquent\Model|\Illuminate\Notifications\AnonymousNotifiable|string  $notifiable
      * @param  \Illuminate\Notifications\Notification  $notification
      * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
      */

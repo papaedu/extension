@@ -1,21 +1,23 @@
 <?php
 
-namespace Papaedu\Extension\Traits\Auth;
+namespace Papaedu\Extension\Foundation\Auth;
 
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Papaedu\Extension\Enums\OperationLogType;
+use Papaedu\Extension\Support\CaptchaValidator;
 
-trait AuthenticatesUsers
+trait AuthenticatesUsersByCaptcha
 {
-    use Authenticated;
+    use AuthTrait;
     use ThrottlesLogins;
 
     /**
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse|void
+     * @return \Illuminate\Http\JsonResponse|void
      * @throws \Illuminate\Validation\ValidationException
      */
     public function login(Request $request)
@@ -52,6 +54,15 @@ trait AuthenticatesUsers
      */
     protected function validateLogin(Request $request)
     {
+        $request->validate([
+            $this->username() => ['required', 'mobile'],
+            'captcha' => ['required', 'digits:4', 'captcha:'.$this->username()],
+        ], [
+            'captcha.digits' => trans('extension::auth.captcha_failed'),
+        ], [
+            $this->username() => trans('extension::field.username'),
+            'captcha' => trans('extension::field.captcha'),
+        ]);
     }
 
     /**
@@ -62,18 +73,17 @@ trait AuthenticatesUsers
      */
     protected function attemptLogin(Request $request)
     {
-        return $this->guard()->attempt($this->credentials($request));
-    }
+        $user = $this->create($request->input($this->username()));
+        if ($user->wasRecentlyCreated) {
+            $user->setAttribute('operation_log_type', OperationLogType::RegisterByCaptcha);
+            event(new Registered($user));
+        } else {
+            $user->setAttribute('operation_log_type', OperationLogType::LoginByCaptcha);
+        }
 
-    /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    protected function credentials(Request $request)
-    {
-        return $request->only($this->username(), 'password');
+        $this->guard()->login($user);
+
+        return true;
     }
 
     /**
@@ -85,9 +95,26 @@ trait AuthenticatesUsers
     protected function sendLoginResponse(Request $request)
     {
         $this->clearLoginAttempts($request);
-        $this->beforeResponse($request, $this->guard()->user());
 
-        return $this->authenticated($this->guard()->user());
+        CaptchaValidator::clear($request->input($this->username()));
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
+        }
+
+        return $this->tokenResponse($this->guard()->user());
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        //
     }
 
     /**
@@ -98,19 +125,7 @@ trait AuthenticatesUsers
     protected function sendFailedLoginResponse()
     {
         throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
+            $this->username() => [trans('extension::auth.captcha_failed')],
         ]);
-    }
-
-    /**
-     * Log the user out of the application.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function logout()
-    {
-        $this->guard()->user()->currentAccessToken()->delete();
-
-        return $this->response->noContent();
     }
 }

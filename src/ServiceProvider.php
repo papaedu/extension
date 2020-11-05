@@ -3,9 +3,10 @@
 namespace Papaedu\Extension;
 
 use BenSampo\Enum\Enum;
-use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Overtrue\EasySms\EasySms;
+use Papaedu\Extension\Commands\ControllerCommand;
+use Papaedu\Extension\Rules\Captcha;
 use Papaedu\Extension\Rules\MultipleOf;
 use Papaedu\Extension\Rules\RequiredMultiIf;
 use Papaedu\Extension\Support\Disks\Disk;
@@ -24,13 +25,14 @@ class ServiceProvider extends LaravelProvider
         $this->registerConfig();
         $this->registerEnums();
         $this->registerChannels();
+        $this->registerCommands();
     }
 
     private function registerConfig()
     {
         $source = realpath(__DIR__.'/config.php');
 
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->publishes([$source => config_path('extension.php')], 'extension-config');
         }
 
@@ -96,6 +98,15 @@ class ServiceProvider extends LaravelProvider
         });
     }
 
+    private function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ControllerCommand::class,
+            ]);
+        }
+    }
+
     /**
      * Bootstrap services.
      *
@@ -110,7 +121,7 @@ class ServiceProvider extends LaravelProvider
     private function bootValidationTranslation()
     {
         $source = realpath(__DIR__.'/../resources/lang');
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->publishes([$source => resource_path('lang/vendor/extension')]);
         }
 
@@ -142,6 +153,10 @@ class ServiceProvider extends LaravelProvider
         $this->app['validator']->extend('multiple_of', function ($attributes, $value, $parameters, $validator) {
             return (new MultipleOf($parameters))->passes($attributes, $value);
         }, ':attribute格式错误');
+
+        $this->app['validator']->extend('captcha', function ($attributes, $value, $parameters, $validator) {
+            return (new Captcha($parameters, $validator))->passes($attributes, $value);
+        }, ':attribute错误');
 
         $this->app['validator']->extendImplicit('required_multiple_if', function ($attributes, $value, $parameters, $validator) {
             return (new RequiredMultiIf($parameters, $validator))->passes($attributes, $value);
