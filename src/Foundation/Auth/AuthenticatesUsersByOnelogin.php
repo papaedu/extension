@@ -3,7 +3,6 @@
 namespace Papaedu\Extension\Foundation\Auth;
 
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Papaedu\Extension\Facades\Geetest;
@@ -126,5 +125,4 @@ trait AuthenticatesUsersByOnelogin
             $this->username() => [trans('extension::auth.onelogin_failed')],
         ]);
     }
-
 }

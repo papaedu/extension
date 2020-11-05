@@ -52,7 +52,7 @@ trait ResetsPasswords
      */
     protected function sendResetResponse(Request $request)
     {
-        if ($response = $this->reseted($request, $this->guard()->user())) {
+        if ($response = $this->beforeResetResponse($request, $this->guard()->user())) {
             return $response;
         }
 
@@ -66,7 +66,7 @@ trait ResetsPasswords
      * @param  mixed  $user
      * @return mixed
      */
-    protected function reseted(Request $request, $user)
+    protected function beforeResetResponse(Request $request, $user)
     {
         //
     }
