@@ -26,7 +26,7 @@ class Captcha extends Notification
     public function toEasySms($notifiable)
     {
         return (new EasySmsMessage)
-            ->setTemplate(config('extension.captcha.sms_template_id'))
+            ->setTemplate(config('extension.auth.captcha.sms_template_id'))
             ->setData([
                 'code' => $this->captcha,
             ]);
