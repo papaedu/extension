@@ -3,10 +3,8 @@
 namespace Papaedu\Extension\Foundation\Captcha;
 
 use App\Http\Requests\Auth\CaptchaLoginRequest;
-use App\Support\CaptchaNotification;
-use App\Support\CaptchaValidator;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use Papaedu\Extension\Support\CaptchaNotification;
+use Papaedu\Extension\Support\CaptchaValidator;
 use Papaedu\Extension\Traits\GeetestTrait;
 
 trait AuthenticatesCaptcha
