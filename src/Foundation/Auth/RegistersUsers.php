@@ -38,7 +38,7 @@ trait RegistersUsers
         $request->validate([
             $this->username() => ['required', 'mobile', 'unique:'.$this->userModel().','.$this->username()],
             'password' => ['required', 'between:8,16', 'password_strength'],
-            'captcha' => ['required', 'digits:4', 'captcha'],
+            'captcha' => ['required', 'digits:4', 'captcha:'.$this->username()],
         ], [
             $this->username().'.unique' => trans('extension::auth.registered'),
             'captcha.digits' => trans('extension::auth.captcha_failed'),
