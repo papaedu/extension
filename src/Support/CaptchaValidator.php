@@ -12,8 +12,8 @@ class CaptchaValidator
      */
     public static function generate(string $mobile)
     {
-        $captcha = Extend::randomNumeric(config('extension::auth.captcha.length'));
-        Redis::setex("captcha_{$mobile}", config('extension::auth.captcha.ttl'), $captcha);
+        $captcha = Extend::randomNumeric(config('extension.auth.captcha.length'));
+        Redis::setex("captcha_{$mobile}", config('extension.auth.captcha.ttl'), $captcha);
 
         return $captcha;
     }

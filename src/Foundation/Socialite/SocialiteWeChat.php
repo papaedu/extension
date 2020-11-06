@@ -50,7 +50,7 @@ trait SocialiteWeChat
     private function checkUserInfo(User $oauthUser)
     {
         $nickname = $this->guard()->user();
-        $nicknamePrefix = config('extension::auth.nickname_prefix');
+        $nicknamePrefix = config('extension.auth.nickname_prefix');
         if (!$nickname || preg_match('/(^'.$nicknamePrefix.')/', $nickname) || Extend::isMobile($nickname)) {
             $this->guard()->user()->nickname = $oauthUser->getNickname();
         }
