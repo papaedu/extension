@@ -5,6 +5,7 @@ return [
         'nickname_prefix' => '用户',
 
         'captcha' => [
+            'sms_template_id' => 'SMS_158490336',
             'length' => 4,
             'ttl' => 300,
         ],
