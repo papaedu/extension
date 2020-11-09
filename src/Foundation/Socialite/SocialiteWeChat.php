@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Foundation\Socialite;
 
 use Illuminate\Validation\ValidationException;
 use Overtrue\Socialite\User;
+use Papaedu\Extension\Enums\SocialiteType;
 use Papaedu\Extension\Support\Extend;
 
 trait SocialiteWeChat
