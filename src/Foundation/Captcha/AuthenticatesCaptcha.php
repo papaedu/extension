@@ -17,7 +17,7 @@ trait AuthenticatesCaptcha
      * @param  \App\Http\Requests\Auth\CaptchaLoginRequest  $request
      * @param  string  $appName
      * @param  string  $clientType
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(CaptchaLoginRequest $request, string $appName, string $clientType)
     {
