@@ -4,7 +4,6 @@ namespace Papaedu\Extension\Foundation\Socialite;
 
 use Illuminate\Validation\ValidationException;
 use Overtrue\Socialite\User;
-use Papaedu\Extension\Enums\SocialiteType;
 use Papaedu\Extension\Support\Extend;
 
 trait SocialiteWeChat
@@ -73,8 +72,8 @@ trait SocialiteWeChat
             return false;
         }
 
-        return Socialite::where('openid', $unionId)
-            ->where('type', SocialiteType::WeChatUnionId)
+        return $this->getSocialiteModel()->where('openid', $unionId)
+            ->where('type', $this->getSocialiteType()::WeChatUnionId)
             ->exists();
     }
 
@@ -85,8 +84,8 @@ trait SocialiteWeChat
      */
     protected function validateUserId()
     {
-        return Socialite::where('guest_id', $this->guard()->id())
-            ->where('type', SocialiteType::WeChatUnionId)
+        return $this->getSocialiteModel()->where('guest_id', $this->guard()->id())
+            ->where('type', $this->getSocialiteType()::WeChatUnionId)
             ->exists();
     }
 
@@ -101,17 +100,35 @@ trait SocialiteWeChat
         if (!$openId) {
             return;
         }
-        $type = SocialiteType::transform($channel);
+        $type = $this->getSocialiteType()::transform($channel);
         if (!$type) {
             return;
         }
 
-        Socialite::updateOrCreate([
+        $this->getSocialiteModel()->updateOrCreate([
             'type' => $type,
             'openid' => $openId,
         ], [
             'guest_id' => $guestId,
             'nickname' => $nickname,
         ]);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    protected function getSocialiteModel()
+    {
+        $model = config('extension.socialite.model');
+
+        return new $model;
+    }
+
+    /**
+     * @return object
+     */
+    protected function getSocialiteType()
+    {
+        return config('extension.socialite.type');
     }
 }

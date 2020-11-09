@@ -9,10 +9,10 @@ return [
             'length' => 4,
             'ttl' => 300,
         ],
+    ],
 
-        'socialite' => [
-            'model' => App\Models\Socialite::class,
-            'type' => App\Enums\SocialiteType::class,
-        ],
+    'socialite' => [
+        'model' => App\Models\Socialite::class,
+        'type' => App\Enums\SocialiteType::class,
     ],
 ];
