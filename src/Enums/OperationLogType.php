@@ -18,6 +18,8 @@ final class OperationLogType extends Enum
 
     const LoginByOnelogin = 23;
 
+    const LoginBySocialiteWeChat = 24;
+
     const Logout = 31;
 
     const ForgotPassword = 41;
@@ -45,6 +47,9 @@ final class OperationLogType extends Enum
         }
         if ($value === self::LoginByOnelogin) {
             return '一键登录';
+        }
+        if ($value === self::LoginBySocialiteWeChat) {
+            return '社会化登录（微信）';
         }
         if ($value === self::Logout) {
             return '登出';
