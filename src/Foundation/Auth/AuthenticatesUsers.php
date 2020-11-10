@@ -54,7 +54,7 @@ trait AuthenticatesUsers
     {
         $request->validate([
             $this->username() => ['required', 'mobile'],
-            'password' => ['required', 'min:8'],
+            'password' => ['required', 'string', 'min:8'],
         ], [
             'password.min' => trans('extension::auth.failed'),
         ], [
