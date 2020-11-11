@@ -2,7 +2,9 @@
 
 namespace Papaedu\Extension\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 trait PapaeduHandler
@@ -33,5 +35,29 @@ trait PapaeduHandler
         return response()->json([
             'message' => current(current(array_values($exception->errors()))),
         ], $exception->status);
+    }
+
+    /**
+     * Prepare exception for rendering.
+     *
+     * @param  \Throwable  $e
+     * @return \Throwable
+     */
+    protected function prepareException(Throwable $e)
+    {
+        if ($e instanceof ModelNotFoundException) {
+            $message = 'No query results for model';
+            if (count($e->getIds()) > 0) {
+                $message .= ' '.implode(', ', $e->getIds());
+            } else {
+                $message .= '.';
+            }
+
+            $e = new NotFoundHttpException($message, $e);
+        } else {
+            $e = parent::prepareException($e);
+        }
+
+        return $e;
     }
 }
