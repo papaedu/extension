@@ -38,7 +38,7 @@ trait ResetsMobiles
         $request->validate([
             'password' => ['required', 'password'],
             'new_mobile' => ['required', 'mobile', 'unique:'.$this->userModel().','.$this->username()],
-            'captcha' => ['required', 'digits:4', 'captcha:new_mobile'],
+            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:new_mobile'],
         ], [
             'new_mobile.unique' => trans('extension::auth.registered'),
         ], [
