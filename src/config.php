@@ -15,4 +15,11 @@ return [
         'model' => App\Models\Socialite::class,
         'type' => App\Enums\SocialiteType::class,
     ],
+
+    'image' => [
+        'ban' => [
+            'avatar' => 'system/ban/avatar.png',
+            '2x1' => 'system/ban/photo-2x1.png',
+        ],
+    ],
 ];
