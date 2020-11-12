@@ -40,14 +40,14 @@ trait ForgetsPasswords
         $request->validate([
             $this->username() => ['required', 'mobile', 'exists:'.$this->userModel().','.$this->username()],
             'password' => ['required', 'password_strength'],
-            'captcha' => ['required', 'digits:4', 'captcha:mobile'],
+            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:mobile'],
         ], [
             'exists' => '此:attribute尚未注册',
             'captcha.digits' => ':attribute错误',
         ], [
-            $this->username() => '手机号',
-            'captcha' => '验证码',
-            'password' => '密码',
+            $this->username() => trans('extension::field.username'),
+            'captcha' => trans('extension::field.captcha'),
+            'password' => trans('extension::field.password'),
         ]);
     }
 
