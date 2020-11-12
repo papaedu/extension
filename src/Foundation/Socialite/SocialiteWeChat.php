@@ -4,10 +4,19 @@ namespace Papaedu\Extension\Foundation\Socialite;
 
 use Illuminate\Validation\ValidationException;
 use Overtrue\Socialite\User;
-use Papaedu\Extension\Support\Extend;
 
 trait SocialiteWeChat
 {
+    /**
+     * @var bool
+     */
+    protected $SyncWeChatNickname = true;
+
+    /**
+     * @var bool
+     */
+    protected $syncWeChatAvatar = true;
+
     /**
      * 绑定微信
      *
@@ -40,21 +49,22 @@ trait SocialiteWeChat
         // 绑定渠道openid
         $this->bindSocialite($channel, $this->guard()->id(), $user->getId());
 
-        // 检测是否需要更新头像等信息
-        $this->checkUserInfo($user);
+        // 更新用户信息
+        $this->syncWeChatUserInfo($user);
     }
 
     /**
      * @param  \Overtrue\Socialite\User  $oauthUser
      */
-    private function checkUserInfo(User $oauthUser)
+    private function syncWeChatUserInfo(User $oauthUser)
     {
-        $nickname = $this->guard()->user();
-        $nicknamePrefix = config('extension.auth.nickname_prefix');
-        if (!$nickname || preg_match('/(^'.$nicknamePrefix.')/', $nickname) || Extend::isMobile($nickname)) {
-            $this->guard()->user()->nickname = $oauthUser->getNickname();
+        if (true === $this->syncWeChatAvatar) {
+            $nickname = $this->guard()->user()->nickname;
+            if (!$nickname || preg_match('/(^'.config('extension.auth.nickname_prefix').')/', $nickname)) {
+                $this->guard()->user()->nickname = $oauthUser->getNickname();
+            }
         }
-        if (!$this->guard()->user()->avatar) {
+        if (true === $this->syncWeChatAvatar && !$this->guard()->user()->avatar) {
             $this->guard()->user()->avatar = $oauthUser->getAvatar();
         }
         $this->guard()->user()->save();
