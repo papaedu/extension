@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'param_abnormal' => '参数异常',
+
     'image_exists' => ':attribute不存在或上传失败',
     'audio_exists' => ':attribute不存在或上传失败',
     'file_exists' => ':attribute不存在或上传失败',

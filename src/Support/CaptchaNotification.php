@@ -32,7 +32,7 @@ class CaptchaNotification
      * @param  string  $mobile
      * @param  string  $captcha
      */
-    public static function forget(string $mobile, string $captcha)
+    public static function forgot(string $mobile, string $captcha)
     {
         self::send($mobile, $captcha);
     }

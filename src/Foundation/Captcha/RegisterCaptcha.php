@@ -8,37 +8,37 @@ use Papaedu\Extension\Support\CaptchaNotification;
 use Papaedu\Extension\Support\CaptchaValidator;
 use Papaedu\Extension\Traits\GeetestTrait;
 
-trait AuthenticatesCaptcha
+trait RegisterCaptcha
 {
     use GeetestTrait;
     use CaptchaTrait;
 
     /**
-     * Send captcha for the user login.
+     * Send captcha for the user register.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $appName
      * @param  string  $clientType
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request, string $appName, string $clientType)
+    public function register(Request $request, string $appName, string $clientType)
     {
-        $this->validateLogin($request);
+        $this->validateRegister($request);
         $this->validateParams($appName, $clientType);
 
         $captcha = CaptchaValidator::generate($request->mobile);
-        CaptchaNotification::login($request->mobile, $captcha);
+        CaptchaNotification::register($request->mobile, $captcha);
 
         return new JsonResponse([], 204);
     }
 
     /**
-     * Validate send captcha for the user login request.
+     * Validate send captcha for the user register request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
-    protected function validateLogin(Request $request)
+    protected function validateRegister(Request $request)
     {
         $request->validate([
             'geetest_challenge' => ['required'],
