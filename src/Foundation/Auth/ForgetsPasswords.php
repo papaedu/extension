@@ -61,6 +61,8 @@ trait ForgetsPasswords
     {
         CaptchaValidator::clear($request->input($this->username()));
 
+        $this->validateStatus($this->guard()->user()->status);
+
         if ($response = $this->beforeForgotResponse($request, $this->guard()->user())) {
             return $response;
         }

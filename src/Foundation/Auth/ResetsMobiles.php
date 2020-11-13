@@ -24,7 +24,7 @@ trait ResetsMobiles
 
         $user->tokens()->delete();
 
-        return $this->sendResetResponse($request);
+        return $this->sendResetResponse($request, $user);
     }
 
     /**
@@ -52,13 +52,14 @@ trait ResetsMobiles
      * Send the response after the guest was reset mobile.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function sendResetResponse(Request $request)
+    protected function sendResetResponse(Request $request, $user)
     {
         CaptchaValidator::clear($request->new_mobile);
 
-        if ($response = $this->beforeResetResponse($request, $this->guard()->user())) {
+        if ($response = $this->beforeResetResponse($request, $user)) {
             return $response;
         }
 

@@ -5,9 +5,23 @@ namespace Papaedu\Extension\Foundation\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Papaedu\Extension\Enums\AuthStatus;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait AuthTrait
 {
+    /**
+     * @param  int  $status
+     */
+    protected function validateStatus(int $status)
+    {
+        if (AuthStatus::Ban == $status) {
+            throw new HttpException(400, '此账号已封停');
+        } elseif (AuthStatus::Close) {
+            throw new HttpException(400, '此账号已注销');
+        }
+    }
+
     /**
      * The user has been authenticated.
      *
