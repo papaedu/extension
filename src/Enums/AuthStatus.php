@@ -12,7 +12,7 @@ final class AuthStatus extends Enum
 
     const Ban = 98;
 
-    const Disable = 99;
+    const Close = 99;
 
     public static function getDescription($value): string
     {
@@ -23,10 +23,10 @@ final class AuthStatus extends Enum
             return '未完善信息';
         }
         if ($value === self::Ban) {
-            return '禁用';
+            return '封停账号';
         }
-        if ($value === self::Disable) {
-            return '停用';
+        if ($value === self::Close) {
+            return '注销账号';
         }
 
         return parent::getDescription($value);
@@ -36,7 +36,7 @@ final class AuthStatus extends Enum
     {
         return in_array($value, [
             self::Ban,
-            self::Disable,
+            self::Close,
         ]);
     }
 }
