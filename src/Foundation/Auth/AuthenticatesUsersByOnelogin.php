@@ -95,6 +95,8 @@ trait AuthenticatesUsersByOnelogin
     {
         $this->clearLoginAttempts($request);
 
+        $this->validateStatus($this->guard()->user()->status);
+
         if ($response = $this->authenticated($request, $this->guard()->user())) {
             return $response;
         }
