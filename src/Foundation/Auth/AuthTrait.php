@@ -17,7 +17,7 @@ trait AuthTrait
     {
         if (AuthStatus::Ban == $status) {
             throw new HttpException(400, '此账号已封停');
-        } elseif (AuthStatus::Close) {
+        } elseif (AuthStatus::Close == $status) {
             throw new HttpException(400, '此账号已注销');
         }
     }
