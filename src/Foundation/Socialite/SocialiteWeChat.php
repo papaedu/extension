@@ -10,7 +10,7 @@ trait SocialiteWeChat
     /**
      * @var bool
      */
-    protected $SyncWeChatNickname = true;
+    protected $syncWeChatNickname = true;
 
     /**
      * @var bool
@@ -58,7 +58,7 @@ trait SocialiteWeChat
      */
     private function syncWeChatUserInfo(User $oauthUser)
     {
-        if (true === $this->syncWeChatAvatar) {
+        if (true === $this->syncWeChatNickname) {
             $nickname = $this->guard()->user()->nickname;
             if (!$nickname || preg_match('/(^'.config('extension.auth.nickname_prefix').')/', $nickname)) {
                 $this->guard()->user()->nickname = $oauthUser->getNickname();
