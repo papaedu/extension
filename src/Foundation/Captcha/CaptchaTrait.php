@@ -2,10 +2,13 @@
 
 namespace Papaedu\Extension\Foundation\Captcha;
 
+use Papaedu\Extension\Traits\GeetestTrait;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait CaptchaTrait
 {
+    use GeetestTrait;
+
     /**
      * @param  string  $appName
      * @param  string  $clientType

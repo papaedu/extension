@@ -20,54 +20,52 @@ trait SocialiteWeChat
     /**
      * 绑定微信
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param  \Overtrue\Socialite\User  $oauthUser
+     * @param  string  $channel
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      */
-    protected function bindWechat()
+    protected function bindWechat(User $oauthUser, string $channel, $user)
     {
-        /** @var \Overtrue\Socialite\User $user */
-        $user = session('wechat.oauth_user');
-        $channel = session('wechat.channel');
-
-        if (!$user || !$channel) {
+        if (!$oauthUser || !$channel) {
             throw ValidationException::withMessages([
                 'socialite' => [trans('extension::socialite.bind_failed')],
             ]);
         }
-        if ($this->validateWechatUnionId($user->getRaw()['unionid'] ?? '')) {
+        if ($this->validateWechatUnionId($oauthUser->getRaw()['unionid'] ?? '')) {
             throw ValidationException::withMessages([
                 'socialite' => [trans('extension::socialite.wechat_already_bind')],
             ]);
         }
-        if ($this->validateUserId()) {
+        if ($this->validateUserId($user)) {
             throw ValidationException::withMessages([
                 'socialite' => [trans('extension::socialite.mobile_already_bind')],
             ]);
         }
 
         // 绑定unionID
-        $this->bindSocialite('union', $this->guard()->id(), $user->getRaw()['unionid'] ?? '', $user->getNickname());
+        $this->bindSocialite('union', $user->id, $oauthUser->getRaw()['unionid'] ?? '', $oauthUser->getNickname());
         // 绑定渠道openid
-        $this->bindSocialite($channel, $this->guard()->id(), $user->getId());
+        $this->bindSocialite($channel, $user->id, $oauthUser->getId());
 
         // 更新用户信息
-        $this->syncWeChatUserInfo($user);
+        $this->syncWeChatUserInfo($oauthUser, $user);
     }
 
     /**
      * @param  \Overtrue\Socialite\User  $oauthUser
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      */
-    private function syncWeChatUserInfo(User $oauthUser)
+    private function syncWeChatUserInfo(User $oauthUser, $user)
     {
         if (true === $this->syncWeChatNickname) {
-            $nickname = $this->guard()->user()->nickname;
-            if (!$nickname || preg_match('/(^'.config('extension.auth.nickname_prefix').')/', $nickname)) {
-                $this->guard()->user()->nickname = $oauthUser->getNickname();
+            if (!$user->nickname || preg_match('/(^'.config('extension.auth.nickname_prefix').')/', $user->nickname)) {
+                $user->nickname = $oauthUser->getNickname();
             }
         }
-        if (true === $this->syncWeChatAvatar && !$this->guard()->user()->avatar) {
-            $this->guard()->user()->avatar = $oauthUser->getAvatar();
+        if (true === $this->syncWeChatAvatar && !$user->avatar) {
+            $user->avatar = $oauthUser->getAvatar();
         }
-        $this->guard()->user()->save();
+        $user->save();
     }
 
     /**
@@ -90,11 +88,12 @@ trait SocialiteWeChat
     /**
      * 验收用户是否已经绑定过微信
      *
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @return bool
      */
-    protected function validateUserId()
+    protected function validateUserId($user)
     {
-        return $this->getSocialiteModel()->where('guest_id', $this->guard()->id())
+        return $this->getSocialiteModel()->where('guest_id', $user->id)
             ->where('type', $this->getSocialiteType()::WeChatUnionId)
             ->exists();
     }
@@ -125,7 +124,7 @@ trait SocialiteWeChat
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Contracts\Auth\Authenticatable
      */
     protected function getSocialiteModel()
     {

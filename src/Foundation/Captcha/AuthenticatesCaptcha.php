@@ -6,13 +6,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Papaedu\Extension\Support\CaptchaNotification;
 use Papaedu\Extension\Support\CaptchaValidator;
-use Papaedu\Extension\Traits\GeetestTrait;
 
 trait AuthenticatesCaptcha
 {
-    use GeetestTrait;
-    use CaptchaTrait;
-
     /**
      * Send captcha for the user login.
      *
@@ -46,7 +42,7 @@ trait AuthenticatesCaptcha
             'geetest_seccode' => ['required'],
             'mobile' => ['required', 'mobile'],
         ], [
-            'required' => trans('extension:validator.param_abnormal'),
+            'required' => trans('extension::validator.param_abnormal'),
         ]);
     }
 }
