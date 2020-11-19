@@ -42,7 +42,7 @@ trait ResetCaptcha
             'geetest_seccode' => ['required'],
             'mobile' => ['required', 'mobile'],
         ], [
-            'required' => trans('extension:validator.param_abnormal'),
+            'required' => trans('extension::validator.param_abnormal'),
         ]);
     }
 }
