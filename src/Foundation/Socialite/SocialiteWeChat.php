@@ -19,8 +19,6 @@ trait SocialiteWeChat
 
     /**
      * 绑定微信
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
     protected function bindWechat()
     {
