@@ -13,7 +13,7 @@ class Hundreds implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return int
+     * @return float
      */
     public function get($model, string $key, $value, array $attributes)
     {

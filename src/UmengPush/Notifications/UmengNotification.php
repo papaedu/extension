@@ -3,7 +3,7 @@
 namespace Papaedu\Extension\UmengPush\Notifications;
 
 use Illuminate\Support\Facades\Http;
-use Papaedu\Extension\Exceptions\UmengNotificationException;
+use Papaedu\Extension\Http\Exceptions\UmengNotificationException;
 
 abstract class UmengNotification implements UmengNotificationInterface
 {
@@ -71,7 +71,7 @@ abstract class UmengNotification implements UmengNotificationInterface
      * return TRUE if it's complete, otherwise throw exception with details
      *
      * @return bool
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function isComplete()
     {
@@ -86,7 +86,7 @@ abstract class UmengNotification implements UmengNotificationInterface
 
     /**
      * @param  array  $array
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     private function checkArrayValues(array $array)
     {
@@ -103,7 +103,7 @@ abstract class UmengNotification implements UmengNotificationInterface
      * send the notification to umeng, return response data if SUCCESS , otherwise throw Exception with details.
      *
      * @return string
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function send()
     {

@@ -5,13 +5,13 @@ namespace Papaedu\Extension;
 use BenSampo\Enum\Enum;
 use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Overtrue\EasySms\EasySms;
-use Papaedu\Extension\Commands\ControllerCommand;
-use Papaedu\Extension\Rules\Captcha;
-use Papaedu\Extension\Rules\MultipleOf;
-use Papaedu\Extension\Rules\RequiredMultiIf;
+use Papaedu\Extension\Auth\Console\ControllerCommand;
 use Papaedu\Extension\Support\Disks\Disk;
 use Papaedu\Extension\Support\Extend;
 use Papaedu\Extension\UmengPush\UmengPush;
+use Papaedu\Extension\Validation\Rules\Captcha;
+use Papaedu\Extension\Validation\Rules\MultipleOf;
+use Papaedu\Extension\Validation\Rules\RequiredMultiIf;
 
 class ServiceProvider extends LaravelProvider
 {

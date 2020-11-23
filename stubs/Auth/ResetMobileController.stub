@@ -3,24 +3,35 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Papaedu\Extension\Foundation\Auth\ResetsUsernames;
+use Papaedu\Extension\Foundation\Auth\ResetsMobiles;
 
 class ResetMobileController extends Controller
 {
-    use ResetsUsernames;
+    use ResetsMobiles;
 
     /**
      * Update user password.
      *
-     * @param mixed $user
-     * @param  string  $password
+     * @param  mixed  $user
+     * @param  string  $mobile
      * @return \Illuminate\Contracts\Auth\Authenticatable
      */
-    protected function update($user, string $password)
+    protected function update($user, string $mobile)
     {
-        $user->password = $password;
+        $this->oldMobile = $user->mobile;
+        $user->mobile = $mobile;
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * Get the guard model to be used.
+     *
+     * @return string
+     */
+    public function userModel()
+    {
+        return 'App\Models\User';
     }
 }

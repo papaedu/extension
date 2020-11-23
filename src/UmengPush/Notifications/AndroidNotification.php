@@ -2,7 +2,7 @@
 
 namespace Papaedu\Extension\UmengPush\Notifications;
 
-use Papaedu\Extension\Exceptions\UmengNotificationException;
+use Papaedu\Extension\Http\Exceptions\UmengNotificationException;
 
 abstract class AndroidNotification extends UmengNotification
 {
@@ -63,7 +63,7 @@ abstract class AndroidNotification extends UmengNotification
      *
      * @param  string  $key
      * @param  string  $value
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function setPredefinedKeyValue(string $key, $value)
     {

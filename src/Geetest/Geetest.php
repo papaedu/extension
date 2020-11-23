@@ -55,7 +55,7 @@ class Geetest
     /**
      * 正常模式处理
      *
-     * @param $challenge
+     * @param  string  $challenge
      */
     private function successProcess($challenge)
     {

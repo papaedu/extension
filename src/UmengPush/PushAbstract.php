@@ -2,7 +2,7 @@
 
 namespace Papaedu\Extension\UmengPush;
 
-use Papaedu\Extension\Exceptions\UmengNotificationException;
+use Papaedu\Extension\Http\Exceptions\UmengNotificationException;
 use Papaedu\Extension\UmengPush\Notifications\AndroidNotification;
 use Papaedu\Extension\UmengPush\Notifications\IOSNotification;
 use Papaedu\Extension\UmengPush\Notifications\UmengNotificationInterface;
@@ -41,7 +41,7 @@ abstract class PushAbstract
      * @param  \Papaedu\Extension\UmengPush\Notifications\UmengNotificationInterface  $cast
      * @param  array  $predefined
      * @param  array  $clientField
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     protected function initCast(UmengNotificationInterface &$cast, array $predefined = [], array $clientField = [])
     {

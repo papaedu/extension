@@ -14,7 +14,7 @@ class Vod implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return int
+     * @return string
      */
     public function get($model, string $key, $value, array $attributes)
     {
@@ -28,7 +28,7 @@ class Vod implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return float
+     * @return string
      */
     public function set($model, string $key, $value, array $attributes)
     {
