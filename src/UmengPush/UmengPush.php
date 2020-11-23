@@ -55,7 +55,7 @@ class UmengPush
     /**
      * @param  string  $alias
      * @param  \Papaedu\Extension\Channels\UmengPush\UmengPushMessage  $message
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function send(string $alias, $message)
     {

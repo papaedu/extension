@@ -17,7 +17,7 @@ class IOSPush extends PushAbstract
      * @param  array  $predefined
      * @param  array  $customField
      * @return string
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function sendBroadcast(array $predefined = [], array $customField = [])
     {
@@ -34,7 +34,7 @@ class IOSPush extends PushAbstract
      * @param  array  $predefined
      * @param  array  $customField
      * @return string
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function sendUnicast(string $deviceTokens = '', array $predefined = [], array $customField = [])
     {
@@ -52,7 +52,7 @@ class IOSPush extends PushAbstract
      * @param  array  $predefined
      * @param  array  $customField
      * @return string
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function sendListcast(string $deviceTokens = '', array $predefined = [], array $customField = [])
     {
@@ -70,7 +70,7 @@ class IOSPush extends PushAbstract
      * @param  array  $predefined
      * @param  array  $customField
      * @return string
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function sendFilecast(string $fileContents = '', array $predefined = [], array $customField = [])
     {
@@ -88,7 +88,7 @@ class IOSPush extends PushAbstract
      * @param  array  $predefined
      * @param  array  $customFiled
      * @return string
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function sendGroupcast(array $filter = [], array $predefined = [], array $customFiled = [])
     {
@@ -107,7 +107,7 @@ class IOSPush extends PushAbstract
      * @param  array  $predefined
      * @param  array  $customField
      * @return string
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function sendCustomizedcastByAlias(string $alias = '', $aliasType = '', array $predefined = [], array $customField = [])
     {
@@ -126,7 +126,7 @@ class IOSPush extends PushAbstract
      * @param  array  $predefined
      * @param  array  $customField
      * @return string
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function sendCustomizedcastByFileId(string $fileContents = '', array $predefined = [], array $customField = [])
     {

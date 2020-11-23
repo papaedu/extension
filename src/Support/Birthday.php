@@ -8,7 +8,7 @@ use DateTimeInterface;
 class Birthday
 {
     /**
-     * @var \Carbon\Carbon
+     * @var \Carbon\Carbon|null
      */
     private $birthday;
 

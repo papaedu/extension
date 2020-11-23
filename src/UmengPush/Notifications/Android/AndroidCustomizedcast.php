@@ -2,7 +2,7 @@
 
 namespace Papaedu\Extension\UmengPush\Notifications\Android;
 
-use Papaedu\Extension\Exceptions\UmengNotificationException;
+use Papaedu\Extension\Http\Exceptions\UmengNotificationException;
 use Papaedu\Extension\UmengPush\Notifications\AndroidNotification;
 use Papaedu\Extension\UmengPush\Notifications\Traits\FileTrait;
 
@@ -19,7 +19,7 @@ class AndroidCustomizedcast extends AndroidNotification
 
     /**
      * @return bool|void
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function isComplete()
     {

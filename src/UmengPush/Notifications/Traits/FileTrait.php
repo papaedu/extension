@@ -3,7 +3,7 @@
 namespace Papaedu\Extension\UmengPush\Notifications\Traits;
 
 use Illuminate\Support\Facades\Http;
-use Papaedu\Extension\Exceptions\UmengNotificationException;
+use Papaedu\Extension\Http\Exceptions\UmengNotificationException;
 
 trait FileTrait
 {
@@ -11,7 +11,7 @@ trait FileTrait
      * Upload file with device_tokens or alias to Umeng
      *
      * @param  string  $content
-     * @throws \Papaedu\Extension\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function uploadContents(string $content)
     {

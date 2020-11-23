@@ -22,20 +22,21 @@ class EasySmsChannel
     /**
      * Send the notification.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Illuminate\Notifications\AnonymousNotifiable|string  $notifiable
+     * @param  mixed  $notifiable
      * @param  \Illuminate\Notifications\Notification  $notification
-     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
-     * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
+     * @return void
      */
     public function send($notifiable, Notification $notification)
     {
+        $message = $notification->toEasySms($notifiable);
+
         if ($notifiable instanceof Model) {
             $to = $notifiable->routeNotificationFor('easysms', $notification);
         } elseif ($notifiable instanceof AnonymousNotifiable) {
             $to = $notifiable->routes[__CLASS__];
+        } else {
+            return;
         }
-
-        $message = $notification->toEasySms($notifiable);
 
         $this->easySms->send($to, $message);
     }

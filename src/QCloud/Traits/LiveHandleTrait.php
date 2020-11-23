@@ -11,8 +11,8 @@ use Modules\CoursePlan\Enums\CoursePlanTaskStatus;
 use Modules\Live\Jobs\TrtcDismissRoom;
 
 /**
- * @property \Extension\Support\Logger $logger
- * @property \Extension\Support\ApiResponse $response
+ * @property \Papaedu\Extension\Support\Logger $logger
+ * @property \Papaedu\Extension\Support\Response $response
  */
 trait LiveHandleTrait
 {
