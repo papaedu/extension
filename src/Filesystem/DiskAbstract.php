@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Support\Disks;
+namespace Papaedu\Extension\Filesystem;
 
 use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
@@ -44,7 +44,7 @@ abstract class DiskAbstract
             return $path;
         }
 
-        return $this->getDisk()->url(['path' => $path, 'domainType' => 'https']);
+        return $this->getDisk()->url($path);
     }
 
     /**
@@ -123,13 +123,20 @@ abstract class DiskAbstract
      *
      * @param  string  $path
      * @param  string  $mimeLimit
+     * @param  integer  $fSizeLimit
      * @return string
      */
-    public function getUploadToken(string $path, string $mimeLimit = '')
+    public function getUploadToken(string $path, string $mimeLimit = '', int $fSizeLimit = 0)
     {
-        $policy = $mimeLimit ? ['mimeLimit' => $mimeLimit] : [];
+        $policy = [];
+        if ($mimeLimit) {
+            $policy['mimeLimit'] = $mimeLimit;
+        }
+        if ($fSizeLimit) {
+            $policy['fsizeLimit'] = $fSizeLimit;
+        }
 
-        return $this->getDisk()->getDriver()->uploadToken($path, 3600, $policy);
+        return $this->getDisk()->getUploadToken($path, 3600, $policy);
     }
 
     /**

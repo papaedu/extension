@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Support\Disks;
+namespace Papaedu\Extension\Filesystem;
 
 use Illuminate\Support\Str;
 

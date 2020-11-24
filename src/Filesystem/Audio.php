@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Support\Disks;
+namespace Papaedu\Extension\Filesystem;
 
 use getID3;
 
@@ -13,12 +13,12 @@ class Audio extends DiskAbstract
 
     protected function getDomain()
     {
-        return config('filesystems.disks.qiniu-audio.domains.https');
+        return config('filesystems.disks.qiniu-audio.domain');
     }
 
     /**
      * @param  string  $url
-     * @return false|float|int
+     * @return float|int
      */
     public function getDuration(string $url)
     {

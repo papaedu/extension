@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Support\Disks;
+namespace Papaedu\Extension\Filesystem;
 
 class File extends DiskAbstract
 {
@@ -11,6 +11,6 @@ class File extends DiskAbstract
 
     protected function getDomain()
     {
-        return config('filesystems.disks.qiniu-file.domains.https');
+        return config('filesystems.disks.qiniu-file.domain');
     }
 }

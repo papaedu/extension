@@ -1,11 +1,16 @@
 <?php
 
-namespace Papaedu\Extension\Support\Disks;
+namespace Papaedu\Extension\Filesystem;
 
 use Illuminate\Support\Str;
 
 class Vod extends DiskAbstract
 {
+    protected function getDomain()
+    {
+        return config('qcloud.vod.host');
+    }
+
     /**
      * 获取完整地址
      *
@@ -15,6 +20,7 @@ class Vod extends DiskAbstract
      */
     public function url(string $path, string $default = '')
     {
+        $path = $path ? $path : $default;
         if (!$path) {
             return '';
         }
@@ -23,11 +29,6 @@ class Vod extends DiskAbstract
             return $path;
         }
 
-        return Str::finish(config('qcloud.vod.host', ''), '/') . ltrim($path, '/');
-    }
-
-    protected function getDomain()
-    {
-        return config('qcloud.vod.host');
+        return Str::finish(config('qcloud.vod.host', ''), '/').ltrim($path, '/');
     }
 }
