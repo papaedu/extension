@@ -22,4 +22,9 @@ return [
             '2x1' => 'system/ban/photo-2x1.png',
         ],
     ],
+
+    'whitelist' => [
+        'ip' => env('EXTENSION_WHITELIST_IP'),
+        'enable' => env('EXTENSION_WHITELIST_ENABLE', true),
+    ],
 ];
