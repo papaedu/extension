@@ -11,9 +11,9 @@ class Audio extends DiskAbstract
      */
     protected $diskName = 'qiniu-audio';
 
-    protected function getDomain()
+    public function __construct()
     {
-        return config('filesystems.disks.qiniu-audio.domain');
+        $this->setDomain(config('filesystems.disks.qiniu-audio.domain'));
     }
 
     /**

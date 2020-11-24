@@ -9,8 +9,8 @@ class File extends DiskAbstract
      */
     protected $diskName = 'qiniu-file';
 
-    protected function getDomain()
+    public function __construct()
     {
-        return config('filesystems.disks.qiniu-file.domain');
+        $this->setDomain(config('filesystems.disks.qiniu-file.domain'));
     }
 }

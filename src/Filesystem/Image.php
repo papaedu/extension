@@ -11,9 +11,9 @@ class Image extends DiskAbstract
      */
     protected $diskName = 'qiniu-image';
 
-    protected function getDomain()
+    public function __construct()
     {
-        return config('filesystems.disks.qiniu-image.domain');
+        $this->setDomain(config('filesystems.disks.qiniu-image.domain'));
     }
 
     /**
