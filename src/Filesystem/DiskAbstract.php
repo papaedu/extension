@@ -15,6 +15,11 @@ abstract class DiskAbstract
     protected $diskName = '';
 
     /**
+     * @var string
+     */
+    protected $domain = '';
+
+    /**
      * @return \Illuminate\Contracts\Filesystem\Filesystem|\Illuminate\Filesystem\FilesystemAdapter
      */
     public function getDisk()
@@ -40,7 +45,7 @@ abstract class DiskAbstract
             return '';
         }
 
-        if (preg_match('/http[s]:\/\//', $path)) {
+        if (preg_match('/^http[s]?:\/\//', $path)) {
             return $path;
         }
 
@@ -55,7 +60,7 @@ abstract class DiskAbstract
      */
     public function parseUrl(string $url)
     {
-        if (parse_url($url, PHP_URL_HOST) == $this->getDomain()) {
+        if (parse_url($url, PHP_URL_HOST) == $this->domain) {
             return ltrim(parse_url($url, PHP_URL_PATH), '/');
         }
 
@@ -140,10 +145,13 @@ abstract class DiskAbstract
     }
 
     /**
-     * 返回域名
+     * 设置域名
+     *
+     * @param  string  $domain
+     * @return string
      */
-    protected function getDomain()
+    protected function setDomain(string $domain)
     {
-        return '';
+        $this->domain = preg_replace('/^http[s]?:\/\//', '', $domain);
     }
 }

@@ -6,9 +6,9 @@ use Illuminate\Support\Str;
 
 class Vod extends DiskAbstract
 {
-    protected function getDomain()
+    public function __construct()
     {
-        return config('qcloud.vod.host');
+        $this->setDomain(config('qcloud.vod.host'));
     }
 
     /**
