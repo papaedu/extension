@@ -18,7 +18,7 @@ class Vod implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return Disk::vod()->url($value);
+        return Disk::vod()->url((string)$value);
     }
 
     /**

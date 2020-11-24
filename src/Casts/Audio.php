@@ -18,7 +18,7 @@ class Audio implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return Disk::audio()->url($value);
+        return Disk::audio()->url((string)$value);
     }
 
     /**

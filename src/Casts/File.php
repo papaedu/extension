@@ -18,7 +18,7 @@ class File implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return Disk::file()->url($value);
+        return Disk::file()->url((string)$value);
     }
 
     /**

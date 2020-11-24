@@ -18,7 +18,7 @@ class Image implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return Disk::image()->url($value);
+        return Disk::image()->url((string)$value);
     }
 
     /**
