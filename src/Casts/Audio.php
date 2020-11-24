@@ -3,7 +3,7 @@
 namespace Papaedu\Extension\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Papaedu\Extension\Support\Disks\Disk;
+use Papaedu\Extension\Filesystem\Disk;
 
 class Audio implements CastsAttributes
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Support\Disks;
+namespace Papaedu\Extension\Filesystem;
 
 use Illuminate\Support\Arr;
 
@@ -10,6 +10,11 @@ class Image extends DiskAbstract
      * @var string
      */
     protected $diskName = 'qiniu-image';
+
+    protected function getDomain()
+    {
+        return config('filesystems.disks.qiniu-image.domain');
+    }
 
     /**
      * @param  string  $path
@@ -36,10 +41,5 @@ class Image extends DiskAbstract
             'course/1Gn5BHUCuLCANBWVphiYBgO1HCAIXYlKJgZcqRP6.png',
             'course/bFC5xRIGqnCshST789RGX1c3vhsvHYuTzfOgcyiv.jpeg',
         ]);
-    }
-
-    protected function getDomain()
-    {
-        return config('filesystems.disks.qiniu-image.domains.https');
     }
 }

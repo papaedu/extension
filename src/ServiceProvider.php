@@ -6,7 +6,7 @@ use BenSampo\Enum\Enum;
 use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Overtrue\EasySms\EasySms;
 use Papaedu\Extension\Auth\Console\ControllerCommand;
-use Papaedu\Extension\Support\Disks\Disk;
+use Papaedu\Extension\Filesystem\Disk;
 use Papaedu\Extension\Support\Extend;
 use Papaedu\Extension\UmengPush\UmengPush;
 use Papaedu\Extension\Validation\Rules\Captcha;
