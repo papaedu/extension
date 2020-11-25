@@ -4,7 +4,9 @@ namespace Papaedu\Extension\Auth;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Papaedu\Extension\Support\CaptchaValidator;
+use Papaedu\Extension\Support\GlobalPhone;
 
 trait RegistersUsers
 {
@@ -20,7 +22,7 @@ trait RegistersUsers
     {
         $this->validateRegister($request);
 
-        event(new Registered($user = $this->create($request->only([$this->username(), 'password']))));
+        event(new Registered($user = $this->create($request->only(['idd_code', $this->username(), 'password']))));
 
         $this->guard()->login($user);
 
@@ -35,14 +37,17 @@ trait RegistersUsers
      */
     protected function validateRegister(Request $request)
     {
-        $request->validate([
-            $this->username() => ['required', 'mobile', 'unique:'.$this->userModel().','.$this->username()],
+        $request->validate(GlobalPhone::getValidator($this->username(), [
+            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],
             'password' => ['required', 'between:8,16', 'password_strength'],
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
         ], [
+            $this->username() => [Rule::unique($this->userModel(), $this->username())->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
+        ]), [
             $this->username().'.unique' => trans('extension::auth.registered'),
             'captcha.digits' => trans('extension::auth.captcha_failed'),
         ], [
+            'idd_code' => trans('extension::field.idd_code'),
             $this->username() => trans('extension::field.username'),
             'password' => trans('extension::field.password'),
             'captcha' => trans('extension::field.captcha'),
@@ -58,7 +63,7 @@ trait RegistersUsers
      */
     protected function sendRegisterResponse(Request $request, $user)
     {
-        CaptchaValidator::clear($request->input($this->username()));
+        CaptchaValidator::clear($request->input('idd_code', config('extension.locale.idd_code')), $request->input($this->username()));
 
         if ($response = $this->registered($request, $user)) {
             return $response;

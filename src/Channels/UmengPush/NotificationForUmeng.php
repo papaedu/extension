@@ -10,6 +10,6 @@ trait NotificationForUmeng
      */
     public function routeNotificationForUmengPush($notification)
     {
-        return $this->username ?? $this->mobile;
+        return $this->username;
     }
 }

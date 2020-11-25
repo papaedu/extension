@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Papaedu\Extension\Support\CaptchaNotification;
 use Papaedu\Extension\Support\CaptchaValidator;
 use Papaedu\Extension\Support\GeetestClient;
+use Papaedu\Extension\Support\GlobalPhone;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait AuthenticatesCaptcha
@@ -23,8 +24,8 @@ trait AuthenticatesCaptcha
     {
         $this->validateLogin($request, $appName, $clientType);
 
-        $captcha = CaptchaValidator::generate($request->mobile);
-        CaptchaNotification::login($request->mobile, $captcha);
+        $captcha = CaptchaValidator::generate($request->idd_code, $request->username);
+        CaptchaNotification::login($request->idd_code, $request->username, $captcha);
 
         return new JsonResponse([], 204);
     }
@@ -39,13 +40,16 @@ trait AuthenticatesCaptcha
      */
     protected function validateLogin(Request $request, string $appName, string $clientType)
     {
-        $request->validate([
+        $request->validate(GlobalPhone::getValidator($this->username(), [
             'geetest_challenge' => ['required'],
             'geetest_validate' => ['required'],
             'geetest_seccode' => ['required'],
-            'mobile' => ['required', 'mobile'],
-        ], [
+            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
+        ]), [
             'required' => trans('extension::validator.param_abnormal'),
+        ], [
+            'idd_code' => trans('extension::field.idd_code'),
+            $this->username() => trans('extension::field.username'),
         ]);
 
         if (!GeetestClient::validate($appName, $clientType)) {

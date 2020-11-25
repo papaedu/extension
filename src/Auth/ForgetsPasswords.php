@@ -4,7 +4,9 @@ namespace Papaedu\Extension\Auth;
 
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Papaedu\Extension\Support\CaptchaValidator;
+use Papaedu\Extension\Support\GlobalPhone;
 
 trait ForgetsPasswords
 {
@@ -37,14 +39,17 @@ trait ForgetsPasswords
      */
     protected function validateForgot(Request $request)
     {
-        $request->validate([
-            $this->username() => ['required', 'mobile', 'exists:'.$this->userModel().','.$this->username()],
+        $request->validate(GlobalPhone::getValidator($this->username(), [
+            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'exists:'.$this->userModel().','.$this->username()],
             'password' => ['required', 'password_strength'],
-            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:mobile'],
+            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
         ], [
-            'exists' => '此:attribute尚未注册',
-            'captcha.digits' => ':attribute错误',
+            $this->username() => [Rule::exists($this->userModel(), $this->username())->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
+        ]), [
+            $this->username().'exists' => trans('extension::auth.unregister'),
+            'captcha.digits' => trans('extension::auth.captcha_failed'),
         ], [
+            'idd_code' => trans('extension::field.idd_code'),
             $this->username() => trans('extension::field.username'),
             'captcha' => trans('extension::field.captcha'),
             'password' => trans('extension::field.password'),
@@ -59,7 +64,7 @@ trait ForgetsPasswords
      */
     protected function sendForgotResponse(Request $request)
     {
-        CaptchaValidator::clear($request->input($this->username()));
+        CaptchaValidator::clear($request->input('idd_code', config('extension.locale.idd_code')), $request->input($this->username()));
 
         $this->validateStatus($this->guard()->user()->status);
 

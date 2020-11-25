@@ -16,9 +16,9 @@ trait AuthTrait
     protected function validateStatus(int $status)
     {
         if (AuthStatus::Ban == $status) {
-            throw new HttpException(400, '此账号已封停');
+            throw new HttpException(400, trans('extension::auth.status_ban'));
         } elseif (AuthStatus::Close == $status) {
-            throw new HttpException(400, '此账号已注销');
+            throw new HttpException(400, trans('extension::auth.status_close'));
         }
     }
 

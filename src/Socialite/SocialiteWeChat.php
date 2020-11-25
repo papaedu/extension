@@ -8,16 +8,6 @@ use Overtrue\Socialite\User;
 trait SocialiteWeChat
 {
     /**
-     * @var bool
-     */
-    protected $syncWeChatNickname = true;
-
-    /**
-     * @var bool
-     */
-    protected $syncWeChatAvatar = true;
-
-    /**
      * 绑定微信
      *
      * @param  \Overtrue\Socialite\User  $oauthUser
@@ -33,12 +23,12 @@ trait SocialiteWeChat
         }
         if ($this->validateWechatUnionId($oauthUser->getRaw()['unionid'] ?? '')) {
             throw ValidationException::withMessages([
-                'socialite' => [trans('extension::socialite.wechat_already_bind')],
+                'socialite' => [trans('extension::socialite.wechat.already_bind')],
             ]);
         }
         if ($this->validateUserId($user)) {
             throw ValidationException::withMessages([
-                'socialite' => [trans('extension::socialite.mobile_already_bind')],
+                'socialite' => [trans('extension::socialite.wechat.already_be_bind')],
             ]);
         }
 
@@ -57,12 +47,12 @@ trait SocialiteWeChat
      */
     private function syncWeChatUserInfo(User $oauthUser, $user)
     {
-        if (true === $this->syncWeChatNickname) {
+        if (true === config('extension.socialite.channel.wechat.sync_nickname', true)) {
             if (!$user->nickname || preg_match('/(^'.config('extension.auth.nickname_prefix').')/', $user->nickname)) {
                 $user->nickname = $oauthUser->getNickname();
             }
         }
-        if (true === $this->syncWeChatAvatar && !$user->avatar) {
+        if (true === config('extension.socialite.channel.wechat.sync_avatar', true) && !$user->avatar) {
             $user->avatar = $oauthUser->getAvatar();
         }
         $user->save();

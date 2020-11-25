@@ -4,9 +4,11 @@ namespace Papaedu\Extension\Captcha;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Papaedu\Extension\Support\CaptchaNotification;
 use Papaedu\Extension\Support\CaptchaValidator;
 use Papaedu\Extension\Support\GeetestClient;
+use Papaedu\Extension\Support\GlobalPhone;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait ForgotCaptcha
@@ -23,8 +25,8 @@ trait ForgotCaptcha
     {
         $this->validateForgot($request, $appName, $clientType);
 
-        $captcha = CaptchaValidator::generate($request->mobile);
-        CaptchaNotification::forgot($request->mobile, $captcha);
+        $captcha = CaptchaValidator::generate($request->idd_code, $request->mobile);
+        CaptchaNotification::forgot($request->idd_code, $request->mobile, $captcha);
 
         return new JsonResponse([], 204);
     }
@@ -39,13 +41,18 @@ trait ForgotCaptcha
      */
     protected function validateForgot(Request $request, string $appName, string $clientType)
     {
-        $request->validate([
+        $request->validate(GlobalPhone::getValidator($this->username(), [
             'geetest_challenge' => ['required'],
             'geetest_validate' => ['required'],
             'geetest_seccode' => ['required'],
-            'mobile' => ['required', 'mobile'],
+            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'exists:'.$this->userModel().','.$this->username()],
         ], [
+            $this->username() => [Rule::exists($this->userModel(), $this->username())->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
+        ]), [
             'required' => trans('extension::validator.param_abnormal'),
+        ], [
+            'idd_code' => trans('extension::field.idd_code'),
+            $this->username() => trans('extension::field.username'),
         ]);
 
         if (!GeetestClient::validate($appName, $clientType)) {

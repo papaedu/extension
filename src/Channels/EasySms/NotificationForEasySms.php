@@ -12,6 +12,6 @@ trait NotificationForEasySms
      */
     public function routeNotificationForEasySms($notification)
     {
-        return new PhoneNumber($this->username ?? $this->mobile, '86');
+        return new PhoneNumber($this->username, config('extension.locale.idd_code'));
     }
 }

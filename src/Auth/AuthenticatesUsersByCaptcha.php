@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Papaedu\Extension\Support\CaptchaValidator;
+use Papaedu\Extension\Support\GlobalPhone;
 
 trait AuthenticatesUsersByCaptcha
 {
@@ -53,12 +54,13 @@ trait AuthenticatesUsersByCaptcha
      */
     protected function validateLogin(Request $request)
     {
-        $request->validate([
-            $this->username() => ['required', 'mobile'],
+        $request->validate(GlobalPhone::getValidator($this->username(), [
+            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
-        ], [
+        ]), [
             'captcha.digits' => trans('extension::auth.captcha_failed'),
         ], [
+            'idd_code' => trans('extension::field.idd_code'),
             $this->username() => trans('extension::field.username'),
             'captcha' => trans('extension::field.captcha'),
         ]);
@@ -72,7 +74,7 @@ trait AuthenticatesUsersByCaptcha
      */
     protected function attemptLogin(Request $request)
     {
-        $user = $this->create($request->input($this->username()));
+        $user = $this->create($request->only('idd_code', $this->username()));
         if ($user->wasRecentlyCreated) {
             event(new Registered($user));
         }
@@ -92,7 +94,7 @@ trait AuthenticatesUsersByCaptcha
     {
         $this->clearLoginAttempts($request);
 
-        CaptchaValidator::clear($request->input($this->username()));
+        CaptchaValidator::clear($request->input('idd_code', config('extension.locale.idd_code')), $request->input($this->username()));
 
         $this->validateStatus($this->guard()->user()->status);
 

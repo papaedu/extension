@@ -4,7 +4,9 @@ namespace Papaedu\Extension\Auth;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Papaedu\Extension\Support\CaptchaValidator;
+use Papaedu\Extension\Support\GlobalPhone;
 
 trait ResetsMobiles
 {
@@ -20,7 +22,7 @@ trait ResetsMobiles
     {
         $this->validateReset($request);
 
-        $user = $this->update($this->guard()->user(), $request->new_mobile);
+        $user = $this->update($this->guard()->user(), $request->new_username);
 
         $user->tokens()->delete();
 
@@ -35,15 +37,19 @@ trait ResetsMobiles
      */
     protected function validateReset(Request $request)
     {
-        $request->validate([
+        $request->validate(GlobalPhone::getValidator('new_username', [
             'password' => ['required', 'password'],
-            'new_mobile' => ['required', 'mobile', 'unique:'.$this->userModel().','.$this->username()],
-            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:new_mobile'],
+            'new_username' => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],
+            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:new_username'],
         ], [
-            'new_mobile.unique' => trans('extension::auth.registered'),
+            'new_username' => [Rule::unique($this->userModel(), 'new_username')->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
+        ]), [
+            'new_username.unique' => trans('extension::auth.registered'),
+            'captcha.digits' => trans('extension::auth.captcha_failed'),
         ], [
+            'idd_code' => trans('extension::field.idd_code'),
             'password' => trans('extension::field.password'),
-            'new_mobile' => trans('extension::field.new_mobile'),
+            'new_username' => trans('extension::field.new_username'),
             'captcha' => trans('extension::field.captcha'),
         ]);
     }
@@ -57,7 +63,7 @@ trait ResetsMobiles
      */
     protected function sendResetResponse(Request $request, $user)
     {
-        CaptchaValidator::clear($request->new_mobile);
+        CaptchaValidator::clear($request->input('idd_code', config('extension.locale.idd_code')), $request->new_username);
 
         if ($response = $this->beforeResetResponse($request, $user)) {
             return $response;

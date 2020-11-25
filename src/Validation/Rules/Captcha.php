@@ -2,42 +2,29 @@
 
 namespace Papaedu\Extension\Validation\Rules;
 
-use Illuminate\Contracts\Validation\ImplicitRule;
 use Papaedu\Extension\Support\CaptchaValidator;
 
-class Captcha implements ImplicitRule
+class Captcha
 {
-    private $parameters;
-
-    private $validator;
-
     /**
-     * Create a new rule instance.
-     *
-     * @param  array  $parameters
-     * @param  \Illuminate\Validation\Validator  $validator
-     */
-    public function __construct($parameters, $validator)
-    {
-        $this->parameters = $parameters;
-        $this->validator = $validator;
-    }
-
-    /**
-     * Determine if the validation rule passes.
+     * Validate captcha with IDD code and username.
      *
      * @param  string  $attribute
-     * @param  string|int  $value
-     *
+     * @param  mixed  $value
+     * @param  array  $parameters
+     * @param  object  $validator
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function validate($attribute, $value, array $parameters, $validator)
     {
-        if (!$mobile = $this->validator->getData()[$this->parameters[0] ?? 'username'] ?? '') {
+        $data = $validator->getData();
+
+        $iddCode = $data['idd_code'] ?? config('extension.locale.idd_code');
+        if (!$username = $data[$parameters[0]] ?? '') {
             return false;
         }
 
-        return CaptchaValidator::validate($mobile, $value);
+        return CaptchaValidator::validate($iddCode, $username, $value);
     }
 
     /**

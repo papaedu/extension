@@ -45,17 +45,6 @@ class Extend
     }
 
     /**
-     * 是否为手机号
-     *
-     * @param  string  $mobile
-     * @return false|int
-     */
-    public static function isMobile(string $mobile)
-    {
-        return preg_match('/^(1[3-9])\\d{9}$/', $mobile);
-    }
-
-    /**
      * 密码强度
      *
      * @param  string  $password

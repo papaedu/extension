@@ -14,7 +14,20 @@ return [
     'socialite' => [
         'model' => App\Models\Socialite::class,
         'type' => App\Enums\SocialiteType::class,
+        'channel' => [
+            'wechat' => [
+                'sync_nickname' => true,
+                'sync_avatar' => true,
+            ],
+        ],
     ],
+
+    'locale' => [
+        'idd_code' => 86,
+        'iso_code' => 'CN',
+    ],
+
+    'enable_global_phone' => true,
 
     'image' => [
         'ban' => [

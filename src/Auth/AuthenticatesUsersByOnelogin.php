@@ -71,11 +71,12 @@ trait AuthenticatesUsersByOnelogin
      */
     protected function attemptLogin(string $appName, Request $request)
     {
-        if (!$mobile = Geetest::config($appName)->oneLoginCheckPhone($request->input('process_id', ''), $request->input('auth_code', ''), $request->input('token', ''))) {
+        if (!$username = Geetest::config($appName)->oneLoginCheckPhone($request->input('process_id', ''), $request->input('auth_code', ''), $request->input('token', ''))) {
             return false;
         }
 
-        $user = $this->create($mobile);
+        // Only support locale telephone for now.
+        $user = $this->create(config('extension.locale.idd_code'), $username);
         if ($user->wasRecentlyCreated) {
             event(new Registered($user));
         }
