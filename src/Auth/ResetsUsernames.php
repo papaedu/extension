@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Papaedu\Extension\Support\CaptchaValidator;
 use Papaedu\Extension\Support\GlobalPhone;
 
-trait ResetsMobiles
+trait ResetsUsernames
 {
     use AuthTrait;
 
