@@ -26,7 +26,7 @@ final class OperationLogType extends Enum
 
     const ResetPassword = 42;
 
-    const ResetMobile = 43;
+    const ResetUsername = 43;
 
     public static function getDescription($value): string
     {
@@ -60,8 +60,8 @@ final class OperationLogType extends Enum
         if ($value === self::ResetPassword) {
             return '重置密码';
         }
-        if ($value === self::ResetMobile) {
-            return '重置手机';
+        if ($value === self::ResetUsername) {
+            return '重置用户名';
         }
 
         return parent::getDescription($value);
