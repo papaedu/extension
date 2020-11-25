@@ -22,7 +22,7 @@ trait ForgetsPasswords
     {
         $this->validateForgot($request);
 
-        event(new PasswordReset($guest = $this->update($request->only([$this->username(), 'password']))));
+        event(new PasswordReset($guest = $this->update($request->only(['idd_code', $this->username(), 'password']))));
 
         $guest->tokens()->delete();
 
