@@ -22,7 +22,7 @@ trait ResetsMobiles
     {
         $this->validateReset($request);
 
-        $user = $this->update($this->guard()->user(), $request->new_username);
+        $user = $this->update($this->guard()->user(), $request->only('idd_code', 'new_username'));
 
         $user->tokens()->delete();
 
