@@ -25,8 +25,8 @@ trait ForgotCaptcha
     {
         $this->validateForgot($request, $appName, $clientType);
 
-        $captcha = CaptchaValidator::generate($request->idd_code, $request->mobile);
-        CaptchaNotification::forgot($request->idd_code, $request->mobile, $captcha);
+        $captcha = CaptchaValidator::generate($request->idd_code, $request->username);
+        CaptchaNotification::forgot($request->idd_code, $request->username, $captcha);
 
         return new JsonResponse([], 204);
     }

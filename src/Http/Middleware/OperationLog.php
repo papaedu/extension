@@ -21,7 +21,7 @@ class OperationLog
     {
         if (Auth::check()) {
             $authUser = Auth::user();
-            $username = $authUser->username ?? $authUser->mobile;
+            $username = $authUser->username;
             $user = "[{$authUser->id}]{$username}";
         } else {
             $user = 'nologin';
