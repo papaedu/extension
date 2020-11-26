@@ -13,54 +13,54 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class CaptchaNotification
 {
     /**
-     * @param  int  $iddCode
+     * @param  int  $IDDCode
      * @param  string  $phoneNumber
      * @param  string  $captcha
      */
-    public static function login(int $iddCode, string $phoneNumber, string $captcha)
+    public static function login(int $IDDCode, string $phoneNumber, string $captcha)
     {
-        self::send($iddCode, $phoneNumber, $captcha);
+        self::send($IDDCode, $phoneNumber, $captcha);
     }
 
     /**
-     * @param  int  $iddCode
+     * @param  int  $IDDCode
      * @param  string  $phoneNumber
      * @param  string  $captcha
      */
-    public static function register(int $iddCode, string $phoneNumber, string $captcha)
+    public static function register(int $IDDCode, string $phoneNumber, string $captcha)
     {
-        self::send($iddCode, $phoneNumber, $captcha);
+        self::send($IDDCode, $phoneNumber, $captcha);
     }
 
     /**
-     * @param  int  $iddCode
+     * @param  int  $IDDCode
      * @param  string  $phoneNumber
      * @param  string  $captcha
      */
-    public static function forgot(int $iddCode, string $phoneNumber, string $captcha)
+    public static function forgot(int $IDDCode, string $phoneNumber, string $captcha)
     {
-        self::send($iddCode, $phoneNumber, $captcha);
+        self::send($IDDCode, $phoneNumber, $captcha);
     }
 
     /**
-     * @param  int  $iddCode
+     * @param  int  $IDDCode
      * @param  string  $phoneNumber
      * @param  string  $captcha
      */
-    public static function reset(int $iddCode, string $phoneNumber, string $captcha)
+    public static function reset(int $IDDCode, string $phoneNumber, string $captcha)
     {
-        self::send($iddCode, $phoneNumber, $captcha);
+        self::send($IDDCode, $phoneNumber, $captcha);
     }
 
     /**
-     * @param  int  $iddCode
+     * @param  int  $IDDCode
      * @param  string  $phoneNumber
      * @param  string  $captcha
      */
-    protected static function send(int $iddCode, string $phoneNumber, string $captcha)
+    protected static function send(int $IDDCode, string $phoneNumber, string $captcha)
     {
         try {
-            Notification::route(EasySmsChannel::class, new PhoneNumber($phoneNumber, $iddCode))->notify(new Captcha($captcha));
+            Notification::route(EasySmsChannel::class, new PhoneNumber($phoneNumber, $IDDCode))->notify(new Captcha($captcha));
         } catch (GatewayErrorException $e) {
             foreach ($e->getExceptions() as $gateway => $exception) {
                 if ('aliyun' == $gateway) {
@@ -74,7 +74,7 @@ class CaptchaNotification
 
             if (0 === $e->getCode()) {
                 Log::error('[SMS] Captcha send error.', [
-                    'idd_code' => $iddCode,
+                    'idd_code' => $IDDCode,
                     'phone_number' => $phoneNumber,
                     'exceptions' => $e->getExceptions(),
                 ]);
