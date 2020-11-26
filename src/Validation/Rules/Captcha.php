@@ -19,12 +19,12 @@ class Captcha
     {
         $data = $validator->getData();
 
-        $iddCode = $data['idd_code'] ?? config('extension.locale.idd_code');
+        $IDDCode = $data['idd_code'] ?? config('extension.locale.idd_code');
         if (!$username = $data[$parameters[0]] ?? '') {
             return false;
         }
 
-        return CaptchaValidator::validate($iddCode, $username, $value);
+        return CaptchaValidator::validate($IDDCode, $username, $value);
     }
 
     /**
