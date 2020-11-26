@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Captcha;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Papaedu\Extension\Support\Phone;
 
 trait ForgotCaptcha
 {
@@ -19,8 +20,8 @@ trait ForgotCaptcha
     {
         $this->validator($request, $appName, $clientType);
 
-        $IDDCode = $this->ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
-        $this->extraValidator('exists', $IDDCode);
+        $IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
+        $this->extraValidator($request, 'exists', $IDDCode, trans('extension::auth.unregister'));
 
         $captcha = CaptchaValidator::generate($IDDCode, $request->username);
         CaptchaNotification::forgot($IDDCode, $request->username, $captcha);

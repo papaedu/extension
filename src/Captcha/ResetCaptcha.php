@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Captcha;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Papaedu\Extension\Support\Phone;
 
 trait ResetCaptcha
 {
@@ -19,8 +20,8 @@ trait ResetCaptcha
     {
         $this->validator($request, $appName, $clientType);
 
-        $IDDCode = $this->ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
-        $this->extraValidator('unique', $IDDCode);
+        $IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
+        $this->extraValidator($request, 'unique', $IDDCode, trans('extension::auth.registered'));
 
         $captcha = CaptchaValidator::generate($IDDCode, $request->username);
         CaptchaNotification::reset($IDDCode, $request->username, $captcha);

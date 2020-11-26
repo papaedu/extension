@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Captcha;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Papaedu\Extension\Support\Phone;
 
 trait AuthenticatesCaptcha
 {
@@ -19,7 +20,7 @@ trait AuthenticatesCaptcha
     {
         $this->validator($request, $appName, $clientType);
 
-        $IDDCode = $this->ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
+        $IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
         $captcha = CaptchaValidator::generate($IDDCode, $request->username);
         CaptchaNotification::login($IDDCode, $request->username, $captcha);
 

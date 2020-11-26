@@ -15,7 +15,7 @@ return [
                     'qcloud' => '785556',
                 ],
             ],
-            'length' => 4,
+            'length' => 6,
             'ttl' => 300,
         ],
     ],

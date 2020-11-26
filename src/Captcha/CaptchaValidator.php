@@ -8,35 +8,35 @@ use Papaedu\Extension\Support\Extend;
 class CaptchaValidator
 {
     /**
-     * @param  int  $IDDCode
-     * @param  string  $mobile
+     * @param  int  $ISOCode
+     * @param  string  $username
      * @return string
      */
-    public static function generate(int $IDDCode, string $mobile)
+    public static function generate(int $ISOCode, string $username)
     {
         $captcha = Extend::randomNumeric(config('extension.auth.captcha.length'));
-        Redis::setex("captcha_{$IDDCode}_{$mobile}", config('extension.auth.captcha.ttl'), $captcha);
+        Redis::setex("captcha_{$ISOCode}_{$username}", config('extension.auth.captcha.ttl'), $captcha);
 
         return $captcha;
     }
 
     /**
-     * @param  int  $IDDCode
-     * @param  string  $mobile
+     * @param  string  $ISOCode
+     * @param  string  $username
      * @param  int  $captcha
      * @return bool
      */
-    public static function validate(int $IDDCode, string $mobile, int $captcha)
+    public static function validate(string $ISOCode, string $username, int $captcha)
     {
-        return Redis::get("captcha_{$IDDCode}_{$mobile}") == $captcha;
+        return Redis::get("captcha_{$ISOCode}_{$username}") == $captcha;
     }
 
     /**
-     * @param  int  $IDDCode
-     * @param  string  $mobile
+     * @param  int  $ISOCode
+     * @param  string  $username
      */
-    public static function clear(int $IDDCode, string $mobile)
+    public static function clear(int $ISOCode, string $username)
     {
-        Redis::del("captcha_{$IDDCode}_{$mobile}");
+        Redis::del("captcha_{$ISOCode}_{$username}");
     }
 }

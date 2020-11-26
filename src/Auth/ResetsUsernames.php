@@ -4,13 +4,17 @@ namespace Papaedu\Extension\Auth;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Papaedu\Extension\Captcha\CaptchaValidator;
-use Papaedu\Extension\Support\GlobalPhone;
+use Papaedu\Extension\Support\Phone;
 
 trait ResetsUsernames
 {
     use AuthTrait;
+
+    /**
+     * @var string
+     */
+    protected $IDDCode = '';
 
     /**
      * Handle a reset mobile request to the application.
@@ -37,21 +41,19 @@ trait ResetsUsernames
      */
     protected function validateReset(Request $request)
     {
-        $request->validate(GlobalPhone::getMainValidator('new_username', [
-            'password' => ['required', 'password'],
-            'new_username' => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],
+        Phone::validate($request, 'new_username', [
+            'password' => ['required', 'password_strength'],
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:new_username'],
         ], [
-            'new_username' => [Rule::unique($this->userModel(), 'new_username')->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
-        ]), [
-            'new_username.unique' => trans('extension::auth.registered'),
             'captcha.digits' => trans('extension::auth.captcha_failed'),
         ], [
-            'idd_code' => trans('extension::field.idd_code'),
             'password' => trans('extension::field.password'),
             'new_username' => trans('extension::field.new_username'),
             'captcha' => trans('extension::field.captcha'),
         ]);
+
+        $this->IDDCode = Phone::ISOCode2IDDCode($request->new_username, $request->input('iso_code', config('extension.locale.iso_code')));
+        Phone::extraValidate($request, 'unique', 'new_username', $this->userModel(), $this->IDDCode, trans('extension::auth.registered'), $this->username());
     }
 
     /**

@@ -5,12 +5,17 @@ namespace Papaedu\Extension\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Papaedu\Extension\Support\GlobalPhone;
+use Papaedu\Extension\Support\Phone;
 
 trait AuthenticatesUsers
 {
     use AuthTrait;
     use ThrottlesLogins;
+
+    /**
+     * @var string
+     */
+    protected $IDDCode = '';
 
     /**
      * Handle a login request to the application.
@@ -53,16 +58,15 @@ trait AuthenticatesUsers
      */
     protected function validateLogin(Request $request)
     {
-        $request->validate(GlobalPhone::getMainValidator($this->username(), [
-            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
+        Phone::validate($request, $this->username(), [
             'password' => ['required', 'string', 'min:8'],
-        ]), [
+        ], [
             'password.min' => trans('extension::auth.failed'),
         ], [
-            'idd_code' => trans('extension::field.idd_code'),
-            $this->username() => trans('extension::field.username'),
             'password' => trans('extension::field.password'),
         ]);
+
+        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
     }
 
     /**
@@ -84,7 +88,7 @@ trait AuthenticatesUsers
      */
     protected function credentials(Request $request)
     {
-        return $request->only('idd_code', $this->username(), 'password');
+        return ['idd_code' => $this->IDDCode] + $request->only($this->username(), 'password');
     }
 
     /**
