@@ -2,7 +2,7 @@
 
 namespace Papaedu\Extension\Validation\Rules;
 
-use Papaedu\Extension\Support\CaptchaValidator;
+use Papaedu\Extension\Captcha\CaptchaValidator;
 
 class Captcha
 {

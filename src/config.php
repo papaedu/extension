@@ -5,7 +5,16 @@ return [
         'nickname_prefix' => '用户',
 
         'captcha' => [
-            'sms_template_id' => 'SMS_158490336',
+            'sms_template_id' => [
+                'domestic' => [
+                    'aliyun' => 'SMS_205825878',
+                    'qcloud' => '',
+                ],
+                'foreign' => [
+                    'aliyun' => '',
+                    'qcloud' => '785556',
+                ],
+            ],
             'length' => 4,
             'ttl' => 300,
         ],

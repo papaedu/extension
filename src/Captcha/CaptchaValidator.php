@@ -1,8 +1,9 @@
 <?php
 
-namespace Papaedu\Extension\Support;
+namespace Papaedu\Extension\Captcha;
 
 use Illuminate\Support\Facades\Redis;
+use Papaedu\Extension\Support\Extend;
 
 class CaptchaValidator
 {

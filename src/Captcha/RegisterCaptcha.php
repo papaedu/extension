@@ -5,8 +5,6 @@ namespace Papaedu\Extension\Captcha;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Papaedu\Extension\Support\CaptchaNotification;
-use Papaedu\Extension\Support\CaptchaValidator;
 use Papaedu\Extension\Support\GeetestClient;
 use Papaedu\Extension\Support\GlobalPhone;
 use Symfony\Component\HttpKernel\Exception\HttpException;

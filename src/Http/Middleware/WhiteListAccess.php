@@ -20,7 +20,7 @@ class WhiteListAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!config('extension.whitelist.enable') || $this->withInList($request->ip())) {
+        if (false === config('extension.whitelist.enable') || $this->withInList($request->ip())) {
             return $next($request);
         }
 
@@ -29,7 +29,7 @@ class WhiteListAccess
 
     /**
      * @param  string|null  $targetIp
-     * @return false
+     * @return bool
      */
     protected function withInList(?string $targetIp)
     {
