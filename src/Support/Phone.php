@@ -3,11 +3,14 @@
 namespace Papaedu\Extension\Support;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class Phone
 {
     /**
+     * Validate auth request by global phone.
+     *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $field
      * @param  array  $rules
@@ -19,6 +22,34 @@ class Phone
         $request->validate(static::getRules($field, $rules), $messages, static::getAttributes($field, $attributes));
     }
 
+    /**
+     * Validate auth request with extra by global phone.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $rule
+     * @param  string  $field
+     * @param  string  $model
+     * @param  string  $IDDCode
+     * @param  string  $message
+     * @param  string  $databaseField
+     */
+    public static function extraValidate(Request $request, string $rule, string $field, string $model, string $IDDCode, string $message, string $databaseField = '')
+    {
+        $databaseField = $databaseField ? $databaseField : $field;
+
+        if (true === config('extension.enable_global_phone')) {
+            $rules = [$field => Rule::$rule($model, $databaseField)->where('idd_code', $IDDCode)];
+        } else {
+            $rules = [$field => "{$rule}:{$model},{$databaseField}"];
+        }
+
+        $request->validate($rules, [
+            "{$field}.{$rule}" => $message,
+        ], [
+            $field => trans('extension::field.username'),
+        ]);
+    }
+
     protected static function getRules(string $field, array $extraRules)
     {
         if (true === config('extension.enable_global_phone')) {
@@ -28,15 +59,12 @@ class Phone
             $rules[$field] = ['required', 'phone:'.config('extension.locale.iso_code').',mobile'];
         }
 
-        return array_merge($rules, $extraRules);
+        return $rules + $extraRules;
     }
 
     protected static function getAttributes(string $field, array $extraAttributes)
     {
-        return array_merge([
-            'iso_code' => trans('extension::field.iso_code'),
-            $field => trans('extension::field.username'),
-        ], $extraAttributes);
+        return $extraAttributes + ['iso_code' => trans('extension::field.iso_code'), $field => trans('extension::field.username')];
     }
 
     /**

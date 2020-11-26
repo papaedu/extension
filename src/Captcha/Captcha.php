@@ -3,8 +3,8 @@
 namespace Papaedu\Extension\Captcha;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Papaedu\Extension\Support\GeetestClient;
+use Papaedu\Extension\Support\Phone;
 
 trait Captcha
 {
@@ -52,17 +52,14 @@ trait Captcha
     /**
      * Get extra validator with IDD code.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  string  $rule
      * @param  string  $IDDCode
-     * @return array
+     * @param  string  $message
      */
-    protected function extraValidator(string $rule, string $IDDCode)
+    protected function extraValidator(Request $request, string $rule, string $IDDCode, string $message)
     {
-        if (true === config('extension.enable_global_phone')) {
-            return [$this->username() => Rule::$rule($this->userModel(), $this->username())->where('idd_code', $IDDCode)];
-        } else {
-            return [$this->username() => "{$rule}:".$this->userModel().','.$this->username()];
-        }
+        Phone::extraValidate($request, $rule, $this->username(), $this->userModel(), $IDDCode, $message);
     }
 
     /**

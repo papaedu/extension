@@ -14,6 +14,11 @@ trait AuthenticatesUsersByCaptcha
     use ThrottlesLogins;
 
     /**
+     * @var string
+     */
+    protected $IDDCode = '';
+
+    /**
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -61,6 +66,8 @@ trait AuthenticatesUsersByCaptcha
         ], [
             'captcha' => trans('extension::field.captcha'),
         ]);
+
+        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
     }
 
     /**
@@ -71,7 +78,7 @@ trait AuthenticatesUsersByCaptcha
      */
     protected function attemptLogin(Request $request)
     {
-        $user = $this->create($request->only('idd_code', $this->username()));
+        $user = $this->create(['idd_code' => $this->IDDCode] + $request->only($this->username()));
         if ($user->wasRecentlyCreated) {
             event(new Registered($user));
         }

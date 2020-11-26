@@ -12,6 +12,11 @@ trait RegistersUsers
     use AuthTrait;
 
     /**
+     * @var string
+     */
+    protected $IDDCode = '';
+
+    /**
      * Handle a registration request for the application.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -21,7 +26,7 @@ trait RegistersUsers
     {
         $this->validateRegister($request);
 
-        event(new Registered($user = $this->create($request->only(['idd_code', $this->username(), 'password']))));
+        event(new Registered($user = $this->create(['idd_code' => $this->IDDCode] + $request->only([$this->username(), 'password']))));
 
         $this->guard()->login($user);
 
@@ -45,9 +50,9 @@ trait RegistersUsers
             'captcha' => trans('extension::field.captcha'),
             'password' => trans('extension::field.password'),
         ]);
-//        $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],
-//        $this->username() => [Rule::unique($this->userModel(), $this->username())->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
-//        $this->username().'.unique' => trans('extension::auth.registered'),
+
+        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
+        Phone::extraValidate($request, 'unique', $this->username(), $this->userModel(), $this->IDDCode, trans('extension::auth.registered'));
     }
 
     /**

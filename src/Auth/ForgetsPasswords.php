@@ -12,6 +12,11 @@ trait ForgetsPasswords
     use AuthTrait;
 
     /**
+     * @var string
+     */
+    protected $IDDCode = '';
+
+    /**
      * Handle a forgot password request to the application.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -21,7 +26,7 @@ trait ForgetsPasswords
     {
         $this->validateForgot($request);
 
-        event(new PasswordReset($guest = $this->update($request->only(['idd_code', $this->username(), 'password']))));
+        event(new PasswordReset($guest = $this->update(['idd_code' => $this->IDDCode] + $request->only([$this->username(), 'password']))));
 
         $guest->tokens()->delete();
 
@@ -47,9 +52,9 @@ trait ForgetsPasswords
             'captcha' => trans('extension::field.captcha'),
             'password' => trans('extension::field.password'),
         ]);
-//        $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'exists:'.$this->userModel().','.$this->username()],
-//        $this->username() => [Rule::exists($this->userModel(), $this->username())->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
-//        $this->username().'exists' => trans('extension::auth.unregister'),
+
+        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
+        Phone::extraValidate($request, 'exists', $this->username(), $this->userModel(), $this->IDDCode, trans('extension::auth.unregister'));
     }
 
     /**

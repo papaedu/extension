@@ -13,6 +13,11 @@ trait AuthenticatesUsers
     use ThrottlesLogins;
 
     /**
+     * @var string
+     */
+    protected $IDDCode = '';
+
+    /**
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -60,6 +65,8 @@ trait AuthenticatesUsers
         ], [
             'password' => trans('extension::field.password'),
         ]);
+
+        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
     }
 
     /**
@@ -81,7 +88,7 @@ trait AuthenticatesUsers
      */
     protected function credentials(Request $request)
     {
-        return $request->only('idd_code', $this->username(), 'password');
+        return ['idd_code' => $this->IDDCode] + $request->only($this->username(), 'password');
     }
 
     /**
