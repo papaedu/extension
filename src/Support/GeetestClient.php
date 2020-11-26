@@ -49,8 +49,8 @@ class GeetestClient
             $result = Geetest::config($appName)->failValidate($challenge, $validate, $secCode);
         }
 
-//        if (false === $result) {
-//            throw new HttpException(400, trans('extension::auth.geetest_failed'));
-//        }
+        if (false === $result) {
+            throw new HttpException(400, trans('extension::auth.geetest_failed'));
+        }
     }
 }
