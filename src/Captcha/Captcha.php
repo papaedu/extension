@@ -5,7 +5,6 @@ namespace Papaedu\Extension\Captcha;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Papaedu\Extension\Support\GeetestClient;
-use Propaganistas\LaravelPhone\PhoneNumber;
 
 trait Captcha
 {
@@ -64,20 +63,6 @@ trait Captcha
         } else {
             return [$this->username() => "{$rule}:".$this->userModel().','.$this->username()];
         }
-    }
-
-    /**
-     * Exchange ISO code to IDD code.
-     *
-     * @param  string  $phoneNumber
-     * @param  string  $ISOCode
-     * @return int|null
-     */
-    protected function ISOCode2IDDCode(string $phoneNumber, string $ISOCode)
-    {
-        $phoneNumber = PhoneNumber::make($phoneNumber, $ISOCode);
-
-        return $phoneNumber->getPhoneNumberInstance()->getCountryCode();
     }
 
     /**

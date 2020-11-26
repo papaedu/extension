@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Papaedu\Extension\Captcha\CaptchaValidator;
-use Papaedu\Extension\Support\GlobalPhone;
+use Papaedu\Extension\Support\Phone;
 
 trait ResetsUsernames
 {
@@ -37,6 +37,16 @@ trait ResetsUsernames
      */
     protected function validateReset(Request $request)
     {
+        Phone::validate($request, $this->username(), [
+            'password' => ['required', 'password_strength'],
+            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
+        ], [
+            'captcha.digits' => trans('extension::auth.captcha_failed'),
+        ], [
+            'captcha' => trans('extension::field.captcha'),
+            'password' => trans('extension::field.password'),
+        ]);
+
         $request->validate(GlobalPhone::getMainValidator('new_username', [
             'password' => ['required', 'password'],
             'new_username' => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],

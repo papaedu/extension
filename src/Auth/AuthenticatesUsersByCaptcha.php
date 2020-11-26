@@ -6,7 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Papaedu\Extension\Captcha\CaptchaValidator;
-use Papaedu\Extension\Support\GlobalPhone;
+use Papaedu\Extension\Support\Phone;
 
 trait AuthenticatesUsersByCaptcha
 {
@@ -54,14 +54,11 @@ trait AuthenticatesUsersByCaptcha
      */
     protected function validateLogin(Request $request)
     {
-        $request->validate(GlobalPhone::getMainValidator($this->username(), [
-            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
+        Phone::validate($request, $this->username(), [
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
-        ]), [
+        ], [
             'captcha.digits' => trans('extension::auth.captcha_failed'),
         ], [
-            'idd_code' => trans('extension::field.idd_code'),
-            $this->username() => trans('extension::field.username'),
             'captcha' => trans('extension::field.captcha'),
         ]);
     }

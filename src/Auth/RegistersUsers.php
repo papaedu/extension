@@ -4,9 +4,8 @@ namespace Papaedu\Extension\Auth;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Papaedu\Extension\Captcha\CaptchaValidator;
-use Papaedu\Extension\Support\GlobalPhone;
+use Papaedu\Extension\Support\Phone;
 
 trait RegistersUsers
 {
@@ -37,21 +36,18 @@ trait RegistersUsers
      */
     protected function validateRegister(Request $request)
     {
-        $request->validate(GlobalPhone::getMainValidator($this->username(), [
-            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],
-            'password' => ['required', 'between:8,16', 'password_strength'],
+        Phone::validate($request, $this->username(), [
+            'password' => ['required', 'password_strength'],
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
         ], [
-            $this->username() => [Rule::unique($this->userModel(), $this->username())->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
-        ]), [
-            $this->username().'.unique' => trans('extension::auth.registered'),
             'captcha.digits' => trans('extension::auth.captcha_failed'),
         ], [
-            'idd_code' => trans('extension::field.idd_code'),
-            $this->username() => trans('extension::field.username'),
-            'password' => trans('extension::field.password'),
             'captcha' => trans('extension::field.captcha'),
+            'password' => trans('extension::field.password'),
         ]);
+//        $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],
+//        $this->username() => [Rule::unique($this->userModel(), $this->username())->where('idd_code', $request->input('idd_code', config('extension.locale.idd_code')))],
+//        $this->username().'.unique' => trans('extension::auth.registered'),
     }
 
     /**

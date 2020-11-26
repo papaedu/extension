@@ -5,7 +5,7 @@ namespace Papaedu\Extension\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Papaedu\Extension\Support\GlobalPhone;
+use Papaedu\Extension\Support\Phone;
 
 trait AuthenticatesUsers
 {
@@ -53,14 +53,11 @@ trait AuthenticatesUsers
      */
     protected function validateLogin(Request $request)
     {
-        $request->validate(GlobalPhone::getMainValidator($this->username(), [
-            $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
+        Phone::validate($request, $this->username(), [
             'password' => ['required', 'string', 'min:8'],
-        ]), [
+        ], [
             'password.min' => trans('extension::auth.failed'),
         ], [
-            'idd_code' => trans('extension::field.idd_code'),
-            $this->username() => trans('extension::field.username'),
             'password' => trans('extension::field.password'),
         ]);
     }
