@@ -4,8 +4,6 @@ namespace Papaedu\Extension\Captcha;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Papaedu\Extension\Support\CaptchaNotification;
-use Papaedu\Extension\Support\CaptchaValidator;
 use Papaedu\Extension\Support\GeetestClient;
 use Papaedu\Extension\Support\GlobalPhone;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -52,8 +50,8 @@ trait AuthenticatesCaptcha
             $this->username() => trans('extension::field.username'),
         ]);
 
-        if (!GeetestClient::validate($appName, $clientType)) {
-            throw new HttpException(400, trans('extension::auth.geetest_failed'));
-        }
+//        if (!GeetestClient::validate($appName, $clientType)) {
+//            throw new HttpException(400, trans('extension::auth.geetest_failed'));
+//        }
     }
 }

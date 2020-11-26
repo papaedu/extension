@@ -41,7 +41,7 @@ class Extend
     {
         $now = now();
 
-        return $now->format('ymdHis').substr($now->micro, -3).self::randomNumeric($length - 15);
+        return $now->format('ymdHis').substr((string)$now->micro, -3).self::randomNumeric($length - 15);
     }
 
     /**

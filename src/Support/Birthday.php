@@ -32,7 +32,7 @@ class Birthday
      * @param  string|null  $birthday
      * @return static
      */
-    public static function parse($birthday = null)
+    final public static function parse($birthday = null)
     {
         return new static($birthday);
     }
