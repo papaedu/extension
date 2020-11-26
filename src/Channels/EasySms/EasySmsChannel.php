@@ -28,8 +28,6 @@ class EasySmsChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        $message = $notification->toEasySms($notifiable);
-
         if ($notifiable instanceof Model) {
             $to = $notifiable->routeNotificationFor('easysms', $notification);
         } elseif ($notifiable instanceof AnonymousNotifiable) {
@@ -37,6 +35,7 @@ class EasySmsChannel
         } else {
             return;
         }
+        $message = $notification->toEasySms($to);
 
         $this->easySms->send($to, $message);
     }
