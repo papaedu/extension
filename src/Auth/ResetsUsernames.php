@@ -37,7 +37,7 @@ trait ResetsUsernames
      */
     protected function validateReset(Request $request)
     {
-        $request->validate(GlobalPhone::getValidator('new_username', [
+        $request->validate(GlobalPhone::getMainValidator('new_username', [
             'password' => ['required', 'password'],
             'new_username' => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:new_username'],

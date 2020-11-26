@@ -3,6 +3,7 @@
 namespace Papaedu\Extension\Support;
 
 use Papaedu\Extension\Facades\Geetest;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class GeetestClient
 {
@@ -26,23 +27,30 @@ class GeetestClient
     }
 
     /**
+     * @param  array  $data
      * @param  string  $appName
      * @param  string  $clientType
      * @param  string  $userId
-     * @return bool
      */
-    public static function validate(string $appName, string $clientType, $userId = 'UnLoginUser')
+    public static function validate(array $data, string $appName, string $clientType, $userId = 'UnLoginUser')
     {
-        [$geetestChallenge, $geetestValidate, $geetestSeccode] = array_values(request()->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'));
+        [$challenge, $validate, $secCode] = array_values($data);
+        if (!$challenge || !$validate || !$secCode) {
+            throw new HttpException(400, trans('extension::auth.geetest_failed'));
+        }
 
         if (1 == session()->get('gtserver')) {
-            return Geetest::config($appName)->successValidate($geetestChallenge, $geetestValidate, $geetestSeccode, [
+            $result = Geetest::config($appName)->successValidate($challenge, $validate, $secCode, [
                 'user_id' => $userId,
                 'client_type' => $clientType,
                 'ip_address' => request()->ip(),
             ]);
         } else {
-            return Geetest::config($appName)->failValidate($geetestChallenge, $geetestValidate, $geetestSeccode);
+            $result = Geetest::config($appName)->failValidate($challenge, $validate, $secCode);
         }
+
+//        if (false === $result) {
+//            throw new HttpException(400, trans('extension::auth.geetest_failed'));
+//        }
     }
 }

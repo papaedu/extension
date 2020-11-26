@@ -37,7 +37,7 @@ trait RegistersUsers
      */
     protected function validateRegister(Request $request)
     {
-        $request->validate(GlobalPhone::getValidator($this->username(), [
+        $request->validate(GlobalPhone::getMainValidator($this->username(), [
             $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'unique:'.$this->userModel().','.$this->username()],
             'password' => ['required', 'between:8,16', 'password_strength'],
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],

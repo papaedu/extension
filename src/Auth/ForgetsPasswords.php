@@ -39,7 +39,7 @@ trait ForgetsPasswords
      */
     protected function validateForgot(Request $request)
     {
-        $request->validate(GlobalPhone::getValidator($this->username(), [
+        $request->validate(GlobalPhone::getMainValidator($this->username(), [
             $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile', 'exists:'.$this->userModel().','.$this->username()],
             'password' => ['required', 'password_strength'],
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],

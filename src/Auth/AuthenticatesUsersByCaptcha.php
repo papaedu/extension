@@ -54,7 +54,7 @@ trait AuthenticatesUsersByCaptcha
      */
     protected function validateLogin(Request $request)
     {
-        $request->validate(GlobalPhone::getValidator($this->username(), [
+        $request->validate(GlobalPhone::getMainValidator($this->username(), [
             $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
             'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
         ]), [
