@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'idd_code' => '国家代码',
+    'iso_code' => '标准国家码',
+    'idd_code' => '国际区号',
     'username' => '用户名',
     'password' => '密码',
     'captcha' => '验证码',

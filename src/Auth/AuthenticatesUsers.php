@@ -53,7 +53,7 @@ trait AuthenticatesUsers
      */
     protected function validateLogin(Request $request)
     {
-        $request->validate(GlobalPhone::getValidator($this->username(), [
+        $request->validate(GlobalPhone::getMainValidator($this->username(), [
             $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
             'password' => ['required', 'string', 'min:8'],
         ]), [

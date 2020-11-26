@@ -3,6 +3,7 @@
 namespace Papaedu\Extension\Channels\EasySms;
 
 use Overtrue\EasySms\PhoneNumber;
+use Propaganistas\LaravelPhone\PhoneNumber as PhoneNumberFormatter;
 
 trait NotificationForEasySms
 {
@@ -12,6 +13,8 @@ trait NotificationForEasySms
      */
     public function routeNotificationForEasySms($notification)
     {
-        return new PhoneNumber($this->username, $this->idd_code ?? config('extension.locale.idd_code'));
+        $formatter = PhoneNumberFormatter::make($this->username, $this->idd_code ?? config('extension.locale.iso_code'));
+
+        return new PhoneNumber($this->username, $formatter->getPhoneNumberInstance()->getCountryCode());
     }
 }
