@@ -53,13 +53,13 @@ trait Captcha
      * Get extra validator with IDD code.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $rule
+     * @param  string  $validation
      * @param  string  $IDDCode
      * @param  string  $message
      */
-    protected function extraValidator(Request $request, string $rule, string $IDDCode, string $message)
+    protected function extraValidator(Request $request, string $validation, string $IDDCode, string $message)
     {
-        Phone::extraValidate($request, $rule, $this->username(), $this->userModel(), $IDDCode, $message);
+        Phone::extraValidate($request, $validation, $this->username(), $this->userModel(), $IDDCode, $message);
     }
 
     /**
