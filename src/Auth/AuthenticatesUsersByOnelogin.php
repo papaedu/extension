@@ -76,7 +76,11 @@ trait AuthenticatesUsersByOnelogin
         }
 
         // Only support locale telephone for now.
-        $user = $this->create(config('extension.locale.idd_code'), $username);
+        $user = $this->create([
+            'idd_code' => config('extension.locale.idd_code'),
+            'iso_code' => config('extension.locale.iso_code'),
+            $this->username() => $username,
+        ]);
         if ($user->wasRecentlyCreated) {
             event(new Registered($user));
         }
