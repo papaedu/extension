@@ -19,38 +19,48 @@ class Phone
      */
     public static function validate(Request $request, string $field, array $rules, array $messages, array $attributes)
     {
-        $request->validate(static::getRules($field, $rules), $messages, static::getAttributes($field, $attributes));
+        $request->validate(
+            static::getValidateRules($field, $rules),
+            $messages,
+            static::getValidateAttributes($field, $attributes)
+        );
     }
 
     /**
      * Validate auth request with extra by global phone.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $rule
+     * @param  string  $validation
      * @param  string  $field
      * @param  string  $model
      * @param  string  $IDDCode
+     * @param  string  $ignoreId
      * @param  string  $message
      * @param  string  $databaseField
      */
-    public static function extraValidate(Request $request, string $rule, string $field, string $model, string $IDDCode, string $message, string $databaseField = '')
+    public static function extraValidate(Request $request, string $validation, string $field, string $model, string $IDDCode, string $message = '', string $ignoreId = '', string $databaseField = '')
     {
-        $databaseField = $databaseField ? $databaseField : $field;
-
-        if (true === config('extension.enable_global_phone')) {
-            $rules = [$field => Rule::$rule($model, $databaseField)->where('idd_code', $IDDCode)];
+        if ($message) {
+            $messages = ["{$field}.{$validation}" => $message];
         } else {
-            $rules = [$field => "{$rule}:{$model},{$databaseField}"];
+            $messages = [];
         }
 
-        $request->validate($rules, [
-            "{$field}.{$rule}" => $message,
-        ], [
-            $field => trans('extension::field.username'),
-        ]);
+        $request->validate(
+            static::getExtraValidateRules($validation, $field, $model, $IDDCode, $ignoreId, $databaseField),
+            $messages,
+            [$field => trans('extension::field.username')]
+        );
     }
 
-    protected static function getRules(string $field, array $extraRules)
+    /**
+     * Get validate rules.
+     *
+     * @param  string  $field
+     * @param  array  $extraRules
+     * @return array
+     */
+    protected static function getValidateRules(string $field, array $extraRules)
     {
         if (true === config('extension.enable_global_phone')) {
             $rules['iso_code'] = ['required_with:'.$field];
@@ -62,7 +72,40 @@ class Phone
         return $rules + $extraRules;
     }
 
-    protected static function getAttributes(string $field, array $extraAttributes)
+    /**
+     * Get extra validate rules.
+     *
+     * @param  string  $validation
+     * @param  string  $field
+     * @param  string  $model
+     * @param  string  $IDDCode
+     * @param  string  $ignoreId
+     * @param  string  $databaseField
+     * @return array
+     */
+    protected static function getExtraValidateRules(string $validation, string $field, string $model, string $IDDCode, string $ignoreId = '', string $databaseField = '')
+    {
+        $databaseField = $databaseField ? $databaseField : $field;
+
+        $rule = Rule::$validation($model, $databaseField);
+        if (true === config('extension.enable_global_phone')) {
+            $rule->where('idd_code', $IDDCode)->ignore($ignoreId);
+        }
+        if ($ignoreId) {
+            $rule->ignore($ignoreId);
+        }
+
+        return [$field => $rule];
+    }
+
+    /**
+     * Get validate attributes.
+     *
+     * @param  string  $field
+     * @param  array  $extraAttributes
+     * @return array
+     */
+    protected static function getValidateAttributes(string $field, array $extraAttributes)
     {
         return $extraAttributes + ['iso_code' => trans('extension::field.iso_code'), $field => trans('extension::field.username')];
     }
