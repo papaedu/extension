@@ -89,7 +89,7 @@ class Phone
 
         $rule = Rule::$validation($model, $databaseField);
         if (true === config('extension.enable_global_phone')) {
-            $rule->where('idd_code', $IDDCode)->ignore($ignoreId);
+            $rule->where('idd_code', $IDDCode);
         }
         if ($ignoreId) {
             $rule->ignore($ignoreId);
