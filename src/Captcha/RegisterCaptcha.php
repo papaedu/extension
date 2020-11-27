@@ -20,10 +20,11 @@ trait RegisterCaptcha
     {
         $this->validator($request, $appName, $clientType);
 
-        $IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
+        $ISOCode = $request->input('iso_code', config('extension.locale.iso_code'));
+        $IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $ISOCode);
         $this->extraValidator($request, 'unique', $IDDCode, trans('extension::auth.registered'));
 
-        $captcha = CaptchaValidator::generate($IDDCode, $request->username);
+        $captcha = CaptchaValidator::generate($ISOCode, $request->username);
         CaptchaNotification::register($IDDCode, $request->username, $captcha);
 
         return new JsonResponse([], 204);
