@@ -2,49 +2,68 @@
 
 namespace Papaedu\Extension\Filesystem;
 
+use InvalidArgumentException;
+
 class Disk
 {
-    private static $image;
+    private static $disks = [];
 
-    private static $audio;
-
-    private static $file;
-
-    private static $vod;
-
+    /**
+     * @return \Papaedu\Extension\Filesystem\Image
+     */
     public static function image()
     {
-        if (!self::$image) {
-            self::$image = new Image();
-        }
-
-        return self::$image;
+        return self::custom('qiniu-image', config('filesystems.disks.qiniu-image.domain'));
     }
 
+    /**
+     * @return \Papaedu\Extension\Filesystem\Audio
+     */
     public static function audio()
     {
-        if (!self::$audio) {
-            self::$audio = new Audio();
-        }
-
-        return self::$audio;
+        return self::custom('qiniu-audio', config('filesystems.disks.qiniu-audio.domain'), 'audio');
     }
 
+    /**
+     * @return \Papaedu\Extension\Filesystem\File
+     */
     public static function file()
     {
-        if (!self::$file) {
-            self::$file = new File();
-        }
-
-        return self::$file;
+        return self::custom('qiniu-file', config('filesystems.disks.qiniu-file.domain'), 'file');
     }
 
+    /**
+     * @return mixed|\Papaedu\Extension\Filesystem\Vod
+     */
     public static function vod()
     {
-        if (!self::$vod) {
-            self::$vod = new Vod();
+        if (!isset(self::$disks['vod'])) {
+            self::$disks['vod'] = new Vod('', config('qcloud.vod.host', ''));
         }
 
-        return self::$vod;
+        return self::$disks['vod'];
+    }
+
+    /**
+     * @param  string  $diskName
+     * @param  string  $domain
+     * @param  string  $type
+     * @return mixed
+     */
+    public static function custom(string $diskName, string $domain, string $type = 'image')
+    {
+        if (!isset(self::$disks[$diskName])) {
+            if ('image' === $type) {
+                self::$disks[$diskName] = new Image($diskName, $domain);
+            } elseif ('audio' === $type) {
+                self::$disks[$diskName] = new Audio($diskName, $domain);
+            } elseif ('file' === $type) {
+                self::$disks[$diskName] = new File($diskName, $domain);
+            } else {
+                throw new InvalidArgumentException('Disk type is invalid.');
+            }
+        }
+
+        return self::$disks[$diskName];
     }
 }
