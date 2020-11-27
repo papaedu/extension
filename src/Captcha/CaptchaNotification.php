@@ -2,9 +2,11 @@
 
 namespace Papaedu\Extension\Captcha;
 
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 use Overtrue\EasySms\PhoneNumber;
 use Papaedu\Extension\Channels\EasySms\EasySmsChannel;
 use Papaedu\Extension\Notifications\Captcha;
@@ -72,15 +74,29 @@ class CaptchaNotification
                 }
             }
 
-            if (0 === $e->getCode()) {
-                Log::error('[SMS] Captcha send error.', [
-                    'idd_code' => $IDDCode,
-                    'phone_number' => $phoneNumber,
-                    'exceptions' => $e->getExceptions(),
-                ]);
-            }
+            Log::error('[SMS] GatewayErrorException, Captcha send error.', [
+                'idd_code' => $IDDCode,
+                'phone_number' => $phoneNumber,
+                'exceptions' => $e->getExceptions(),
+            ]);
 
             throw new BadRequestHttpException($message);
+        } catch (NoGatewayAvailableException $e) {
+            Log::error('[SMS] NoGatewayAvailableException, Captcha send error.', [
+                'idd_code' => $IDDCode,
+                'phone_number' => $phoneNumber,
+                'exceptions' => $e->getExceptions(),
+            ]);
+
+            throw new BadRequestHttpException('发送失败，请稍候再试');
+        } catch (Exception $e) {
+            Log::error('[SMS] Captcha send error.', [
+                'idd_code' => $IDDCode,
+                'phone_number' => $phoneNumber,
+                'exceptions' => $e->getTrace(),
+            ]);
+
+            throw new BadRequestHttpException('发送失败，请稍候再试');
         }
     }
 
