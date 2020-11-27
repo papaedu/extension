@@ -8,11 +8,11 @@ use Papaedu\Extension\Support\Extend;
 class CaptchaValidator
 {
     /**
-     * @param  int  $ISOCode
+     * @param  string  $ISOCode
      * @param  string  $username
      * @return string
      */
-    public static function generate(int $ISOCode, string $username)
+    public static function generate(string $ISOCode, string $username)
     {
         $captcha = Extend::randomNumeric(config('extension.auth.captcha.length'));
         Redis::setex("captcha_{$ISOCode}_{$username}", config('extension.auth.captcha.ttl'), $captcha);
@@ -32,10 +32,10 @@ class CaptchaValidator
     }
 
     /**
-     * @param  int  $ISOCode
+     * @param  string  $ISOCode
      * @param  string  $username
      */
-    public static function clear(int $ISOCode, string $username)
+    public static function clear(string $ISOCode, string $username)
     {
         Redis::del("captcha_{$ISOCode}_{$username}");
     }
