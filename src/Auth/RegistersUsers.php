@@ -26,7 +26,7 @@ trait RegistersUsers
     {
         $this->validateRegister($request);
 
-        event(new Registered($user = $this->create(['idd_code' => $this->IDDCode] + $request->only([$this->username(), 'password']))));
+        event(new Registered($user = $this->create(['idd_code' => $this->IDDCode] + $request->only('iso_code', $this->username(), 'password'))));
 
         $this->guard()->login($user);
 
