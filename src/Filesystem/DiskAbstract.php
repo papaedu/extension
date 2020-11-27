@@ -19,6 +19,12 @@ abstract class DiskAbstract
      */
     protected $domain = '';
 
+    public function __construct(string $diskName, string $domain)
+    {
+        $this->diskName = $diskName;
+        $this->setDomain($domain);
+    }
+
     /**
      * @return \Illuminate\Contracts\Filesystem\Filesystem|\Illuminate\Filesystem\FilesystemAdapter
      */

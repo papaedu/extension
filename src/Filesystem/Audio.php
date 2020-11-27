@@ -7,16 +7,6 @@ use getID3;
 class Audio extends DiskAbstract
 {
     /**
-     * @var string
-     */
-    protected $diskName = 'qiniu-audio';
-
-    public function __construct()
-    {
-        $this->setDomain(config('filesystems.disks.qiniu-audio.domain'));
-    }
-
-    /**
      * @param  string  $url
      * @return float|int
      */

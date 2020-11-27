@@ -7,16 +7,6 @@ use Illuminate\Support\Arr;
 class Image extends DiskAbstract
 {
     /**
-     * @var string
-     */
-    protected $diskName = 'qiniu-image';
-
-    public function __construct()
-    {
-        $this->setDomain(config('filesystems.disks.qiniu-image.domain'));
-    }
-
-    /**
      * @param  string  $path
      * @param  string  $scale
      * @param  string  $default

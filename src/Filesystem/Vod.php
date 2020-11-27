@@ -6,11 +6,6 @@ use Illuminate\Support\Str;
 
 class Vod extends DiskAbstract
 {
-    public function __construct()
-    {
-        $this->setDomain(config('qcloud.vod.host'));
-    }
-
     /**
      * 获取完整地址
      *
