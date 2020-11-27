@@ -53,7 +53,7 @@ trait ResetsUsernames
         ]);
 
         $this->IDDCode = Phone::ISOCode2IDDCode($request->new_username, $request->input('iso_code', config('extension.locale.iso_code')));
-        Phone::extraValidate($request, 'unique', 'new_username', $this->userModel(), $this->IDDCode, trans('extension::auth.registered'), $this->username());
+        Phone::extraValidate($request, 'unique', 'new_username', $this->userModel(), $this->IDDCode, trans('extension::auth.registered'), '', $this->username());
     }
 
     /**
