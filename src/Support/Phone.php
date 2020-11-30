@@ -62,7 +62,7 @@ class Phone
      */
     protected static function getValidateRules(string $field, array $extraRules)
     {
-        if (true === config('extension.enable_global_phone')) {
+        if (true === config('extension.enable_global_phone', false)) {
             $rules['iso_code'] = ['required_with:'.$field];
             $rules[$field] = ['required', 'phone:iso_code,mobile'];
         } else {
@@ -88,7 +88,7 @@ class Phone
         $databaseField = $databaseField ? $databaseField : $field;
 
         $rule = Rule::$validation($model, $databaseField);
-        if (true === config('extension.enable_global_phone')) {
+        if (true === config('extension.enable_global_phone', false)) {
             $rule->where('idd_code', $IDDCode);
         }
         if ($ignoreId) {

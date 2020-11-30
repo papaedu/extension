@@ -39,7 +39,7 @@ trait Captcha
             'geetest_validate' => ['required'],
             'geetest_seccode' => ['required'],
         ];
-        if (true === config('extension.enable_global_phone')) {
+        if (true === config('extension.enable_global_phone', false)) {
             $rules['iso_code'] = ['required_with:'.$this->username()];
             $rules[$this->username()] = ['required', 'phone:iso_code,mobile'];
         } else {
