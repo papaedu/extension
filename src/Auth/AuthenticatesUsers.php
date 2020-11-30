@@ -88,7 +88,7 @@ trait AuthenticatesUsers
      */
     protected function credentials(Request $request)
     {
-        return ['idd_code' => $this->IDDCode] + $request->only($this->username(), 'password');
+        return (true === config('extension.enable_global_phone', false) ? ['idd_code' => $this->IDDCode] : []) + $request->only($this->username(), 'password');
     }
 
     /**
