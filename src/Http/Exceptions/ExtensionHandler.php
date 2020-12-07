@@ -3,11 +3,12 @@
 namespace Papaedu\Extension\Http\Exceptions;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-trait ExtensionHandler
+class ExtensionHandler extends Handler
 {
     /**
      * Convert the given exception to an array.
