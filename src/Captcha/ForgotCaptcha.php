@@ -25,7 +25,7 @@ trait ForgotCaptcha
         $this->extraValidator($request, 'exists', $IDDCode, trans('extension::auth.unregister'));
 
         $captcha = CaptchaValidator::generate($ISOCode, $request->username);
-        CaptchaNotification::forgot($IDDCode, $request->username, $captcha);
+        CaptchaNotification::forgot($request->username, $IDDCode, $captcha);
 
         return new JsonResponse([], 204);
     }

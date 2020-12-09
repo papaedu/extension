@@ -23,7 +23,7 @@ trait AuthenticatesCaptcha
         $ISOCode = $request->input('iso_code', config('extension.locale.iso_code'));
         $IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $ISOCode);
         $captcha = CaptchaValidator::generate($ISOCode, $request->username);
-        CaptchaNotification::login($IDDCode, $request->username, $captcha);
+        CaptchaNotification::login($request->username, $IDDCode, $captcha);
 
         return new JsonResponse([], 204);
     }

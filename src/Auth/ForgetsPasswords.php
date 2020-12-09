@@ -26,7 +26,11 @@ trait ForgetsPasswords
     {
         $this->validateForgot($request);
 
-        event(new PasswordReset($guest = $this->update(['idd_code' => $this->IDDCode] + $request->only($this->username(), 'password'))));
+        event(new PasswordReset(
+            $guest = $this->update(
+                ['idd_code' => $this->IDDCode] + $request->only($this->username(), 'password')
+            )
+        ));
 
         $guest->tokens()->delete();
 
@@ -53,8 +57,18 @@ trait ForgetsPasswords
             'password' => trans('extension::field.password'),
         ]);
 
-        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
-        Phone::extraValidate($request, 'exists', $this->username(), $this->userModel(), $this->IDDCode, trans('extension::auth.unregister'));
+        $this->IDDCode = Phone::ISOCode2IDDCode(
+            $request->input($this->username()),
+            $request->input('iso_code', config('extension.locale.iso_code'))
+        );
+        Phone::extraValidate(
+            $request,
+            'exists',
+            $this->username(),
+            $this->userModel(),
+            $this->IDDCode,
+            trans('extension::auth.unregister')
+        );
     }
 
     /**
@@ -65,7 +79,10 @@ trait ForgetsPasswords
      */
     protected function sendForgotResponse(Request $request)
     {
-        CaptchaValidator::clear($request->input('idd_code', config('extension.locale.idd_code')), $request->input($this->username()));
+        CaptchaValidator::clear(
+            $request->input('idd_code', config('extension.locale.idd_code')),
+            $request->input($this->username())
+        );
 
         $this->validateStatus($this->guard()->user()->status);
 
@@ -85,7 +102,6 @@ trait ForgetsPasswords
      */
     protected function beforeForgotResponse(Request $request, $user)
     {
-
     }
 
     /**

@@ -52,7 +52,8 @@ class VodClient
     {
         $request = new PullUploadRequest($mediaUrl);
         $request->setMediaName($mediaName);
-        $request->setClassId($this->getCategoryIdToClassId($categoryId, $classType));
+        $request->setClassId($this->transCategoryIdToClassId($categoryId, $classType));
+        /** @var \BiuBiuJun\QCloud\Vod\Responses\PullUploadResponse $response */
         $response = $this->client->sendRequest($request);
 
         return [
@@ -86,6 +87,7 @@ class VodClient
     public function confirmEvents(array $evenHandles)
     {
         $request = new ConfirmEventsRequest($evenHandles);
+        /** @var \BiuBiuJun\QCloud\Vod\Responses\ConfirmEventsResponse $response */
         $response = $this->client->sendRequest($request);
 
         return $response->getRequestId();
@@ -134,8 +136,13 @@ class VodClient
      * @throws \BiuBiuJun\QCloud\Exceptions\HttpException
      * @throws \BiuBiuJun\QCloud\Exceptions\InvalidArgumentException
      */
-    public function mergeMedia(array $fileIds, string $mediaName, string $mediaDescription, int $categoryId, int $classType)
-    {
+    public function mergeMedia(
+        array $fileIds,
+        string $mediaName,
+        string $mediaDescription,
+        int $categoryId,
+        int $classType
+    ) {
         $mediaTrackItems = [];
         foreach ($fileIds as $fileId) {
             $mediaTrackItem = new MediaTrackItem(Media::TRACK_ITEM_TYPE_VIDEO);
@@ -146,10 +153,11 @@ class VodClient
 
         $track = new MediaTrack(Media::TRACK_TYPE_VIDEO, $mediaTrackItems);
         $output = new ComposeMediaOutput($mediaName);
-        $output->setClassId($this->getCategoryIdToClassId($categoryId, $classType));
+        $output->setClassId($this->transCategoryIdToClassId($categoryId, $classType));
         $output->setDescription($mediaDescription);
 
         $request = new ComposeMediaRequest([$track], $output);
+        /** @var \BiuBiuJun\QCloud\Vod\Responses\ComposeMediaResponse $response */
         $response = $this->client->sendRequest($request);
 
         return $response->getTaskId();
@@ -165,6 +173,7 @@ class VodClient
     public function deleteMedia(string $fileId)
     {
         $request = new DeleteMediaRequest($fileId);
+        /** @var \BiuBiuJun\QCloud\Vod\Responses\DeleteMediaResponse $response */
         $response = $this->client->sendRequest($request);
 
         return $response->getRequestId();
@@ -189,6 +198,7 @@ class VodClient
 //        $mediaProcessTask->setAdaptiveDynamicStreamingTaskSet([$adaptiveDynamicStreamingTaskSet]);
 
         $request->setMediaProcessTask($mediaProcessTask);
+        /** @var \BiuBiuJun\QCloud\Vod\Responses\ProcessMediaResponse $response */
         $response = $this->client->sendRequest($request);
 
         return $response->getTaskId();
@@ -207,28 +217,30 @@ class VodClient
 
         switch ($categoryId) {
             case 1:// 雅思
-                return ClassType::Personal == $classType ? 627179 : 627186;
+                $classId = ClassType::Personal == $classType ? 627179 : 627186;
                 break;
             case 2:// 托福
-                return ClassType::Personal == $classType ? 627180 : 627187;
+                $classId = ClassType::Personal == $classType ? 627180 : 627187;
                 break;
             case 3:// GRE
-                return ClassType::Personal == $classType ? 627182 : 627189;
+                $classId = ClassType::Personal == $classType ? 627182 : 627189;
                 break;
             case 4:// GMAT
-                return ClassType::Personal == $classType ? 627181 : 627188;
+                $classId = ClassType::Personal == $classType ? 627181 : 627188;
                 break;
             case 5:// 实用英语
-                return ClassType::Personal == $classType ? 627184 : 627191;
+                $classId = ClassType::Personal == $classType ? 627184 : 627191;
                 break;
             case 6:// PTE
-                return ClassType::Personal == $classType ? 627183 : 627190;
+                $classId = ClassType::Personal == $classType ? 627183 : 627190;
                 break;
             case 7:// 学术英语
-                return ClassType::Personal == $classType ? 627185 : 627192;
+                $classId = ClassType::Personal == $classType ? 627185 : 627192;
                 break;
             default:
-                return 0;
+                $classId = 0;
         }
+
+        return $classId;
     }
 }

@@ -59,7 +59,9 @@ abstract class AndroidNotification extends UmengNotification
     }
 
     /**
-     * Set key/value for $data array, for the keys which can be set please see $DATA_KEYS, $PAYLOAD_KEYS, $BODY_KEYS, $POLICY_KEYS
+     * Set key/value for $data array,
+     * for the keys which can be set please see $DATA_KEYS,
+     * $PAYLOAD_KEYS, $BODY_KEYS, $POLICY_KEYS
      *
      * @param  string  $key
      * @param  string  $value
@@ -88,7 +90,9 @@ abstract class AndroidNotification extends UmengNotification
         } elseif (in_array($key, $this->policyKeys)) {
             $this->data['policy'][$key] = $value;
         } elseif (in_array($key, ['payload', 'body', 'policy', 'extra'])) {
-            throw new UmengNotificationException("You don't need to set value for ${key} , just set values for the sub keys in it.");
+            throw new UmengNotificationException(
+                "You don't need to set value for ${key}, just set values for the sub keys in it."
+            );
         } else {
             throw new UmengNotificationException("Unknown key: ${key}");
         }

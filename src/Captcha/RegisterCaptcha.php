@@ -25,7 +25,7 @@ trait RegisterCaptcha
         $this->extraValidator($request, 'unique', $IDDCode, trans('extension::auth.registered'));
 
         $captcha = CaptchaValidator::generate($ISOCode, $request->username);
-        CaptchaNotification::register($IDDCode, $request->username, $captcha);
+        CaptchaNotification::register($request->username, $IDDCode, $captcha);
 
         return new JsonResponse([], 204);
     }

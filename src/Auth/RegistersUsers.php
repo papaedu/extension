@@ -26,7 +26,11 @@ trait RegistersUsers
     {
         $this->validateRegister($request);
 
-        event(new Registered($user = $this->create(['idd_code' => $this->IDDCode] + $request->only('iso_code', $this->username(), 'password'))));
+        event(new Registered(
+            $user = $this->create(
+                ['idd_code' => $this->IDDCode] + $request->only('iso_code', $this->username(), 'password')
+            )
+        ));
 
         $this->guard()->login($user);
 
@@ -41,18 +45,38 @@ trait RegistersUsers
      */
     protected function validateRegister(Request $request)
     {
-        Phone::validate($request, $this->username(), [
-            'password' => ['required', 'password_strength'],
-            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
-        ], [
-            'captcha.digits' => trans('extension::auth.captcha_failed'),
-        ], [
-            'captcha' => trans('extension::field.captcha'),
-            'password' => trans('extension::field.password'),
-        ]);
+        Phone::validate(
+            $request,
+            $this->username(),
+            [
+                'password' => ['required', 'password_strength'],
+                'captcha' => [
+                    'required',
+                    'digits:'.config('extension.auth.captcha.length'),
+                    'captcha:'.$this->username(),
+                ],
+            ],
+            [
+                'captcha.digits' => trans('extension::auth.captcha_failed'),
+            ],
+            [
+                'captcha' => trans('extension::field.captcha'),
+                'password' => trans('extension::field.password'),
+            ]
+        );
 
-        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
-        Phone::extraValidate($request, 'unique', $this->username(), $this->userModel(), $this->IDDCode, trans('extension::auth.registered'));
+        $this->IDDCode = Phone::ISOCode2IDDCode(
+            $request->input($this->username()),
+            $request->input('iso_code', config('extension.locale.iso_code'))
+        );
+        Phone::extraValidate(
+            $request,
+            'unique',
+            $this->username(),
+            $this->userModel(),
+            $this->IDDCode,
+            trans('extension::auth.registered')
+        );
     }
 
     /**
@@ -64,7 +88,10 @@ trait RegistersUsers
      */
     protected function sendRegisterResponse(Request $request, $user)
     {
-        CaptchaValidator::clear($request->input('idd_code', config('extension.locale.idd_code')), $request->input($this->username()));
+        CaptchaValidator::clear(
+            $request->input('idd_code', config('extension.locale.idd_code')),
+            $request->input($this->username())
+        );
 
         if ($response = $this->registered($request, $user)) {
             return $response;

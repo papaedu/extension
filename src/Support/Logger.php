@@ -16,7 +16,7 @@ class Logger
     /**
      * Logger constructor.
      *
-     * @param string $module
+     * @param  string  $module
      */
     public function __construct($module = '')
     {
@@ -26,53 +26,63 @@ class Logger
     }
 
     /**
-     * @param string $action
-     * @param array  $fields
-     * @param string $module
+     * @param  string  $action
+     * @param  array  $fields
+     * @param  string  $module
      */
     public function info(string $action, array $fields = [], string $module = '')
     {
         $module = $module ?: $this->module;
 
-        Log::channel('runlog')->info("<{$module}> {$action} SUCCESS. {$this->getRequestUrl()}", array_filter([
-            'fields' => $fields,
-        ]));
+        Log::channel('runlog')->info(
+            "<{$module}> {$action} SUCCESS. {$this->getRequestUrl()}",
+            array_filter(['fields' => $fields])
+        );
     }
 
     /**
-     * @param array  $context
-     * @param string $action
+     * @param  array  $context
+     * @param  string  $action
      */
     public function start(array $context = [], $action = '')
     {
         $action = $action ?: 'start';
-        Log::channel('runlog')->info("<{$this->module}> -----{$action}----- {$this->getRequestUrl()}", $context);
+        Log::channel('runlog')->info(
+            "<{$this->module}> -----{$action}----- {$this->getRequestUrl()}",
+            $context
+        );
     }
 
     /**
-     * @param array  $context
-     * @param string $action
+     * @param  array  $context
+     * @param  string  $action
      */
     public function finish(array $context = [], $action = '')
     {
         $action = $action ?: 'finish';
-        Log::channel('runlog')->info("<{$this->module}> -----{$action}----- {$this->getRequestUrl()}", $context);
+        Log::channel('runlog')->info(
+            "<{$this->module}> -----{$action}----- {$this->getRequestUrl()}",
+            $context
+        );
     }
 
     /**
-     * @param string $name
-     * @param array  $context
+     * @param  string  $name
+     * @param  array  $context
      */
     public function createJob(string $name, array $context = [])
     {
-        Log::channel('runlog')->info("<{$this->module}> -----Create Job ({$name})----- {$this->getRequestUrl()}", $context);
+        Log::channel('runlog')->info(
+            "<{$this->module}> -----Create Job ({$name})----- {$this->getRequestUrl()}",
+            $context
+        );
     }
 
     /**
-     * @param string          $action
-     * @param \Exception|null $exception
-     * @param array           $fields
-     * @param string          $module
+     * @param  string  $action
+     * @param  \Exception|null  $exception
+     * @param  array  $fields
+     * @param  string  $module
      */
     public function error(string $action, ?Exception $exception, array $fields = [], string $module = '')
     {
@@ -86,11 +96,14 @@ class Logger
             $exceptionMessage = " (Exception code:{$exception->getCode()}, message:{$exception->getMessage()})";
             $context = [
                 'fields' => $fields,
-                'exception' => "\n[stacktrace]\n" . $exception->getTraceAsString(),
+                'exception' => "\n[stacktrace]\n".$exception->getTraceAsString(),
             ];
         }
 
-        Log::channel('runlog')->error("<{$module}> {$action} FAILED. {$this->getRequestUrl()}{$exceptionMessage}", array_filter($context));
+        Log::channel('runlog')->error(
+            "<{$module}> {$action} FAILED. {$this->getRequestUrl()}{$exceptionMessage}",
+            array_filter($context)
+        );
     }
 
     /**
@@ -98,6 +111,6 @@ class Logger
      */
     private function getRequestUrl()
     {
-        return '(Request ' . (App::runningInConsole() ? '<console>' : request()->url()) . ')';
+        return '(Request '.(App::runningInConsole() ? '<console>' : request()->url()).')';
     }
 }

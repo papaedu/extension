@@ -274,8 +274,13 @@ trait LiveRedisTrait
      * @param  int  $videoDuration
      * @param  int  $videoSize
      */
-    public function setVodTaskVideoInfoByLive(string $taskId, string $roomId, int $videoStartedAt, int $videoDuration, int $videoSize)
-    {
+    public function setVodTaskVideoInfoByLive(
+        string $taskId,
+        string $roomId,
+        int $videoStartedAt,
+        int $videoDuration,
+        int $videoSize
+    ) {
         Redis::hmset(sprintf($this->vodTaskVideoInfoKey, $taskId), [
             'course_mode' => CourseMode::Live,
             'room_id' => $roomId,

@@ -6,7 +6,7 @@ use Papaedu\Extension\UmengPush\Notifications\AndroidNotification;
 
 class AndroidBroadcast extends AndroidNotification
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->data['type'] = 'broadcast';

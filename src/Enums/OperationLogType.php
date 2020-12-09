@@ -6,61 +6,61 @@ use BenSampo\Enum\Enum;
 
 final class OperationLogType extends Enum
 {
-    const RegisterByPassword = 11;
+    const REGISTER_BY_PASSWORD = 11;
 
-    const RegisterByCaptcha = 12;
+    const REGISTER_BY_CAPTCHA = 12;
 
-    const RegisterByOnelogin = 13;
+    const REGISTER_BY_ONELOGIN = 13;
 
-    const LoginByPassword = 21;
+    const LOGIN_BY_PASSWORD = 21;
 
-    const LoginByCaptcha = 22;
+    const LOGIN_BY_CAPTCHA = 22;
 
-    const LoginByOnelogin = 23;
+    const LOGIN_BY_ONELOGIN = 23;
 
-    const LoginBySocialiteWeChat = 24;
+    const LOGIN_BY_SOCIALITE_WECHAT = 24;
 
-    const Logout = 31;
+    const LOGOUT = 31;
 
-    const ForgotPassword = 41;
+    const FORGOT_PASSWORD = 41;
 
-    const ResetPassword = 42;
+    const RESET_PASSWORD = 42;
 
-    const ResetUsername = 43;
+    const RESET_USERNAME = 43;
 
     public static function getDescription($value): string
     {
-        if ($value === self::RegisterByPassword) {
+        if ($value === self::REGISTER_BY_PASSWORD) {
             return '注册';
         }
-        if ($value === self::RegisterByCaptcha) {
+        if ($value === self::REGISTER_BY_CAPTCHA) {
             return '注册（验证码登录）';
         }
-        if ($value === self::RegisterByOnelogin) {
+        if ($value === self::REGISTER_BY_ONELOGIN) {
             return '注册（一键登录）';
         }
-        if ($value === self::LoginByPassword) {
+        if ($value === self::LOGIN_BY_PASSWORD) {
             return '密码登录';
         }
-        if ($value === self::LoginByCaptcha) {
+        if ($value === self::LOGIN_BY_CAPTCHA) {
             return '验证码登录';
         }
-        if ($value === self::LoginByOnelogin) {
+        if ($value === self::LOGIN_BY_ONELOGIN) {
             return '一键登录';
         }
-        if ($value === self::LoginBySocialiteWeChat) {
+        if ($value === self::LOGIN_BY_SOCIALITE_WECHAT) {
             return '社会化登录（微信）';
         }
-        if ($value === self::Logout) {
+        if ($value === self::LOGOUT) {
             return '登出';
         }
-        if ($value === self::ForgotPassword) {
+        if ($value === self::FORGOT_PASSWORD) {
             return '忘记密码';
         }
-        if ($value === self::ResetPassword) {
+        if ($value === self::RESET_PASSWORD) {
             return '重置密码';
         }
-        if ($value === self::ResetUsername) {
+        if ($value === self::RESET_USERNAME) {
             return '重置用户名';
         }
 

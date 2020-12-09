@@ -89,9 +89,21 @@ class TiwRecord extends TiwClient
         // 设置画布
         $canvas = new Canvas(new LayoutParams($layout['canvas']['width'], $layout['canvas']['height']));
         // 白板
-        $whiteboard = new StreamLayout(new LayoutParams($layout['whiteboard']['width'], $layout['whiteboard']['height'], 0, 0, 2), 'tic_record_user');
+        $whiteboard = new StreamLayout(new LayoutParams(
+            $layout['whiteboard']['width'],
+            $layout['whiteboard']['height'],
+            0,
+            0,
+            2
+        ), 'tic_record_user');
         // 桌面分享
-        $desktop = new StreamLayout(new LayoutParams($layout['whiteboard']['width'], $layout['whiteboard']['height'], 0, 0, 3), 'desktop_sharing_' . $roomId);
+        $desktop = new StreamLayout(new LayoutParams(
+            $layout['whiteboard']['width'],
+            $layout['whiteboard']['height'],
+            0,
+            0,
+            3
+        ), 'desktop_sharing_' . $roomId);
 
         $inputStreamList = [
             $whiteboard->getParameters(),
@@ -105,8 +117,20 @@ class TiwRecord extends TiwClient
             $videoCallX = $layout['whiteboard']['width'] + ($tempVideoCallWidth * 0.1);
             $videoCallY = ($layout['canvas']['height'] - ($videoCallSize * 2)) / 3;
 
-            $ticTeacher = new StreamLayout(new LayoutParams($videoCallSize, $videoCallSize, $videoCallX, $videoCallY, 1), $teacherUuid);
-            $ticStudent = new StreamLayout(new LayoutParams($videoCallSize, $videoCallSize, $videoCallX, $videoCallY * 2 + $videoCallSize, 1));
+            $ticTeacher = new StreamLayout(new LayoutParams(
+                $videoCallSize,
+                $videoCallSize,
+                $videoCallX,
+                $videoCallY,
+                1
+            ), $teacherUuid);
+            $ticStudent = new StreamLayout(new LayoutParams(
+                $videoCallSize,
+                $videoCallSize,
+                $videoCallX,
+                $videoCallY * 2 + $videoCallSize,
+                1
+            ));
 
             $inputStreamList[] = $ticTeacher->getParameters(false);
             $inputStreamList[] = $ticStudent->getParameters(false);
@@ -129,7 +153,7 @@ class TiwRecord extends TiwClient
      * @throws \BiuBiuJun\QCloud\Exceptions\HttpException
      * @throws \BiuBiuJun\QCloud\Exceptions\InvalidArgumentException
      */
-    public function StopOnlineRecord(string $taskId)
+    public function stopOnlineRecord(string $taskId)
     {
         $request = new StopOnlineRecordRequest(config('qcloud.tim.sdk_app_id'), $taskId);
         $this->client->sendRequest($request);

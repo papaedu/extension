@@ -38,7 +38,7 @@ class Operation
      * @param  int  $andValueTotal
      * @return array
      */
-    public static function AndValueTotalToIds(int $andValueTotal)
+    public static function andValueTotalToIds(int $andValueTotal)
     {
         $ids = [];
         $array = str_split(strrev(decbin($andValueTotal)));
@@ -72,7 +72,7 @@ class Operation
      * @param  int  $andValueTotal
      * @return int
      */
-    public static function AndValuePlusId(int $id, int $andValueTotal)
+    public static function andValuePlusId(int $id, int $andValueTotal)
     {
         if (!self::idInAndValueTotal($id, $andValueTotal)) {
             $andValueTotal += self::idToAndValue($id);
@@ -88,7 +88,7 @@ class Operation
      * @param  int  $andValueTotal
      * @return int
      */
-    public static function AndValueMinusId(int $id, int $andValueTotal)
+    public static function andValueMinusId(int $id, int $andValueTotal)
     {
         if (self::idInAndValueTotal($id, $andValueTotal)) {
             $andValueTotal -= self::idToAndValue($id);

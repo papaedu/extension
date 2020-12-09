@@ -109,8 +109,12 @@ class IOSPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendCustomizedcastByAlias(string $alias = '', $aliasType = '', array $predefined = [], array $customField = [])
-    {
+    public function sendCustomizedcastByAlias(
+        string $alias = '',
+        $aliasType = '',
+        array $predefined = [],
+        array $customField = []
+    ) {
         $customizedcast = new IOSCustomizedcast();
         $this->initCast($customizedcast, $predefined, $customField);
         $customizedcast->setPredefinedKeyValue('alias', $alias);
@@ -128,8 +132,11 @@ class IOSPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendCustomizedcastByFileId(string $fileContents = '', array $predefined = [], array $customField = [])
-    {
+    public function sendCustomizedcastByFileId(
+        string $fileContents = '',
+        array $predefined = [],
+        array $customField = []
+    ) {
         $customizedcast = new IOSCustomizedcast();
         $this->initCast($customizedcast, $predefined, $customField);
         $customizedcast->uploadContents($fileContents);

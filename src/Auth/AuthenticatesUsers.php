@@ -66,7 +66,10 @@ trait AuthenticatesUsers
             'password' => trans('extension::field.password'),
         ]);
 
-        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
+        $this->IDDCode = Phone::ISOCode2IDDCode(
+            $request->input($this->username()),
+            $request->input('iso_code', config('extension.locale.iso_code'))
+        );
     }
 
     /**
@@ -88,7 +91,11 @@ trait AuthenticatesUsers
      */
     protected function credentials(Request $request)
     {
-        return (true === config('extension.enable_global_phone', false) ? ['idd_code' => $this->IDDCode] : []) + $request->only($this->username(), 'password');
+        return (
+            true === config('extension.enable_global_phone', false)
+                ? ['idd_code' => $this->IDDCode]
+                : []
+            ) + $request->only($this->username(), 'password');
     }
 
     /**

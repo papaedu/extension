@@ -13,8 +13,14 @@ trait NotificationForEasySms
      */
     public function routeNotificationForEasySms($notification)
     {
-        $formatter = PhoneNumberFormatter::make($this->username, $this->idd_code ?? config('extension.locale.iso_code'));
+        $formatter = PhoneNumberFormatter::make(
+            $this->username,
+            $this->idd_code ?? config('extension.locale.iso_code')
+        );
 
-        return new PhoneNumber($this->username, $formatter->getPhoneNumberInstance()->getCountryCode());
+        return new PhoneNumber(
+            $this->username,
+            $formatter->getPhoneNumberInstance()->getCountryCode()
+        );
     }
 }

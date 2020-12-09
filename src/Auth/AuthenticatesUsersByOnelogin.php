@@ -71,7 +71,14 @@ trait AuthenticatesUsersByOnelogin
      */
     protected function attemptLogin(string $appName, Request $request)
     {
-        if (!$username = Geetest::config($appName)->oneLoginCheckPhone($request->input('process_id', ''), $request->input('auth_code', ''), $request->input('token', ''))) {
+        $username = Geetest::config($appName)
+            ->oneLoginCheckPhone(
+                $request->input('process_id', ''),
+                $request->input('auth_code', ''),
+                $request->input('token', '')
+            );
+
+        if (!$username) {
             return false;
         }
 

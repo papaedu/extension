@@ -6,7 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class Platform extends Enum
 {
-    const Web = 1;
+    const WEB = 1;
 
     const H5 = 2;
 
@@ -14,11 +14,11 @@ final class Platform extends Enum
 
     const IOS = 4;
 
-    const Android = 5;
+    const ANDROID = 5;
 
     public static function getDescription($value): string
     {
-        if ($value === self::Web) {
+        if ($value === self::WEB) {
             return 'Web';
         }
         if ($value === self::H5) {
@@ -30,7 +30,7 @@ final class Platform extends Enum
         if ($value === self::IOS) {
             return '苹果';
         }
-        if ($value === self::Android) {
+        if ($value === self::ANDROID) {
             return '安卓';
         }
 
@@ -40,7 +40,7 @@ final class Platform extends Enum
     public static function transform(string $name)
     {
         if ($name === 'web') {
-            return self::Web;
+            return self::WEB;
         }
         if ($name === 'wap') {
             return self::H5;
@@ -52,7 +52,7 @@ final class Platform extends Enum
             return self::IOS;
         }
         if ($name === 'android') {
-            return self::Android;
+            return self::ANDROID;
         }
 
         return 0;

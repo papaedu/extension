@@ -139,7 +139,7 @@ trait LiveHandleTrait
     {
         $taskId = $this->getLastRecordTaskId($liveRoomId);
         try {
-            $this->getTiwRecord()->StopOnlineRecord($taskId);
+            $this->getTiwRecord()->stopOnlineRecord($taskId);
 
             $this->logger->info('handleStopRecord', [
                 'live_room_id' => $liveRoomId,

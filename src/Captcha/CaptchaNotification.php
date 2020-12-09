@@ -15,62 +15,64 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class CaptchaNotification
 {
     /**
-     * @param  int  $IDDCode
-     * @param  string  $phoneNumber
+     * @param  int  $phoneNumber
+     * @param  string  $IDDCode
      * @param  string  $captcha
      */
-    public static function login(int $IDDCode, string $phoneNumber, string $captcha)
+    public static function login(int $phoneNumber, string $IDDCode, string $captcha)
     {
-        self::send($IDDCode, $phoneNumber, $captcha);
+        self::send($phoneNumber, $IDDCode, $captcha);
     }
 
     /**
-     * @param  int  $IDDCode
-     * @param  string  $phoneNumber
+     * @param  int  $phoneNumber
+     * @param  string  $IDDCode
      * @param  string  $captcha
      */
-    public static function register(int $IDDCode, string $phoneNumber, string $captcha)
+    public static function register(int $phoneNumber, string $IDDCode, string $captcha)
     {
-        self::send($IDDCode, $phoneNumber, $captcha);
+        self::send($phoneNumber, $IDDCode, $captcha);
     }
 
     /**
-     * @param  int  $IDDCode
-     * @param  string  $phoneNumber
+     * @param  int  $phoneNumber
+     * @param  string  $IDDCode
      * @param  string  $captcha
      */
-    public static function forgot(int $IDDCode, string $phoneNumber, string $captcha)
+    public static function forgot(int $phoneNumber, string $IDDCode, string $captcha)
     {
-        self::send($IDDCode, $phoneNumber, $captcha);
+        self::send($phoneNumber, $IDDCode, $captcha);
     }
 
     /**
-     * @param  int  $IDDCode
-     * @param  string  $phoneNumber
+     * @param  int  $phoneNumber
+     * @param  string  $IDDCode
      * @param  string  $captcha
      */
-    public static function reset(int $IDDCode, string $phoneNumber, string $captcha)
+    public static function reset(int $phoneNumber, string $IDDCode, string $captcha)
     {
-        self::send($IDDCode, $phoneNumber, $captcha);
+        self::send($phoneNumber, $IDDCode, $captcha);
     }
 
     /**
-     * @param  int  $IDDCode
-     * @param  string  $phoneNumber
+     * @param  int  $phoneNumber
+     * @param  string  $IDDCode
      * @param  string  $captcha
      */
-    protected static function send(int $IDDCode, string $phoneNumber, string $captcha)
+    protected static function send(int $phoneNumber, string $IDDCode, string $captcha)
     {
         try {
-            Notification::route(EasySmsChannel::class, new PhoneNumber($phoneNumber, $IDDCode))->notify(new Captcha($captcha));
+            Notification::route(
+                EasySmsChannel::class,
+                new PhoneNumber($phoneNumber, $IDDCode)
+            )->notify(new Captcha($captcha));
         } catch (GatewayErrorException $e) {
+            $message = '发送失败，请稍候再试';
             foreach ($e->getExceptions() as $gateway => $exception) {
                 if ('aliyun' == $gateway) {
                     $message = static::exceptionAliyun($exception->raw);
                 } elseif ('qcloud' == $gateway) {
                     $message = static::exceptionQcloud($exception->raw);
-                } else {
-                    $message = '发送失败，请稍候再试';
                 }
             }
 
@@ -104,33 +106,37 @@ class CaptchaNotification
     {
         switch ($raw['result']) {
             case 'isv.MOBILE_NUMBER_ILLEGAL':
-                return '手机号格式错误';
+                $message = '手机号格式错误';
                 break;
             case 'isv.DAY_LIMIT_CONTROL':
             case 'isv.MOBILE_COUNT_OVER_LIMIT':
             case 'isv.BUSINESS_LIMIT_CONTROL':
-                return '发送频繁，请稍候再试';
+                $message = '发送频繁，请稍候再试';
                 break;
             default:
-                return '发送失败，请稍候再试';
+                $message = '发送失败，请稍候再试';
         }
+
+        return $message;
     }
 
     protected static function exceptionQcloud(array $raw)
     {
         switch ($raw['result']) {
             case 1016:
-                return '手机号格式错误';
+                $message = '手机号格式错误';
                 break;
             case 1022:
             case 1023:
             case 1024:
             case 1025:
             case 1026:
-                return '发送频繁，请稍候再试';
+                $message = '发送频繁，请稍候再试';
                 break;
             default:
-                return '发送失败，请稍候再试';
+                $message = '发送失败，请稍候再试';
         }
+
+        return $message;
     }
 }

@@ -30,7 +30,8 @@ abstract class UmengNotification implements UmengNotificationInterface
     /**
      * $data is designed to construct the json string for POST request. Note:
      * 1)The key/value pairs in comments are optional.
-     * 2)The value for key 'payload' is set in the subclass(AndroidNotification or IOSNotification), as their payload structures are different.
+     * 2)The value for key 'payload' is set in the subclass(AndroidNotification or IOSNotification),
+     * as their payload structures are different.
      *
      * @var array
      */
@@ -92,7 +93,7 @@ abstract class UmengNotification implements UmengNotificationInterface
     {
         foreach ($array as $key => $value) {
             if (is_null($value)) {
-                throw new UmengNotificationException($key . ' is NULL!');
+                throw new UmengNotificationException($key.' is NULL!');
             } elseif (is_array($value)) {
                 $this->checkArrayValues($value);
             }
@@ -110,7 +111,7 @@ abstract class UmengNotification implements UmengNotificationInterface
         // check the fields to make sure that they are not NULL
         $this->isComplete();
 
-        $url = $this->host . $this->postPath;
+        $url = $this->host.$this->postPath;
         $sign = $this->generateSign($url, $this->data);
         $url .= "?sign={$sign}";
 

@@ -71,7 +71,7 @@ trait SocialiteWeChat
         }
 
         return $this->getSocialiteModel()->where('openid', $unionId)
-            ->where('type', $this->getSocialiteType()::WeChatUnionId)
+            ->where('type', $this->getSocialiteType()::WECHAT_UNION_ID)
             ->exists();
     }
 
@@ -84,7 +84,7 @@ trait SocialiteWeChat
     protected function validateUserId($user)
     {
         return $this->getSocialiteModel()->where('guest_id', $user->id)
-            ->where('type', $this->getSocialiteType()::WeChatUnionId)
+            ->where('type', $this->getSocialiteType()::WECHAT_UNION_ID)
             ->exists();
     }
 

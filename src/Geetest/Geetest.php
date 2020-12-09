@@ -41,7 +41,7 @@ class Geetest
             'gt' => $this->config['captcha_id'],
             'new_captcha' => $newCaptcha,
         ], $param);
-        $challenge = Http::timeout(1)->get($this->domain.'register.php', $data)->body();
+        $challenge = Http::timeout(1)->get($this->domain . 'register.php', $data)->body();
         if (strlen($challenge) != 32) {
             $this->failbackProcess();
 
@@ -62,7 +62,7 @@ class Geetest
         $this->response = [
             'success' => 1,
             'gt' => $this->config['captcha_id'],
-            'challenge' => md5($challenge.$this->config['captcha_key']),
+            'challenge' => md5($challenge . $this->config['captcha_key']),
             'new_captcha' => 1,
         ];
     }
@@ -74,7 +74,7 @@ class Geetest
     {
         $rnd1 = md5(rand(0, 100));
         $rnd2 = md5(rand(0, 100));
-        $challenge = $rnd1.substr($rnd2, 0, 2);
+        $challenge = $rnd1 . substr($rnd2, 0, 2);
         $result = [
             'success' => 0,
             'gt' => $this->config['captcha_id'],
@@ -104,8 +104,13 @@ class Geetest
      * @param  int  $jsonFormat
      * @return bool
      */
-    public function successValidate(string $challenge, string $validate, string $secCode, array $param, int $jsonFormat = 1)
-    {
+    public function successValidate(
+        string $challenge,
+        string $validate,
+        string $secCode,
+        array $param,
+        int $jsonFormat = 1
+    ) {
         if (!$this->checkValidate($challenge, $validate)) {
             return false;
         }
@@ -118,7 +123,7 @@ class Geetest
             'json_format' => $jsonFormat,
             'sdk' => self::GT_SDK_VERSION,
         ], $param);
-        $codeValidate = Http::timeout(1)->asForm()->post($this->domain.'validate.php', $data)->body();
+        $codeValidate = Http::timeout(1)->asForm()->post($this->domain . 'validate.php', $data)->body();
         $obj = json_decode($codeValidate, true);
         if ($obj === false) {
             return false;
@@ -147,7 +152,7 @@ class Geetest
      */
     private function checkValidate(string $challenge, string $validate)
     {
-        if (strlen($validate) != 32 || md5($this->config['captcha_key'].'geetest'.$challenge) != $validate) {
+        if (strlen($validate) != 32 || md5($this->config['captcha_key'] . 'geetest' . $challenge) != $validate) {
             return false;
         }
 
@@ -172,7 +177,12 @@ class Geetest
         if ($authCode) {
             $data['authcode'] = $authCode;
         }
-        $sign = hash_hmac('sha256', "{$this->config['one_login_id']}&&{$data['timestamp']}", $this->config['one_login_key'], true);
+        $sign = hash_hmac(
+            'sha256',
+            "{$this->config['one_login_id']}&&{$data['timestamp']}",
+            $this->config['one_login_key'],
+            true
+        );
         $data['sign'] = bin2hex($sign);
 
         $url = 'https://onelogin.geetest.com/check_phone';

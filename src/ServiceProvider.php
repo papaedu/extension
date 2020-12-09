@@ -152,8 +152,12 @@ class ServiceProvider extends LaravelProvider
 
         $this->app['validator']->extend('captcha', Captcha::class.'@validate');
 
-        $this->app['validator']->extendImplicit('required_multiple_if', function ($attributes, $value, $parameters, $validator) {
-            return (new RequiredMultiIf($parameters, $validator))->passes($attributes, $value);
-        }, ':attribute不能为空');
+        $this->app['validator']->extendImplicit(
+            'required_multiple_if',
+            function ($attributes, $value, $parameters, $validator) {
+                return (new RequiredMultiIf($parameters, $validator))->passes($attributes, $value);
+            },
+            ':attribute不能为空'
+        );
     }
 }

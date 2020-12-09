@@ -26,7 +26,10 @@ trait ResetsUsernames
     {
         $this->validateReset($request);
 
-        $user = $this->update($this->guard()->user(), ['idd_code' => $this->IDDCode] + $request->only('iso_code', 'new_username'));
+        $user = $this->update(
+            $this->guard()->user(),
+            ['idd_code' => $this->IDDCode] + $request->only('iso_code', 'new_username')
+        );
 
         $user->tokens()->delete();
 
@@ -43,7 +46,7 @@ trait ResetsUsernames
     {
         Phone::validate($request, 'new_username', [
             'password' => ['required', 'password_strength'],
-            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:new_username'],
+            'captcha' => ['required', 'digits:' . config('extension.auth.captcha.length'), 'captcha:new_username'],
         ], [
             'captcha.digits' => trans('extension::auth.captcha_failed'),
         ], [
@@ -52,8 +55,20 @@ trait ResetsUsernames
             'captcha' => trans('extension::field.captcha'),
         ]);
 
-        $this->IDDCode = Phone::ISOCode2IDDCode($request->new_username, $request->input('iso_code', config('extension.locale.iso_code')));
-        Phone::extraValidate($request, 'unique', 'new_username', $this->userModel(), $this->IDDCode, trans('extension::auth.registered'), '', $this->username());
+        $this->IDDCode = Phone::ISOCode2IDDCode(
+            $request->new_username,
+            $request->input('iso_code', config('extension.locale.iso_code'))
+        );
+        Phone::extraValidate(
+            $request,
+            'unique',
+            'new_username',
+            $this->userModel(),
+            $this->IDDCode,
+            trans('extension::auth.registered'),
+            '',
+            $this->username()
+        );
     }
 
     /**
@@ -65,7 +80,10 @@ trait ResetsUsernames
      */
     protected function sendResetResponse(Request $request, $user)
     {
-        CaptchaValidator::clear($request->input('idd_code', config('extension.locale.idd_code')), $request->new_username);
+        CaptchaValidator::clear(
+            $request->input('idd_code', config('extension.locale.idd_code')),
+            $request->new_username
+        );
 
         if ($response = $this->beforeResetResponse($request, $user)) {
             return $response;

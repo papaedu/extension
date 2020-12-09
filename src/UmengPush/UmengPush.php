@@ -59,7 +59,17 @@ class UmengPush
      */
     public function send(string $alias, $message)
     {
-        $this->ios()->sendCustomizedcastByAlias($alias, 'account', $message->toPredefinedForIOS(), $message->toClientField());
-        $this->android()->sendCustomizedcastByAlias($alias, 'userName', $message->toPredefinedForAndroid(), $message->toClientField());
+        $this->ios()->sendCustomizedcastByAlias(
+            $alias,
+            'account',
+            $message->toPredefinedForIOS(),
+            $message->toClientField()
+        );
+        $this->android()->sendCustomizedcastByAlias(
+            $alias,
+            'userName',
+            $message->toPredefinedForAndroid(),
+            $message->toClientField()
+        );
     }
 }

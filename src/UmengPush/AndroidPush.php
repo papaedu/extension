@@ -109,8 +109,12 @@ class AndroidPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendCustomizedcastByAlias(string $alias = '', $aliasType = '', array $predefined = [], array $extraField = [])
-    {
+    public function sendCustomizedcastByAlias(
+        string $alias = '',
+        $aliasType = '',
+        array $predefined = [],
+        array $extraField = []
+    ) {
         $customizedcast = new AndroidCustomizedcast();
         $this->initCast($customizedcast, $predefined, $extraField);
         $customizedcast->setPredefinedKeyValue('alias', $alias);
@@ -128,8 +132,11 @@ class AndroidPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendCustomizedcastByFileId(string $fileContents = '', array $predefined = [], array $extraField = [])
-    {
+    public function sendCustomizedcastByFileId(
+        string $fileContents = '',
+        array $predefined = [],
+        array $extraField = []
+    ) {
         $customizedcast = new AndroidCustomizedcast();
         $this->initCast($customizedcast, $predefined, $extraField);
         $customizedcast->uploadContents($fileContents);

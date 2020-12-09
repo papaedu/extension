@@ -38,8 +38,16 @@ class Phone
      * @param  string  $message
      * @param  string  $databaseField
      */
-    public static function extraValidate(Request $request, string $validation, string $field, string $model, string $IDDCode, string $message = '', string $ignoreId = '', string $databaseField = '')
-    {
+    public static function extraValidate(
+        Request $request,
+        string $validation,
+        string $field,
+        string $model,
+        string $IDDCode,
+        string $message = '',
+        string $ignoreId = '',
+        string $databaseField = ''
+    ) {
         if ($message) {
             $messages = ["{$field}.{$validation}" => $message];
         } else {
@@ -83,8 +91,14 @@ class Phone
      * @param  string  $databaseField
      * @return array
      */
-    protected static function getExtraValidateRules(string $validation, string $field, string $model, string $IDDCode, string $ignoreId = '', string $databaseField = '')
-    {
+    protected static function getExtraValidateRules(
+        string $validation,
+        string $field,
+        string $model,
+        string $IDDCode,
+        string $ignoreId = '',
+        string $databaseField = ''
+    ) {
         $databaseField = $databaseField ? $databaseField : $field;
 
         $rule = Rule::$validation($model, $databaseField);
@@ -107,7 +121,10 @@ class Phone
      */
     protected static function getValidateAttributes(string $field, array $extraAttributes)
     {
-        return $extraAttributes + ['iso_code' => trans('extension::field.iso_code'), $field => trans('extension::field.username')];
+        return $extraAttributes + [
+                'iso_code' => trans('extension::field.iso_code'),
+                $field => trans('extension::field.username'),
+            ];
     }
 
     /**

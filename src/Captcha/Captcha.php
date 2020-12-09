@@ -24,7 +24,11 @@ trait Captcha
             $this->username() => trans('extension::field.username'),
         ]);
 
-        GeetestClient::validate($request->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'), $appName, $clientType);
+        GeetestClient::validate(
+            $request->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'),
+            $appName,
+            $clientType
+        );
     }
 
     /**

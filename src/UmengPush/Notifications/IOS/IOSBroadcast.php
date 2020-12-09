@@ -12,5 +12,3 @@ class IOSBroadcast extends IOSNotification
         $this->data['type'] = 'broadcast';
     }
 }
-
-

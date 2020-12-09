@@ -6,36 +6,36 @@ use BenSampo\Enum\Enum;
 
 final class AppId extends Enum
 {
-    const PapaEdu = 1;
+    public const PAPA_EDU = 1;
 
-    const PapaIELTS = 2;
+    public const PAPA_IELTS = 2;
 
-    const PapaTOFEL = 3;
+    public const PAPA_TOFEL = 3;
 
-    const PapaGMAT = 4;
+    public const PAPA_GMAT = 4;
 
-    const PapaGRE = 5;
+    public const PAPA_GRE = 5;
 
-    const PapaTutor = 6;
+    public const PAPA_TUTOR = 6;
 
     public static function getDescription($value): string
     {
-        if ($value === self::PapaEdu) {
+        if ($value === self::PAPA_EDU) {
             return '趴趴英语';
         }
-        if ($value === self::PapaIELTS) {
+        if ($value === self::PAPA_IELTS) {
             return '趴趴英语雅思';
         }
-        if ($value === self::PapaTOFEL) {
+        if ($value === self::PAPA_TOFEL) {
             return '趴趴英语托福';
         }
-        if ($value === self::PapaGMAT) {
+        if ($value === self::PAPA_GMAT) {
             return '趴趴英语GMAT';
         }
-        if ($value === self::PapaGRE) {
+        if ($value === self::PAPA_GRE) {
             return '趴趴英语GRE';
         }
-        if ($value === self::PapaTutor) {
+        if ($value === self::PAPA_TUTOR) {
             return '趴趴英语教师';
         }
 
@@ -45,22 +45,22 @@ final class AppId extends Enum
     public static function transform(string $appName)
     {
         if ($appName === 'papaedu') {
-            return self::PapaEdu;
+            return self::PAPA_EDU;
         }
         if ($appName === 'papaielts') {
-            return self::PapaIELTS;
+            return self::PAPA_IELTS;
         }
         if ($appName === 'papatofel') {
-            return self::PapaTOFEL;
+            return self::PAPA_TOFEL;
         }
         if ($appName === 'papagmat') {
-            return self::PapaGMAT;
+            return self::PAPA_GMAT;
         }
         if ($appName === 'papagre') {
-            return self::PapaGRE;
+            return self::PAPA_GRE;
         }
         if ($appName === 'papatutor') {
-            return self::PapaTutor;
+            return self::PAPA_TUTOR;
         }
 
         return 0;

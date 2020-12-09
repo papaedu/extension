@@ -6,26 +6,26 @@ use BenSampo\Enum\Enum;
 
 final class AuthStatus extends Enum
 {
-    const Normal = 0;
+    const NORMAL = 0;
 
-    const IncompleteInformation = 11;
+    const INCOMPLETE_INFORMATION = 11;
 
-    const Ban = 98;
+    const BAN = 98;
 
-    const Close = 99;
+    const CLOSE = 99;
 
     public static function getDescription($value): string
     {
-        if ($value === self::Normal) {
+        if ($value === self::NORMAL) {
             return '正常';
         }
-        if ($value === self::IncompleteInformation) {
+        if ($value === self::INCOMPLETE_INFORMATION) {
             return '未完善信息';
         }
-        if ($value === self::Ban) {
+        if ($value === self::BAN) {
             return '封停账号';
         }
-        if ($value === self::Close) {
+        if ($value === self::CLOSE) {
             return '注销账号';
         }
 
@@ -35,8 +35,8 @@ final class AuthStatus extends Enum
     public static function isDisable($value)
     {
         return in_array($value, [
-            self::Ban,
-            self::Close,
+            self::BAN,
+            self::CLOSE,
         ]);
     }
 }

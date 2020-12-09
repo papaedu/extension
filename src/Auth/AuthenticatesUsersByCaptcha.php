@@ -32,8 +32,7 @@ trait AuthenticatesUsersByCaptcha
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        if (method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)) {
+        if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             $this->sendLockoutResponse($request);
@@ -67,7 +66,10 @@ trait AuthenticatesUsersByCaptcha
             'captcha' => trans('extension::field.captcha'),
         ]);
 
-        $this->IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $request->input('iso_code', config('extension.locale.iso_code')));
+        $this->IDDCode = Phone::ISOCode2IDDCode(
+            $request->input($this->username()),
+            $request->input('iso_code', config('extension.locale.iso_code'))
+        );
     }
 
     /**
@@ -98,7 +100,10 @@ trait AuthenticatesUsersByCaptcha
     {
         $this->clearLoginAttempts($request);
 
-        CaptchaValidator::clear($request->input('idd_code', config('extension.locale.idd_code')), $request->input($this->username()));
+        CaptchaValidator::clear(
+            $request->input('idd_code', config('extension.locale.idd_code')),
+            $request->input($this->username())
+        );
 
         $this->validateStatus($this->guard()->user()->status);
 

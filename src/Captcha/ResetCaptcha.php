@@ -25,7 +25,7 @@ trait ResetCaptcha
         $this->extraValidator($request, 'unique', $IDDCode, trans('extension::auth.registered'));
 
         $captcha = CaptchaValidator::generate($ISOCode, $request->username);
-        CaptchaNotification::reset($IDDCode, $request->username, $captcha);
+        CaptchaNotification::reset($request->username, $IDDCode, $captcha);
 
         return new JsonResponse([], 204);
     }

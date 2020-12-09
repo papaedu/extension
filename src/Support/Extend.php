@@ -4,7 +4,7 @@ namespace Papaedu\Extension\Support;
 
 class Extend
 {
-    const RomanNumeral = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'xiii'];
+    private const ROMAN_NUMERAL = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'xiii'];
 
     /**
      * 是否为罗马数字
@@ -14,7 +14,7 @@ class Extend
      */
     public static function isRomanNumeral(string $numeral)
     {
-        return in_array($numeral, self::RomanNumeral);
+        return in_array($numeral, self::ROMAN_NUMERAL);
     }
 
     /**
