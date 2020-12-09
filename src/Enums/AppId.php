@@ -10,7 +10,7 @@ final class AppId extends Enum
 
     public const PAPA_IELTS = 2;
 
-    public const PAPA_TOFEL = 3;
+    public const PAPA_TOEFL = 3;
 
     public const PAPA_GMAT = 4;
 
@@ -26,7 +26,7 @@ final class AppId extends Enum
         if ($value === self::PAPA_IELTS) {
             return '趴趴英语雅思';
         }
-        if ($value === self::PAPA_TOFEL) {
+        if ($value === self::PAPA_TOEFL) {
             return '趴趴英语托福';
         }
         if ($value === self::PAPA_GMAT) {
@@ -51,7 +51,7 @@ final class AppId extends Enum
             return self::PAPA_IELTS;
         }
         if ($appName === 'papatofel') {
-            return self::PAPA_TOFEL;
+            return self::PAPA_TOEFL;
         }
         if ($appName === 'papagmat') {
             return self::PAPA_GMAT;
