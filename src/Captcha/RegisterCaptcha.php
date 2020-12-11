@@ -13,12 +13,12 @@ trait RegisterCaptcha
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $appName
-     * @param  string  $clientType
+     * @param  string  $geetestClientType
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request, string $appName, string $clientType)
+    public function register(Request $request, string $appName, string $geetestClientType)
     {
-        $this->validator($request, $appName, $clientType);
+        $this->validator($request, $appName, $geetestClientType);
 
         $ISOCode = $request->input('iso_code', config('extension.locale.iso_code'));
         $IDDCode = Phone::ISOCode2IDDCode($request->input($this->username()), $ISOCode);

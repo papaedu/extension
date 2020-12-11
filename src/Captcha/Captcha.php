@@ -13,9 +13,9 @@ trait Captcha
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $appName
-     * @param  string  $clientType
+     * @param  string  $geetestClientType
      */
-    protected function validator(Request $request, string $appName, string $clientType)
+    protected function validator(Request $request, string $appName, string $geetestClientType)
     {
         $request->validate($this->getRules(), [
             'required' => trans('extension::validator.param_abnormal'),
@@ -27,7 +27,7 @@ trait Captcha
         GeetestClient::validate(
             $request->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'),
             $appName,
-            $clientType
+            $geetestClientType
         );
     }
 
