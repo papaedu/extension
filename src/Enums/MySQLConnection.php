@@ -4,21 +4,21 @@ namespace Papaedu\Extension\Enums;
 
 final class MySQLConnection
 {
-    const SHOP = 'mysql';
+    public const SHOP = 'mysql';
 
-    const EXERCISE = 'mysql_exercise';
+    public const EXERCISE = 'mysql_exercise';
 
-    const EXAM = 'mysql_exam';
+    public const EXAM = 'mysql_exam';
 
-    const ACTIVITY = 'mysql_activity';
+    public const ACTIVITY = 'mysql_activity';
 
-    const QUESTION = 'mysql_question';
+    public const QUESTION = 'mysql_question';
 
-    const TRAINING = 'mysql_training';
+    public const TRAINING = 'mysql_training';
 
-    const ABROAD = 'mysql_abroad';
+    public const ABROAD = 'mysql_abroad';
 
-    const ANALYTICS = 'mysql_analytics';
+    public const ANALYTICS = 'mysql_analytics';
 
-    const BEGIN = 'mysql_begin';
+    public const BEGIN = 'mysql_begin';
 }

@@ -6,15 +6,15 @@ use BenSampo\Enum\Enum;
 
 final class Platform extends Enum
 {
-    const WEB = 1;
+    public const WEB = 1;
 
-    const H5 = 2;
+    public const H5 = 2;
 
-    const MP = 3;
+    public const MP = 3;
 
-    const IOS = 4;
+    public const IOS = 4;
 
-    const ANDROID = 5;
+    public const ANDROID = 5;
 
     public static function getDescription($value): string
     {
