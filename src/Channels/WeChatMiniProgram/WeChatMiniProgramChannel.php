@@ -1,22 +1,22 @@
 <?php
 
-namespace Papaedu\Extension\Channels\EasySms;
+namespace Papaedu\Extension\Channels\WeChatMiniProgram;
 
+use EasyWeChatComposer\EasyWeChat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\Notification;
-use Overtrue\EasySms\EasySms;
 
-class EasySmsChannel
+class WeChatMiniProgramChannel
 {
     /**
-     * @var \Overtrue\EasySms\EasySms
+     * @var \EasyWeChatComposer\EasyWeChat
      */
-    private $easySms;
+    private EasyWeChat $easyWeChat;
 
-    public function __construct(EasySms $easySms)
+    public function __construct(EasyWeChat $easyWeChat)
     {
-        $this->easySms = $easySms;
+        $this->easyWeChat = $easyWeChat;
     }
 
     /**
@@ -29,14 +29,17 @@ class EasySmsChannel
     public function send($notifiable, Notification $notification)
     {
         if ($notifiable instanceof Model) {
-            $to = $notifiable->routeNotificationFor('easy_sms', $notification);
+            $to = $notifiable->routeNotificationFor('we_chat_mini_program', $notification);
         } elseif ($notifiable instanceof AnonymousNotifiable) {
             $to = $notifiable->routes[__CLASS__];
         } else {
             return;
         }
-        $message = $notification->toEasySms($to);
 
-        $this->easySms->send($to, $message);
+        $message = $notification->toWeChatMiniProgram($to);
+
+        $channel = 'begin';
+
+        $this->easyWeChat->miniProgram($channel)->uniform_message->send($message);
     }
 }

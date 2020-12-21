@@ -18,7 +18,7 @@ trait Captcha
     protected function validator(Request $request, string $appName, string $geetestClientType)
     {
         $request->validate($this->getRules(), [
-            'required' => trans('extension::validator.param_abnormal'),
+            'required' => trans('extension::status_message.400.default'),
         ], [
             'iso_code' => trans('extension::field.iso_code'),
             $this->username() => trans('extension::field.username'),

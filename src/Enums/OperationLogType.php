@@ -6,27 +6,27 @@ use BenSampo\Enum\Enum;
 
 final class OperationLogType extends Enum
 {
-    const REGISTER_BY_PASSWORD = 11;
+    public const REGISTER_BY_PASSWORD = 11;
 
-    const REGISTER_BY_CAPTCHA = 12;
+    public const REGISTER_BY_CAPTCHA = 12;
 
-    const REGISTER_BY_ONELOGIN = 13;
+    public const REGISTER_BY_ONELOGIN = 13;
 
-    const LOGIN_BY_PASSWORD = 21;
+    public const LOGIN_BY_PASSWORD = 21;
 
-    const LOGIN_BY_CAPTCHA = 22;
+    public const LOGIN_BY_CAPTCHA = 22;
 
-    const LOGIN_BY_ONELOGIN = 23;
+    public const LOGIN_BY_ONELOGIN = 23;
 
-    const LOGIN_BY_SOCIALITE_WECHAT = 24;
+    public const LOGIN_BY_SOCIALITE_WECHAT = 24;
 
-    const LOGOUT = 31;
+    public const LOGOUT = 31;
 
-    const FORGOT_PASSWORD = 41;
+    public const FORGOT_PASSWORD = 41;
 
-    const RESET_PASSWORD = 42;
+    public const RESET_PASSWORD = 42;
 
-    const RESET_USERNAME = 43;
+    public const RESET_USERNAME = 43;
 
     public static function getDescription($value): string
     {

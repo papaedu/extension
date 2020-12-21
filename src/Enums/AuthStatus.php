@@ -6,13 +6,13 @@ use BenSampo\Enum\Enum;
 
 final class AuthStatus extends Enum
 {
-    const NORMAL = 0;
+    public const NORMAL = 0;
 
-    const INCOMPLETE_INFORMATION = 11;
+    public const INCOMPLETE_INFORMATION = 11;
 
-    const BAN = 98;
+    public const BAN = 98;
 
-    const CLOSE = 99;
+    public const CLOSE = 99;
 
     public static function getDescription($value): string
     {

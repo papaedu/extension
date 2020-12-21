@@ -2,8 +2,6 @@
 
 namespace Papaedu\Extension\Notifications;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\Notification;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Papaedu\Extension\Channels\EasySms\EasySmsChannel;

@@ -21,12 +21,13 @@ return [
     ],
 
     'socialite' => [
-        'model' => App\Models\Socialite::class,
-        'type' => App\Enums\SocialiteType::class,
+        'model' => Papaedu\Extension\Models\Socialite::class,
+        'type' => Papaedu\Extension\Enums\SocialiteType::class,
         'channel' => [
             'wechat' => [
                 'sync_nickname' => true,
                 'sync_avatar' => true,
+                'enable_union_id' => false,
             ],
         ],
     ],

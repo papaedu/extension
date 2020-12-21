@@ -5,6 +5,12 @@ namespace Papaedu\Extension\Socialite;
 use Illuminate\Validation\ValidationException;
 use Overtrue\Socialite\User;
 
+/**
+ * Trait SocialiteWeChat
+ *
+ * @package Papaedu\Extension\Socialite
+ * @deprecated
+ */
 trait SocialiteWeChat
 {
     /**

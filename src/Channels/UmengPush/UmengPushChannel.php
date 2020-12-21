@@ -29,11 +29,11 @@ class UmengPushChannel
      *
      * @param  mixed  $notifiable
      * @param  \Illuminate\Notifications\Notification  $notification
-     * @return void
+     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
     public function send($notifiable, Notification $notification)
     {
-        if (!$receiver = $notifiable->routeNotificationFor('umengpush')) {
+        if (!$receiver = $notifiable->routeNotificationFor('umeng_push')) {
             return;
         }
 
