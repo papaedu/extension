@@ -10,6 +10,6 @@ return [
     ],
 
     '500' => [
-        'default' => '服务异常',
+        'default' => 'Internal Server Error',
     ],
 ];
