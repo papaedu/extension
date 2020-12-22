@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Papaedu\Extension\Captcha\CaptchaValidator;
 use Papaedu\Extension\Facades\Geetest;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait RegistersUsersByOnelogin
 {
@@ -30,7 +31,7 @@ trait RegistersUsersByOnelogin
         $this->validateRegister($request);
 
         if ($user = $this->attemptRegister($appName, $request)) {
-            return $this->sendRegisterResponse($request);
+            return $this->sendRegisterResponse($request, $user);
         }
 
         $this->sendFailedRegisterResponse();
@@ -86,9 +87,7 @@ trait RegistersUsersByOnelogin
             return $user;
         }
 
-        throw ValidationException::withMessages([
-            $this->username() => [trans('extension::auth.registered')],
-        ]);
+        throw new HttpException(400, trans('extension::auth.registered', trans('extension::field.username')));
     }
 
     /**
@@ -102,9 +101,10 @@ trait RegistersUsersByOnelogin
      * Send the response after the user was registered.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  mixed  $user
+     * @return \Illuminate\Http\JsonResponse|mixed
      */
-    protected function sendRegisterResponse(Request $request)
+    protected function sendRegisterResponse(Request $request, $user)
     {
         CaptchaValidator::clear(
             $request->input('idd_code', config('extension.locale.idd_code')),
