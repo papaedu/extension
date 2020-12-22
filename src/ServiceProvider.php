@@ -26,6 +26,7 @@ class ServiceProvider extends LaravelProvider
         $this->registerEnums();
         $this->registerChannels();
         $this->registerCommands();
+        $this->registerMigrations();
     }
 
     private function registerConfig()
@@ -105,6 +106,13 @@ class ServiceProvider extends LaravelProvider
                 ControllerCommand::class,
             ]);
         }
+    }
+
+    private function registerMigrations()
+    {
+        $this->publishes([
+            __DIR__ . '/Database/Migrations/' => database_path('migrations'),
+        ], 'migrations');
     }
 
     /**
