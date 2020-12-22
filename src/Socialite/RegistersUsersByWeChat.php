@@ -1,15 +1,16 @@
 <?php
 
-namespace Papaedu\Extension\Auth;
+namespace Papaedu\Extension\Socialite;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Papaedu\Extension\Auth\AuthTrait;
 use Papaedu\Extension\Captcha\CaptchaValidator;
-use Papaedu\Extension\Facades\Geetest;
+use Papaedu\Extension\Support\Phone;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-trait RegistersUsersByOnelogin
+trait RegistersUsersByWeChat
 {
     use AuthTrait;
 
@@ -21,16 +22,20 @@ trait RegistersUsersByOnelogin
     /**
      * Handle a registration request for the application.
      *
-     * @param  string  $appName
      * @param  \Illuminate\Http\Request  $request
+     * @param  string  $weChatPlatform
+     * @param  string  $weChatChannel
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
+     * @throws \Papaedu\Extension\Http\Exceptions\SocialiteOfWeChatException
      */
-    public function register(string $appName, Request $request)
+    public function register(Request $request, string $weChatPlatform, string $weChatChannel)
     {
-        $this->validateRegister($request);
+        if (!$request->has(['iv', 'encrypted_data'])) {
+            throw new HttpException(400, trans('extension::status_message.400.default'));
+        }
 
-        if ($user = $this->attemptRegister($appName, $request)) {
+        if ($user = $this->attemptRegister($request, $weChatPlatform, $weChatChannel)) {
             return $this->sendRegisterResponse($request, $user);
         }
 
@@ -38,43 +43,24 @@ trait RegistersUsersByOnelogin
     }
 
     /**
-     * Validate the guest register request.
-     *
      * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @param  string  $weChatPlatform
+     * @param  string  $weChatChannel
+     * @return mixed
+     * @throws \Papaedu\Extension\Http\Exceptions\SocialiteOfWeChatException
      */
-    protected function validateRegister(Request $request)
+    protected function attemptRegister(Request $request, string $weChatPlatform, string $weChatChannel)
     {
-        $request->validate([
-            'process_id' => ['required'],
-            'token' => ['required'],
-        ], [
-            'required' => trans('extension::auth.onelogin_failed'),
-        ]);
-    }
+        $application = SocialiteApplication::wechat($weChatPlatform, $weChatChannel);
+        $application->loadOauthUserBySession();
 
-    /**
-     * @param  string  $appName
-     * @param  \Illuminate\Http\Request  $request
-     * @return null
-     */
-    protected function attemptRegister(string $appName, Request $request)
-    {
-        $username = Geetest::config($appName)
-            ->oneLoginCheckPhone(
-                $request->input('process_id', ''),
-                $request->input('auth_code', ''),
-                $request->input('token', '')
-            );
-
-        if (!$username) {
-            return null;
-        }
+        $data = $application->decryptData($request->iv, $request->encrypted_data);
+        $this->IDDCode = Phone::ISOCode2IDDCode($data['purePhoneNumber'], $data['countryCode']);
 
         $data = [
-            'idd_code' => config('extension.locale.idd_code'),
-            'iso_code' => config('extension.locale.iso_code'),
-            $this->username() => $username,
+            'idd_code' => $this->IDDCode,
+            'iso_code' => $data['countryCode'],
+            $this->username() => $data['purePhoneNumber'],
             'gender' => $request->gender,
             'location_id' => $request->location_id,
         ];
@@ -85,11 +71,6 @@ trait RegistersUsersByOnelogin
 
             return $user;
         }
-
-        throw new HttpException(400, trans(
-            'extension::auth.registered',
-            ['attribute' => trans('extension::field.username')]
-        ));
     }
 
     /**
@@ -104,7 +85,7 @@ trait RegistersUsersByOnelogin
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
-     * @return \Illuminate\Http\JsonResponse|mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function sendRegisterResponse(Request $request, $user)
     {
