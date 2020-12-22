@@ -34,7 +34,7 @@ trait AuthenticatesUsersByWechat
 
             if ($weChatId = $application->getId()) {
                 if ($this->attemptLogin($weChatId)) {
-                    return $this->sendLoginResponse();
+                    return $this->sendLoginResponse($application);
                 }
 
                 $application->saveOauthUser();
@@ -67,6 +67,12 @@ trait AuthenticatesUsersByWechat
         );
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Papaedu\Extension\Http\Exceptions\SocialiteOfWeChatException
+     * @throws \Papaedu\Extension\Http\Exceptions\WeChatUndefinedUnionIdException
+     */
     public function info(Request $request)
     {
         if (!$request->has(['iv', 'encrypted_data'])) {
