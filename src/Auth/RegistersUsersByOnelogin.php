@@ -107,11 +107,6 @@ trait RegistersUsersByOnelogin
      */
     protected function sendRegisterResponse(Request $request, $user)
     {
-        CaptchaValidator::clear(
-            $request->input('idd_code', config('extension.locale.idd_code')),
-            $request->input($this->username())
-        );
-
         if ($response = $this->registered($request, $user)) {
             return $response;
         }
