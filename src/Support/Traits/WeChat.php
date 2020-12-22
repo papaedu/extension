@@ -6,7 +6,6 @@ use EasyWeChat;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Papaedu\Extension\Enums\WeChatPlatform;
 use Papaedu\Extension\Socialite\SocialiteApplication;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
