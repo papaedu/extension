@@ -78,16 +78,17 @@ trait RegistersUsersByOnelogin
             $this->username() => $username,
         ];
         if ($this->validateAlreadyRegister($data)) {
-            event(new Registered(
-                $user = $this->create($data)
-            ));
+            event(new Registered($user = $this->create($data)));
 
             $this->guard()->login($user);
 
             return $user;
         }
 
-        throw new HttpException(400, trans('extension::auth.registered', trans('extension::field.username')));
+        throw new HttpException(400, trans(
+            'extension::auth.registered',
+            ['attribute' => trans('extension::field.username')]
+        ));
     }
 
     /**
