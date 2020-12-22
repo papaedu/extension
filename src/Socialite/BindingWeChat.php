@@ -11,8 +11,10 @@ trait BindingWeChat
     /**
      * Binding wechat.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param $user
      * @throws \Illuminate\Validation\ValidationException
+     * @throws \Papaedu\Extension\Http\Exceptions\SocialiteOfWeChatException
+     * @throws \Papaedu\Extension\Http\Exceptions\WeChatUndefinedUnionIdException
      */
     public function bindWeChat($user)
     {
