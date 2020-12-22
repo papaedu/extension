@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Papaedu\Extension\Enums\WeChatPlatform;
+use Papaedu\Extension\Socialite\SocialiteApplication;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait WeChat
@@ -15,6 +16,8 @@ trait WeChat
      * @param  string  $weChatChannel
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function config(string $weChatChannel, Request $request)
     {
@@ -40,28 +43,13 @@ trait WeChat
         throw new HttpException(500, trans('extension::status_message.500.default'));
     }
 
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function decrypt(Request $request)
     {
-        $loginWithWeChat = session('login_with_wechat');
-        if (WeChatPlatform::MINI_PROGRAM == $loginWithWeChat['platform']
-            && $request->has('iv')
-            && $request->has('encrypted_data')) {
-            try {
-                $miniProgram = EasyWeChat::miniProgram($loginWithWeChat['channel']);
-                $data = $miniProgram->encryptor->decryptData(
-                    $loginWithWeChat['oauth_user']['session_key'],
-                    $request->iv,
-                    $request->encrypted_data
-                );
+        if ($request->has('iv') && $request->has('encrypted_data')) {
+            $application = SocialiteApplication::wechat();
+            $data = $application->decryptData($request->iv, $request->encrypted_data);
 
-                return new JsonResponse(['data' => $data]);
-            } catch (EasyWeChat\Kernel\Exceptions\DecryptException $e) {
-                throw new HttpException(500, trans('extension::status_message.500.default'));
-            }
+            return new JsonResponse(['data' => $data]);
         }
 
         throw new HttpException(400, trans('extension::status_message.400.default'));
