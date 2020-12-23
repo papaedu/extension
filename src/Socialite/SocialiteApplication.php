@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\Socialite;
 
+use App\Enums\WeChatChannel;
 use Papaedu\Extension\Enums\WeChatPlatform;
 use Papaedu\Extension\Http\Exceptions\SocialiteOfWeChatException;
 
@@ -9,14 +10,10 @@ class SocialiteApplication
 {
     protected static $loginWithWeChat;
 
-    public static function wechat(string $platform = '', string $channel = '')
+    public static function wechat()
     {
-        if (!$platform) {
-            $platform = self::loginWithWeChat(WeChatWith::PLATFORM_KEY);
-        }
-        if (!$channel) {
-            $channel = self::loginWithWeChat(WeChatWith::CHANNEL_KEY);
-        }
+        $platform = request()->header('platform', WeChatPlatform::MINI_PROGRAM);
+        $channel = request()->header('channel', WeChatChannel::BEGIN_MINI_PROGRAM);
 
         if ($platform && $channel) {
             if (WeChatPlatform::OFFICIAL_ACCOUNT == $platform) {

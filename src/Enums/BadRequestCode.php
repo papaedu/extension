@@ -15,7 +15,7 @@ final class BadRequestCode
 
     public const SOCIALITE_AUTHORIZED_FAILED = 10004;// 社会化登录授权失败
 
-    public const SOCIALITE_UNDEFINED_UNION_ID= 10005;// 没有Union ID, 需要通过调用其他接口补全授权必要信息
+    public const SOCIALITE_MISS_SESSION_KEY = 10005;// 缺少必要参数，重新获取授权信息
 
     /*
      * 通用

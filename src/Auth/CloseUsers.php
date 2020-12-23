@@ -18,6 +18,7 @@ trait CloseUsers
     {
         // $this->validateClosed($request);
 
+        $this->guard()->user()->socialites()->delete();
         $this->guard()->user()->tokens()->delete();
 
         $this->closed($this->guard()->user());
@@ -31,8 +32,8 @@ trait CloseUsers
         Phone::validate($request, $this->username(), [
             'captcha' => [
                 'required',
-                'digits:' . config('extension.auth.captcha.length'),
-                'captcha:' . $this->username(),
+                'digits:'.config('extension.auth.captcha.length'),
+                'captcha:'.$this->username(),
             ],
         ], [
             'captcha.digits' => trans('extension::auth.captcha_failed'),

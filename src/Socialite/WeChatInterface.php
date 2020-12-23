@@ -65,5 +65,5 @@ interface WeChatInterface
      */
     public function saveOauthUser(): void;
 
-    public function decryptData(string $iv, string $encryptedData): array;
+    public function decryptData(string $sessionKey, string $iv, string $encryptedData): array;
 }
