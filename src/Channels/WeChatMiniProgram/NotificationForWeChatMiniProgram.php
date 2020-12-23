@@ -8,8 +8,8 @@ trait NotificationForWeChatMiniProgram
      * @param  \Illuminate\Notifications\Notification|null  $notification
      * @return string
      */
-    public function routeNotificationForWechatMiniProgram($notification)
+    public function routeNotificationForWeChatMiniProgram($notification)
     {
-        return $this->socialites()->where('type', $notification->type)->first('openid')->openid ?? null;
+        return $this->socialites()->first() ?? null;
     }
 }
