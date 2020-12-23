@@ -2,7 +2,7 @@
 
 namespace Papaedu\Extension\Channels\WeChatMiniProgram;
 
-use EasyWeChatComposer\EasyWeChat;
+use EasyWeChat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\Notification;
@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 class WeChatMiniProgramChannel
 {
     /**
-     * @var \EasyWeChatComposer\EasyWeChat
+     * @var EasyWeChat
      */
     private EasyWeChat $easyWeChat;
 
@@ -38,8 +38,8 @@ class WeChatMiniProgramChannel
 
         $message = $notification->toWeChatMiniProgram($to);
 
-        $channel = 'begin';
+        $response = $this->easyWeChat->miniProgram($message->getChannel())->uniform_message->send($message->toSendData());
 
-        $this->easyWeChat->miniProgram($channel)->uniform_message->send($message);
+        dd($response);
     }
 }

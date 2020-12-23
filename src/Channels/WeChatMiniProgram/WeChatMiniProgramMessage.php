@@ -7,6 +7,11 @@ class WeChatMiniProgramMessage
     /**
      * @var string
      */
+    private string $channel;
+
+    /**
+     * @var string
+     */
     private string $toUser;
 
     /**
@@ -22,7 +27,7 @@ class WeChatMiniProgramMessage
     /**
      * @var string
      */
-    private string $fromId;
+    private string $formId;
 
     /**
      * @var array
@@ -33,6 +38,17 @@ class WeChatMiniProgramMessage
      * @var string
      */
     private string $emphasisKeyword;
+
+    /**
+     * @param  string  $channel
+     * @return $this
+     */
+    public function setChannel(string $channel): self
+    {
+        $this->channel = $channel;
+
+        return $this;
+    }
 
     /**
      * @param  string  $toUser
@@ -68,12 +84,12 @@ class WeChatMiniProgramMessage
     }
 
     /**
-     * @param  string  $fromId
+     * @param  string  $formId
      * @return $this
      */
-    public function setFromId(string $fromId): self
+    public function setFormId(string $formId): self
     {
-        $this->fromId = $fromId;
+        $this->formId = $formId;
 
         return $this;
     }
@@ -90,17 +106,38 @@ class WeChatMiniProgramMessage
     }
 
     /**
+     * @param  string  $emphasisKeyword
+     * @return $this
+     */
+    public function setEmphasisKeyword(string $emphasisKeyword): self
+    {
+        $this->emphasisKeyword = $emphasisKeyword;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChannel(): string
+    {
+        return $this->channel;
+    }
+
+    /**
      * @return array
      */
     public function toSendData(): array
     {
         return [
             'touser' => $this->toUser,
-            'template_id' => $this->templateId,
-            'page' => $this->page,
-            'from_id' => $this->fromId,
-            'data' => $this->data,
-            'emphasis_keyword' => $this->emphasisKeyword,
+            'weapp_template_msg' => [
+                'template_id' => $this->templateId,
+                'page' => $this->page,
+                'form_id' => $this->formId,
+                'data' => $this->data,
+                'emphasis_keyword' => $this->emphasisKeyword,
+            ],
         ];
     }
 }
