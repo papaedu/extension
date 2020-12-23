@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Socialite;
 
 use EasyWeChat;
 use Overtrue\Socialite\Exceptions\AuthorizeFailedException;
+use Papaedu\Extension\Enums\BadRequestCode;
 use Papaedu\Extension\Http\Exceptions\WeChatUndefinedUnionIdException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -32,17 +33,6 @@ class WeChatWithMiniProgram extends WeChatWith
     }
 
     /**
-     * @param  string  $iv
-     * @param  string  $encryptedData
-     * @throws \Papaedu\Extension\Http\Exceptions\SocialiteOfWeChatException
-     */
-    public function attemptSetUserInfo(string $iv, string $encryptedData)
-    {
-        $this->loadOauthUserBySession();
-        $this->oauthUser['userInfo'] = $this->decryptData($iv, $encryptedData);
-    }
-
-    /**
      * Get oauth user union id when union id in information, else return oauth user openid.
      *
      * @return string
@@ -65,6 +55,14 @@ class WeChatWithMiniProgram extends WeChatWith
     public function getOpenid(): string
     {
         return $this->oauthUser['openid'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getSessionKey(): string
+    {
+        return $this->oauthUser['session_key'];
     }
 
     /**
@@ -105,20 +103,23 @@ class WeChatWithMiniProgram extends WeChatWith
     }
 
     /**
+     * @param  string  $sessionKey
      * @param  string  $iv
      * @param  string  $encryptedData
      * @return array
      */
-    public function decryptData(string $iv, string $encryptedData): array
+    public function decryptData(string $sessionKey, string $iv, string $encryptedData): array
     {
-        if (!isset($this->oauthUser['session_key']) && !$this->oauthUser['session_key']) {
-            throw new HttpException(500, trans('extension::status_message.500.default'));
-        }
-
         try {
-            return $this->application->encryptor->decryptData($this->oauthUser['session_key'], $iv, $encryptedData);
+            return $this->application->encryptor->decryptData($sessionKey, $iv, $encryptedData);
         } catch (EasyWeChat\Kernel\Exceptions\DecryptException $e) {
-            throw new HttpException(500, trans('extension::status_message.500.default'));
+            throw new HttpException(
+                400,
+                trans('extension::socialite.miss_authorization_info'),
+                null,
+                [],
+                BadRequestCode::SOCIALITE_MISS_SESSION_KEY
+            );
         }
     }
 }

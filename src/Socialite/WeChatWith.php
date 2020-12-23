@@ -60,11 +60,12 @@ abstract class WeChatWith implements WeChatInterface
     }
 
     /**
+     * @param  string  $sessionKey
      * @param  string  $iv
      * @param  string  $encryptedData
      * @return array
      */
-    public function decryptData(string $iv, string $encryptedData): array
+    public function decryptData(string $sessionKey, string $iv, string $encryptedData): array
     {
         throw new HttpException(500, trans('extension::status_message.500.default'));
     }
