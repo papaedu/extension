@@ -24,7 +24,6 @@ class WeChatMiniProgramChannel
      *
      * @param  mixed  $notifiable
      * @param  \Illuminate\Notifications\Notification  $notification
-     * @return void
      */
     public function send($notifiable, Notification $notification)
     {
@@ -38,8 +37,7 @@ class WeChatMiniProgramChannel
 
         $message = $notification->toWeChatMiniProgram($to);
 
-        $response = $this->easyWeChat->miniProgram($message->getChannel())->uniform_message->send($message->toSendData());
-
-        dd($response);
+        $app = $this->easyWeChat->miniProgram($message->getChannel());
+        $app->subscribe_message->send($message->toSendData());
     }
 }

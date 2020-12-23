@@ -7,37 +7,37 @@ class WeChatMiniProgramMessage
     /**
      * @var string
      */
-    private string $channel;
+    private string $channel = '';
 
     /**
      * @var string
      */
-    private string $toUser;
+    private string $toUser = '';
 
     /**
      * @var string
      */
-    private string $templateId;
+    private string $templateId = '';
 
     /**
      * @var string
      */
-    private string $page;
-
-    /**
-     * @var string
-     */
-    private string $formId;
+    private string $page = '';
 
     /**
      * @var array
      */
-    private array $data;
+    private array $data = [];
 
     /**
      * @var string
      */
-    private string $emphasisKeyword;
+    private string $miniProgramState = '';
+
+    /**
+     * @var string
+     */
+    private string $lang = '';
 
     /**
      * @param  string  $channel
@@ -84,17 +84,6 @@ class WeChatMiniProgramMessage
     }
 
     /**
-     * @param  string  $formId
-     * @return $this
-     */
-    public function setFormId(string $formId): self
-    {
-        $this->formId = $formId;
-
-        return $this;
-    }
-
-    /**
      * @param  array  $data
      * @return $this
      */
@@ -106,12 +95,23 @@ class WeChatMiniProgramMessage
     }
 
     /**
-     * @param  string  $emphasisKeyword
+     * @param  string  $miniProgramState
      * @return $this
      */
-    public function setEmphasisKeyword(string $emphasisKeyword): self
+    public function setMiniProgramState(string $miniProgramState): self
     {
-        $this->emphasisKeyword = $emphasisKeyword;
+        $this->miniProgramState = $miniProgramState;
+
+        return $this;
+    }
+
+    /**
+     * @param  string  $lang
+     * @return $this
+     */
+    public function setLang(string $lang): self
+    {
+        $this->lang = $lang;
 
         return $this;
     }
@@ -129,15 +129,13 @@ class WeChatMiniProgramMessage
      */
     public function toSendData(): array
     {
-        return [
+        return array_filter([
             'touser' => $this->toUser,
-            'weapp_template_msg' => [
-                'template_id' => $this->templateId,
-                'page' => $this->page,
-                'form_id' => $this->formId,
-                'data' => $this->data,
-                'emphasis_keyword' => $this->emphasisKeyword,
-            ],
-        ];
+            'template_id' => $this->templateId,
+            'page' => $this->page,
+            'data' => $this->data,
+            'miniprogram_state' => $this->miniProgramState,
+            'lang' => $this->lang,
+        ]);
     }
 }
