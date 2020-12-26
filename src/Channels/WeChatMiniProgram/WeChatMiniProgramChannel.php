@@ -27,8 +27,11 @@ class WeChatMiniProgramChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        if ($notifiable instanceof Model && isset($notifiable->openid)) {
+        if ($notifiable instanceof Model) {
             $to = $notifiable->routeNotificationFor('we_chat_mini_program', $notification);
+            if (!isset($to->openid)) {
+                return;
+            }
         } else {
             return;
         }
