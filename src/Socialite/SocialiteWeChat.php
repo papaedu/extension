@@ -105,7 +105,7 @@ trait SocialiteWeChat
         if (!$openId) {
             return;
         }
-        $type = $this->getSocialiteType()::transform($channel);
+        $type = $this->getSocialiteType()::transform('', $channel);
         if (!$type) {
             return;
         }
