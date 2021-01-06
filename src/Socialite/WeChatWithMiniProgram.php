@@ -71,6 +71,16 @@ class WeChatWithMiniProgram extends WeChatWith
      * Get oauth user union id.
      *
      * @return string
+     */
+    public function getUnionIdWithCode(): string
+    {
+        return $this->oauthUser['unionid'] ?? '';
+    }
+
+    /**
+     * Get oauth user union id.
+     *
+     * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\WeChatUndefinedUnionIdException
      */
     public function getUnionId(): string
