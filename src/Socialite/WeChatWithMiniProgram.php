@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\Socialite;
 
+use App\Enums\WeChatChannel;
 use EasyWeChat;
 use Overtrue\Socialite\Exceptions\AuthorizeFailedException;
 use Papaedu\Extension\Enums\BadRequestCode;
@@ -15,7 +16,8 @@ class WeChatWithMiniProgram extends WeChatWith
      */
     protected function createApplication()
     {
-        $this->application = EasyWeChat::miniProgram($this->channel);
+        $configName = WeChatChannel::getConfigName($this->platform, $this->channel);
+        $this->application = EasyWeChat::miniProgram($configName);
     }
 
     /**
