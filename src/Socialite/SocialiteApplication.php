@@ -13,7 +13,7 @@ class SocialiteApplication
     public static function wechat()
     {
         $platform = request()->header('platform', WeChatPlatform::MINI_PROGRAM);
-        $channel = request()->header('channel', WeChatChannel::BEGIN_MINI_PROGRAM);
+        $channel = request()->header('channel', WeChatChannel::DEFAULT);
 
         if ($platform && $channel) {
             if (WeChatPlatform::OFFICIAL_ACCOUNT == $platform) {

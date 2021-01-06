@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\Socialite;
 
+use App\Enums\WeChatChannel;
 use EasyWeChat;
 use Papaedu\Extension\Http\Exceptions\WeChatUndefinedUnionIdException;
 
@@ -12,7 +13,8 @@ class WeChatWithOfficialAccount extends WeChatWith
      */
     protected function createApplication()
     {
-        $this->application = EasyWeChat::officialAccount($this->channel);
+        $configName = WeChatChannel::getConfigName($this->platform, $this->channel);
+        $this->application = EasyWeChat::officialAccount($configName);
     }
 
     /**
