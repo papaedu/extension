@@ -45,6 +45,22 @@ abstract class WeChatWith implements WeChatInterface
     abstract protected function createApplication();
 
     /**
+     * @return string
+     */
+    public function getPlatform(): string
+    {
+        return $this->platform;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChannel(): string
+    {
+        return $this->channel;
+    }
+
+    /**
      * @param  string  $key
      * @return array|string
      */
