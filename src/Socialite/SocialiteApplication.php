@@ -16,10 +16,10 @@ class SocialiteApplication
         $channel = request()->header('channel', WeChatChannel::DEFAULT);
 
         if ($platform && $channel) {
-            if (WeChatPlatform::OFFICIAL_ACCOUNT == $platform) {
-                return new WeChatWithOfficialAccount($platform, $channel);
-            } elseif (WeChatPlatform::MINI_PROGRAM == $platform) {
+            if (WeChatPlatform::MINI_PROGRAM == $platform) {
                 return new WeChatWithMiniProgram($platform, $channel);
+            } else {
+                return new WeChatWithOfficialAccount($platform, $channel);
             }
         }
 
