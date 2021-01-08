@@ -16,6 +16,8 @@ final class Platform extends Enum
 
     public const ANDROID = 5;
 
+    public const MINI_PROGRAM = 6;
+
     public static function getDescription($value): string
     {
         if ($value === self::WEB) {
@@ -32,6 +34,9 @@ final class Platform extends Enum
         }
         if ($value === self::ANDROID) {
             return '安卓';
+        }
+        if ($value === self::MINI_PROGRAM) {
+            return '小程序';
         }
 
         return parent::getDescription($value);
@@ -53,6 +58,9 @@ final class Platform extends Enum
         }
         if ($name === 'android') {
             return self::ANDROID;
+        }
+        if ($name === 'mini_program') {
+            return self::MINI_PROGRAM;
         }
 
         return 0;
