@@ -7,28 +7,28 @@ class UmengPushMessage
     /**
      * @var string
      */
-    public $title;
+    private string $title;
 
     /**
      * @var string
      */
-    public $content;
+    private string $content;
 
     /**
      * @var array
      */
-    public $clientField = [];
+    private array $clientField = [];
 
     /**
      * @var string
      */
-    public $afterOpen;
+    private string $afterOpen;
 
     /**
      * @param  string  $title
      * @return $this
      */
-    public function title(string $title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -39,7 +39,7 @@ class UmengPushMessage
      * @param  string  $content
      * @return $this
      */
-    public function content(string $content)
+    public function setContent(string $content): self
     {
         $this->content = $content;
 
@@ -50,7 +50,7 @@ class UmengPushMessage
      * @param  array  $clientField
      * @return $this
      */
-    public function clientField(array $clientField)
+    public function setClientField(array $clientField): self
     {
         $this->clientField = $clientField;
 
@@ -61,7 +61,7 @@ class UmengPushMessage
      * @param  string  $afterOpen
      * @return $this
      */
-    public function afterOpen(string $afterOpen)
+    public function setAfterOpen(string $afterOpen): self
     {
         $this->afterOpen = $afterOpen;
 
@@ -71,7 +71,7 @@ class UmengPushMessage
     /**
      * @return array
      */
-    public function toPredefinedForIOS()
+    public function getPredefinedForIOS(): array
     {
         return [
             'alert' => [
@@ -87,7 +87,7 @@ class UmengPushMessage
     /**
      * @return array
      */
-    public function toPredefinedForAndroid()
+    public function getPredefinedForAndroid(): array
     {
         return [
             'ticker' => 'ticker',
@@ -101,7 +101,7 @@ class UmengPushMessage
     /**
      * @return array
      */
-    public function toClientField()
+    public function getClientField(): array
     {
         return $this->clientField;
     }
