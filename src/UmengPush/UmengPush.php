@@ -62,14 +62,14 @@ class UmengPush
         $this->ios()->sendCustomizedcastByAlias(
             $alias,
             'account',
-            $message->toPredefinedForIOS(),
-            $message->toClientField()
+            $message->getPredefinedForIOS(),
+            $message->getClientField()
         );
         $this->android()->sendCustomizedcastByAlias(
             $alias,
             'userName',
-            $message->toPredefinedForAndroid(),
-            $message->toClientField()
+            $message->getPredefinedForAndroid(),
+            $message->getClientField()
         );
     }
 }
