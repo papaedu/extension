@@ -17,7 +17,7 @@ class UmengPushMessage
     /**
      * @var array
      */
-    private array $clientField = [];
+    private array $customField = [];
 
     /**
      * @var string
@@ -47,12 +47,12 @@ class UmengPushMessage
     }
 
     /**
-     * @param  array  $clientField
+     * @param  array  $customField
      * @return $this
      */
-    public function setClientField(array $clientField): self
+    public function setCustomField(array $customField): self
     {
-        $this->clientField = $clientField;
+        $this->customField = $customField;
 
         return $this;
     }
@@ -101,8 +101,8 @@ class UmengPushMessage
     /**
      * @return array
      */
-    public function getClientField(): array
+    public function getCustomField(): array
     {
-        return $this->clientField;
+        return $this->customField;
     }
 }

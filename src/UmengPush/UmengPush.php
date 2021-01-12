@@ -63,13 +63,13 @@ class UmengPush
             $alias,
             $this->config['ios']['alias_type'] ?? 'username',
             $message->getPredefinedForIOS(),
-            $message->getClientField()
+            $message->getCustomField()
         );
         $this->android()->sendCustomizedcastByAlias(
             $alias,
             $this->config['android']['alias_type'] ?? 'username',
             $message->getPredefinedForAndroid(),
-            $message->getClientField()
+            $message->getCustomField()
         );
     }
 }
