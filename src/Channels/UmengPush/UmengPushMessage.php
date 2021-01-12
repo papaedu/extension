@@ -7,7 +7,7 @@ class UmengPushMessage
     /**
      * @var string
      */
-    private string $title;
+    private string $title = '';
 
     /**
      * @var string
