@@ -34,7 +34,6 @@ abstract class PushAbstract
         $this->appKey = $appKey;
         $this->appMaterSecret = $appMaterSecret;
         $this->productionMode = $productionMode;
-        $this->timestamp = strval(time());
     }
 
     /**
@@ -47,7 +46,7 @@ abstract class PushAbstract
     {
         $cast->setAppMasterSecret($this->appMaterSecret);
         $cast->setPredefinedKeyValue('appkey', $this->appKey);
-        $cast->setPredefinedKeyValue('timestamp', $this->timestamp);
+        $cast->setPredefinedKeyValue('timestamp', strval(time()));
         $cast->setPredefinedKeyValue('production_mode', $this->productionMode);
 
         foreach ($predefined as $key => $value) {
