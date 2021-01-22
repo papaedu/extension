@@ -24,11 +24,6 @@ abstract class PushAbstract
      */
     protected $productionMode;
 
-    /**
-     * @var string
-     */
-    protected $timestamp;
-
     public function __construct(string $appKey, string $appMaterSecret, bool $productionMode)
     {
         $this->appKey = $appKey;
