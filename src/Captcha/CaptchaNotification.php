@@ -19,47 +19,7 @@ class CaptchaNotification
      * @param  string  $IDDCode
      * @param  string  $captcha
      */
-    public static function login(int $phoneNumber, string $IDDCode, string $captcha)
-    {
-        self::send($phoneNumber, $IDDCode, $captcha);
-    }
-
-    /**
-     * @param  int  $phoneNumber
-     * @param  string  $IDDCode
-     * @param  string  $captcha
-     */
-    public static function register(int $phoneNumber, string $IDDCode, string $captcha)
-    {
-        self::send($phoneNumber, $IDDCode, $captcha);
-    }
-
-    /**
-     * @param  int  $phoneNumber
-     * @param  string  $IDDCode
-     * @param  string  $captcha
-     */
-    public static function forgot(int $phoneNumber, string $IDDCode, string $captcha)
-    {
-        self::send($phoneNumber, $IDDCode, $captcha);
-    }
-
-    /**
-     * @param  int  $phoneNumber
-     * @param  string  $IDDCode
-     * @param  string  $captcha
-     */
-    public static function reset(int $phoneNumber, string $IDDCode, string $captcha)
-    {
-        self::send($phoneNumber, $IDDCode, $captcha);
-    }
-
-    /**
-     * @param  int  $phoneNumber
-     * @param  string  $IDDCode
-     * @param  string  $captcha
-     */
-    protected static function send(int $phoneNumber, string $IDDCode, string $captcha)
+    public static function send(int $phoneNumber, string $IDDCode, string $captcha)
     {
         try {
             Notification::route(
