@@ -50,4 +50,13 @@ return [
         'ip' => env('EXTENSION_WHITELIST_IP'),
         'enable' => env('EXTENSION_WHITELIST_ENABLE', true),
     ],
+
+    'qcloud' => [
+        'captcha' => [
+            'begin' => [
+                'app_id' => env('QCLOUD_CAPTCHA_APP_ID'),
+                'app_secret_key' => env('QCLOUD_CAPTCHA_APP_SECRET_KEY'),
+            ],
+        ],
+    ],
 ];

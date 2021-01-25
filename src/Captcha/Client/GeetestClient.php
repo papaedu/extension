@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Support;
+namespace Papaedu\Extension\Captcha\Client;
 
 use Papaedu\Extension\Facades\Geetest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
