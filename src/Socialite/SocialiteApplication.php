@@ -13,7 +13,8 @@ class SocialiteApplication
         $channel = request()->header('channel');
 
         if ($platform && $channel) {
-            if (WeChatPlatform::MINI_PROGRAM == $platform) {
+            $weChatPlatform = WeChatPlatform::transform($platform);
+            if (WeChatPlatform::MINI_PROGRAM == $weChatPlatform) {
                 return new WeChatWithMiniProgram($platform, $channel);
             } else {
                 return new WeChatWithOfficialAccount($platform, $channel);
