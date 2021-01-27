@@ -18,6 +18,8 @@ final class Platform extends Enum
 
     public const MINI_PROGRAM = 6;
 
+    public const UNKNOWN = 99;
+
     public static function getDescription($value): string
     {
         if ($value === self::WEB) {
@@ -63,6 +65,6 @@ final class Platform extends Enum
             return self::MINI_PROGRAM;
         }
 
-        return 0;
+        return self::UNKNOWN;
     }
 }
