@@ -4,6 +4,13 @@ namespace Papaedu\Extension\Socialite;
 
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Trait BindingWeChat
+ *
+ * @package Papaedu\Extension\Socialite
+ * @deprecated
+ * 暂时未使用,也未完成,上面的弃用只是做个标记,不要误用了
+ */
 trait BindingWeChat
 {
     use SocialiteTrait;

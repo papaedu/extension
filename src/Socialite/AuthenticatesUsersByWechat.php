@@ -9,6 +9,13 @@ use Papaedu\Extension\Enums\BadRequestCode;
 use Papaedu\Extension\Http\Exceptions\WeChatUndefinedUnionIdException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * Trait AuthenticatesUsersByWechat
+ *
+ * @package Papaedu\Extension\Socialite
+ * @deprecated
+ * 暂时未使用,也未完成,上面的弃用只是做个标记,不要误用了
+ */
 trait AuthenticatesUsersByWechat
 {
     use AuthTrait;

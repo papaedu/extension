@@ -10,6 +10,13 @@ use Papaedu\Extension\Captcha\CaptchaValidator;
 use Papaedu\Extension\Support\Phone;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * Trait RegistersUsersByWeChat
+ *
+ * @package Papaedu\Extension\Socialite
+ * @deprecated
+ * 暂时未使用,也未完成,上面的弃用只是做个标记,不要误用了
+ */
 trait RegistersUsersByWeChat
 {
     use AuthTrait;
