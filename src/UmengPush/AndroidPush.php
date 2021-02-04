@@ -19,7 +19,7 @@ class AndroidPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendBroadcast(array $predefined = [], array $extraField = [])
+    public function sendBroadcast(array $predefined = [], array $extraField = []): string
     {
         $broadcast = new AndroidBroadcast();
         $this->initCast($broadcast, $predefined, $extraField);
@@ -36,7 +36,7 @@ class AndroidPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendUnicast(string $deviceTokens = '', array $predefined = [], array $extraField = [])
+    public function sendUnicast(string $deviceTokens = '', array $predefined = [], array $extraField = []): string
     {
         $unicast = new AndroidUnicast();
         $this->initCast($unicast, $predefined, $extraField);
@@ -54,7 +54,7 @@ class AndroidPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendListcast(string $deviceTokens = '', array $predefined = [], array $extraField = [])
+    public function sendListcast(string $deviceTokens = '', array $predefined = [], array $extraField = []): string
     {
         $listcast = new AndroidListcast();
         $this->initCast($listcast, $predefined, $extraField);
@@ -72,7 +72,7 @@ class AndroidPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendFilecast(string $fileContents = '', array $predefined = [], array $extraField = [])
+    public function sendFilecast(string $fileContents = '', array $predefined = [], array $extraField = []): string
     {
         $filecast = new AndroidFilecast();
         $this->initCast($filecast, $predefined, $extraField);
@@ -90,7 +90,7 @@ class AndroidPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendGroupcast(array $filter = [], array $predefined = [], array $customFiled = [])
+    public function sendGroupcast(array $filter = [], array $predefined = [], array $customFiled = []): string
     {
         $groupcast = new AndroidGroupcast();
         $this->initCast($groupcast, $predefined, $customFiled);
@@ -114,7 +114,7 @@ class AndroidPush extends PushAbstract
         $aliasType = '',
         array $predefined = [],
         array $extraField = []
-    ) {
+    ): string {
         $customizedcast = new AndroidCustomizedcast();
         $this->initCast($customizedcast, $predefined, $extraField);
         $customizedcast->setPredefinedKeyValue('alias', $alias);
@@ -136,7 +136,7 @@ class AndroidPush extends PushAbstract
         string $fileContents = '',
         array $predefined = [],
         array $extraField = []
-    ) {
+    ): string {
         $customizedcast = new AndroidCustomizedcast();
         $this->initCast($customizedcast, $predefined, $extraField);
         $customizedcast->uploadContents($fileContents);

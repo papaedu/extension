@@ -12,17 +12,17 @@ abstract class PushAbstract
     /**
      * @var string
      */
-    protected $appKey;
+    protected string $appKey;
 
     /**
      * @var string
      */
-    protected $appMaterSecret;
+    protected string $appMaterSecret;
 
     /**
      * @var bool
      */
-    protected $productionMode;
+    protected bool $productionMode;
 
     public function __construct(string $appKey, string $appMaterSecret, bool $productionMode)
     {

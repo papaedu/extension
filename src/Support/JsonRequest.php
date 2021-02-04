@@ -9,7 +9,7 @@ class JsonRequest extends Request
     /**
      * @return bool
      */
-    public function expectsJson()
+    public function expectsJson(): bool
     {
         return true;
     }
@@ -17,7 +17,7 @@ class JsonRequest extends Request
     /**
      * @return bool
      */
-    public function wantsJson()
+    public function wantsJson(): bool
     {
         return true;
     }

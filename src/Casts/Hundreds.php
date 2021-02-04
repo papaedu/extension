@@ -15,7 +15,7 @@ class Hundreds implements CastsAttributes
      * @param  array  $attributes
      * @return float
      */
-    public function get($model, string $key, $value, array $attributes)
+    public function get($model, string $key, $value, array $attributes): string
     {
         return $value / 100;
     }
@@ -29,7 +29,7 @@ class Hundreds implements CastsAttributes
      * @param  array  $attributes
      * @return float
      */
-    public function set($model, string $key, $value, array $attributes)
+    public function set($model, string $key, $value, array $attributes): string
     {
         return $value * 100;
     }

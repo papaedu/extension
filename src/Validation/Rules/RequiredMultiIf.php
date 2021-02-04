@@ -30,7 +30,7 @@ class RequiredMultiIf implements ImplicitRule
      *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         if ($value) {
             return true;
@@ -52,7 +52,7 @@ class RequiredMultiIf implements ImplicitRule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return ':attribute不能为空';
     }

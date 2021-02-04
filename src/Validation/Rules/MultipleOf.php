@@ -27,7 +27,7 @@ class MultipleOf implements Rule
      *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         if (!is_numeric($value)) {
             return false;
@@ -50,7 +50,7 @@ class MultipleOf implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         $value = Arr::first($this->parameters);
 

@@ -6,7 +6,7 @@ use InvalidArgumentException;
 
 class Disk
 {
-    private static $disks = [];
+    private static array $disks = [];
 
     /**
      * @return \Papaedu\Extension\Filesystem\Image

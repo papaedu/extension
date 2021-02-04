@@ -31,7 +31,7 @@ class WhiteListAccess
      * @param  string|null  $targetIp
      * @return bool
      */
-    protected function withInList(?string $targetIp)
+    protected function withInList(?string $targetIp): bool
     {
         if (is_null($targetIp)) {
             return false;

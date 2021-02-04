@@ -16,7 +16,7 @@ class Audio implements CastsAttributes
      * @param  array  $attributes
      * @return string
      */
-    public function get($model, string $key, $value, array $attributes)
+    public function get($model, string $key, $value, array $attributes): string
     {
         return Disk::audio()->url((string)$value);
     }
@@ -30,7 +30,7 @@ class Audio implements CastsAttributes
      * @param  array  $attributes
      * @return string
      */
-    public function set($model, string $key, $value, array $attributes)
+    public function set($model, string $key, $value, array $attributes): string
     {
         return Disk::audio()->parseUrl($value);
     }

@@ -9,7 +9,7 @@ class AES
      * @return string
      * @throws \Exception
      */
-    public static function encrypt(string $data)
+    public static function encrypt(string $data): string
     {
         $encrypted = openssl_encrypt($data, 'AES-128-ECB', 'papaEnglish', OPENSSL_RAW_DATA);
         if (false === $encrypted) {
@@ -24,7 +24,7 @@ class AES
      * @return string
      * @throws \Exception
      */
-    public static function decrypt(string $data)
+    public static function decrypt(string $data): string
     {
         $decrypted = openssl_decrypt(hex2bin($data), 'AES-128-ECB', 'papaEnglish', OPENSSL_RAW_DATA);
         if (false === $decrypted) {

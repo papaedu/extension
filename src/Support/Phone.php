@@ -68,7 +68,7 @@ class Phone
      * @param  array  $extraRules
      * @return array
      */
-    protected static function getValidateRules(string $field, array $extraRules)
+    protected static function getValidateRules(string $field, array $extraRules): array
     {
         if (true === config('extension.enable_global_phone', false)) {
             $rules['iso_code'] = ['required_with:'.$field];
@@ -98,7 +98,7 @@ class Phone
         string $IDDCode,
         string $ignoreId = '',
         string $databaseField = ''
-    ) {
+    ): array {
         $databaseField = $databaseField ? $databaseField : $field;
 
         $rule = Rule::$validation($model, $databaseField);
@@ -119,7 +119,7 @@ class Phone
      * @param  array  $extraAttributes
      * @return array
      */
-    protected static function getValidateAttributes(string $field, array $extraAttributes)
+    protected static function getValidateAttributes(string $field, array $extraAttributes): array
     {
         return $extraAttributes + [
                 'iso_code' => trans('extension::field.iso_code'),
@@ -134,7 +134,7 @@ class Phone
      * @param  string  $ISOCode
      * @return int|null
      */
-    public static function ISOCode2IDDCode(string $phoneNumber, string $ISOCode)
+    public static function ISOCode2IDDCode(string $phoneNumber, string $ISOCode): ?int
     {
         $phoneNumber = PhoneNumber::make($phoneNumber, $ISOCode);
 

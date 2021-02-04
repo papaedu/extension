@@ -8,7 +8,7 @@ use Illuminate\Testing\TestResponse;
 trait TestAssert
 {
     /**
-     * 断言带分页的列表结构
+     * Assert json structure for paginate list.
      *
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  array  $data
@@ -29,7 +29,7 @@ trait TestAssert
     }
 
     /**
-     * 断言列表结构
+     * Assert json structure for list.
      *
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  array  $data
@@ -45,7 +45,7 @@ trait TestAssert
     }
 
     /**
-     * 断言详情结构
+     * Assert json structure for view.
      *
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  array  $data
@@ -59,7 +59,7 @@ trait TestAssert
     }
 
     /**
-     * 断言错误请求返回信息
+     * Assert bad request message.
      *
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  string  $message
@@ -71,7 +71,7 @@ trait TestAssert
     }
 
     /**
-     * 断言错误请求返回信息和Code
+     * Assert bad request message and code.
      *
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  string  $message
