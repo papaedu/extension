@@ -15,10 +15,10 @@ trait AuthTrait
      */
     protected function validateStatus(int $status)
     {
-        if (AuthStatus::BAN == $status) {
-            throw new HttpException(400, trans('extension::auth.status_ban'));
-        } elseif (AuthStatus::CLOSE == $status) {
-            throw new HttpException(400, trans('extension::auth.status_close'));
+        if (AuthStatus::BANED == $status) {
+            throw new HttpException(400, trans('extension::auth.status_baned'));
+        } elseif (AuthStatus::CLOSED == $status) {
+            throw new HttpException(400, trans('extension::auth.status_closed'));
         }
     }
 
@@ -28,7 +28,7 @@ trait AuthTrait
      * @param  mixed  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function tokenResponse($user)
+    protected function tokenResponse($user): JsonResponse
     {
         $data = [
             'access_token' => $user->createToken($this->tokenName())->plainTextToken,
@@ -59,7 +59,7 @@ trait AuthTrait
      *
      * @return string
      */
-    public function username()
+    public function username(): string
     {
         return 'username';
     }
@@ -69,7 +69,7 @@ trait AuthTrait
      *
      * @return string
      */
-    public function tokenName()
+    public function tokenName(): string
     {
         return 'user';
     }
