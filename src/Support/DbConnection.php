@@ -6,7 +6,11 @@ use PDO;
 
 class DbConnection
 {
-    public static function getMysqlConnections(array $names = [])
+    /**
+     * @param  array  $names
+     * @return array
+     */
+    public static function getMysqlConnections(array $names = []): array
     {
         $connectionConfig = static::getConnectionConfig();
 
@@ -22,7 +26,10 @@ class DbConnection
         return $connections;
     }
 
-    protected static function getConnectionConfig()
+    /**
+     * @return array
+     */
+    protected static function getConnectionConfig(): array
     {
         return [
             'driver' => 'mysql',

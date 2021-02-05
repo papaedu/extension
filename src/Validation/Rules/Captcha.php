@@ -15,7 +15,7 @@ class Captcha
      * @param  object  $validator
      * @return bool
      */
-    public function validate($attribute, $value, array $parameters, $validator)
+    public function validate($attribute, $value, array $parameters, $validator): bool
     {
         $data = $validator->getData();
 
@@ -32,7 +32,7 @@ class Captcha
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return ':attribute错误';
     }

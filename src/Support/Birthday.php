@@ -17,7 +17,7 @@ class Birthday
      *
      * @param  string|null  $birthday
      */
-    public function __construct($birthday = null)
+    public function __construct(?string $birthday = null)
     {
         if ($birthday instanceof DateTimeInterface) {
             $this->birthday = $birthday;
@@ -32,17 +32,17 @@ class Birthday
      * @param  string|null  $birthday
      * @return static
      */
-    final public static function parse($birthday = null)
+    final public static function parse(?string $birthday = null): self
     {
         return new static($birthday);
     }
 
     /**
-     * 星座
+     * Get constellation for the birthday.
      *
      * @return string
      */
-    public function constellation()
+    public function constellation(): string
     {
         if (is_null($this->birthday)) {
             return '';

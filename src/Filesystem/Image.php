@@ -12,7 +12,7 @@ class Image extends DiskAbstract
      * @param  string  $default
      * @return string
      */
-    public function url(string $path, string $scale = '', string $default = '')
+    public function url(string $path, string $scale = '', string $default = ''): string
     {
         $url = parent::url($path, $default);
         if ($url && $scale) {
@@ -25,7 +25,7 @@ class Image extends DiskAbstract
     /**
      * @return string
      */
-    public function random()
+    public function random(): string
     {
         return Arr::random([
             'course/1Gn5BHUCuLCANBWVphiYBgO1HCAIXYlKJgZcqRP6.png',

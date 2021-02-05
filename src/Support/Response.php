@@ -14,7 +14,7 @@ class Response
      * @param  array  $data
      * @return \Illuminate\Http\JsonResponse
      */
-    public function array(array $data)
+    public function array(array $data): JsonResponse
     {
         return new JsonResponse(['data' => $data]);
     }
@@ -25,7 +25,7 @@ class Response
      * @param  \Illuminate\Support\Collection  $collection
      * @return \Illuminate\Http\JsonResponse
      */
-    public function collection(Collection $collection)
+    public function collection(Collection $collection): JsonResponse
     {
         return new JsonResponse(['data' => $collection->toArray()]);
     }
@@ -36,7 +36,7 @@ class Response
      * @param  string  $string
      * @return \Illuminate\Http\JsonResponse
      */
-    public function string(string $string)
+    public function string(string $string): JsonResponse
     {
         return new JsonResponse($string);
     }
@@ -48,7 +48,7 @@ class Response
      * @param  array  $data
      * @return \Illuminate\Http\JsonResponse
      */
-    public function jsonp(string $callback, array $data)
+    public function jsonp(string $callback, array $data): JsonResponse
     {
         $jsonResponse = new JsonResponse(['data' => $data]);
 
@@ -61,7 +61,7 @@ class Response
      * @param  array  $content
      * @return \Illuminate\Http\JsonResponse
      */
-    public function created(array $content = [])
+    public function created(array $content = []): JsonResponse
     {
         return new JsonResponse($content ? ['data' => $content] : [], 201);
     }
@@ -72,7 +72,7 @@ class Response
      * @param  array  $content
      * @return \Illuminate\Http\JsonResponse
      */
-    public function accepted(array $content = [])
+    public function accepted(array $content = []): JsonResponse
     {
         return new JsonResponse($content ? ['data' => $content] : [], 202);
     }
@@ -82,7 +82,7 @@ class Response
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function noContent()
+    public function noContent(): JsonResponse
     {
         return new JsonResponse('', 204);
     }

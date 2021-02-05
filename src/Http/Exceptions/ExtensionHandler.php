@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Http\Exceptions;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -16,7 +17,7 @@ class ExtensionHandler extends Handler
      * @param  \Throwable  $e
      * @return array
      */
-    protected function convertExceptionToArray(Throwable $e)
+    protected function convertExceptionToArray(Throwable $e): array
     {
         $data = parent::convertExceptionToArray($e);
         if ($e->getCode()) {
@@ -31,7 +32,7 @@ class ExtensionHandler extends Handler
      * @param  \Illuminate\Validation\ValidationException  $exception
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function invalidJson($request, ValidationException $exception)
+    protected function invalidJson($request, ValidationException $exception): JsonResponse
     {
         return response()->json([
             'message' => current(current(array_values($exception->errors()))),

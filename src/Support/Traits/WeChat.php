@@ -18,7 +18,7 @@ trait WeChat
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function config(string $weChatChannel, Request $request)
+    public function config(string $weChatChannel, Request $request): JsonResponse
     {
         if (!$request->has('url')) {
             throw new HttpException(400, trans('extension::status_message.400.default'));
@@ -42,7 +42,7 @@ trait WeChat
         throw new HttpException(500, trans('extension::status_message.500.default'));
     }
 
-    public function decrypt(Request $request)
+    public function decrypt(Request $request): JsonResponse
     {
         if ($request->has('iv') && $request->has('encrypted_data')) {
             $application = SocialiteApplication::wechat();

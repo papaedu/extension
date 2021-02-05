@@ -2,6 +2,8 @@
 
 namespace Papaedu\Extension\UmengPush;
 
+use Papaedu\Extension\Channels\UmengPush\UmengPushMessage;
+
 class UmengPush
 {
     const SDK_VERSION = 'v1.4';
@@ -9,11 +11,17 @@ class UmengPush
     /**
      * @var array
      */
-    private $config;
+    private array $config;
 
-    private $ios = null;
+    /**
+     * @var object|null
+     */
+    private ?object $ios = null;
 
-    private $android = null;
+    /**
+     * @var object|null
+     */
+    private ?object $android = null;
 
     public function __construct(array $config)
     {
@@ -57,7 +65,7 @@ class UmengPush
      * @param  \Papaedu\Extension\Channels\UmengPush\UmengPushMessage  $message
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function send(string $alias, $message)
+    public function send(string $alias, UmengPushMessage $message)
     {
         $this->ios()->sendCustomizedcastByAlias(
             $alias,

@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "php": "^7.4",
         "ext-openssl": "*",
         "bensampo/laravel-enum": "^1.35",
         "biubiujun/qcloud": "^1.0",

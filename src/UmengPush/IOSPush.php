@@ -19,7 +19,7 @@ class IOSPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendBroadcast(array $predefined = [], array $customField = [])
+    public function sendBroadcast(array $predefined = [], array $customField = []): string
     {
         $broadcast = new IOSBroadcast();
         $this->initCast($broadcast, $predefined, $customField);
@@ -36,7 +36,7 @@ class IOSPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendUnicast(string $deviceTokens = '', array $predefined = [], array $customField = [])
+    public function sendUnicast(string $deviceTokens = '', array $predefined = [], array $customField = []): string
     {
         $unicast = new IOSUnicast();
         $this->initCast($unicast, $predefined, $customField);
@@ -54,7 +54,7 @@ class IOSPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendListcast(string $deviceTokens = '', array $predefined = [], array $customField = [])
+    public function sendListcast(string $deviceTokens = '', array $predefined = [], array $customField = []): string
     {
         $listcast = new IOSListcast();
         $this->initCast($listcast, $predefined, $customField);
@@ -72,7 +72,7 @@ class IOSPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendFilecast(string $fileContents = '', array $predefined = [], array $customField = [])
+    public function sendFilecast(string $fileContents = '', array $predefined = [], array $customField = []): string
     {
         $filecast = new IOSFilecast();
         $this->initCast($filecast, $predefined, $customField);
@@ -90,7 +90,7 @@ class IOSPush extends PushAbstract
      * @return string
      * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
      */
-    public function sendGroupcast(array $filter = [], array $predefined = [], array $customFiled = [])
+    public function sendGroupcast(array $filter = [], array $predefined = [], array $customFiled = []): string
     {
         $groupcast = new IOSGroupcast();
         $this->initCast($groupcast, $predefined, $customFiled);
@@ -114,7 +114,7 @@ class IOSPush extends PushAbstract
         $aliasType = '',
         array $predefined = [],
         array $customField = []
-    ) {
+    ): string {
         $customizedcast = new IOSCustomizedcast();
         $this->initCast($customizedcast, $predefined, $customField);
         $customizedcast->setPredefinedKeyValue('alias', $alias);
@@ -136,7 +136,7 @@ class IOSPush extends PushAbstract
         string $fileContents = '',
         array $predefined = [],
         array $customField = []
-    ) {
+    ): string {
         $customizedcast = new IOSCustomizedcast();
         $this->initCast($customizedcast, $predefined, $customField);
         $customizedcast->uploadContents($fileContents);

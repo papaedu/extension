@@ -15,7 +15,7 @@ trait Extension
     /**
      * @var string
      */
-    protected $loggerModule = '';
+    protected string $loggerModule = '';
 
     /**
      * Get the response.
@@ -47,7 +47,8 @@ trait Extension
     public function __get(string $key)
     {
         $callable = [
-            'response', 'logger',
+            'response',
+            'logger',
         ];
 
         if (in_array($key, $callable) && method_exists($this, $key)) {

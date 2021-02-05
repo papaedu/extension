@@ -13,7 +13,7 @@ class Vod extends DiskAbstract
      * @param  string  $default
      * @return string
      */
-    public function url(string $path, string $default = '')
+    public function url(string $path, string $default = ''): string
     {
         $path = $path ? $path : $default;
         if (!$path) {

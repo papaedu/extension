@@ -12,7 +12,7 @@ abstract class DiskAbstract
     /**
      * @var string
      */
-    protected $diskName = '';
+    protected string $diskName = '';
 
     /**
      * @var string

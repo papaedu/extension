@@ -11,7 +11,7 @@ class Logger
     /**
      * @var string
      */
-    protected $module = '';
+    protected string $module = '';
 
     /**
      * Logger constructor.
@@ -109,7 +109,7 @@ class Logger
     /**
      * @return string
      */
-    private function getRequestUrl()
+    private function getRequestUrl(): string
     {
         return '(Request '.(App::runningInConsole() ? '<console>' : request()->url()).')';
     }

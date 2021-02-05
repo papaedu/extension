@@ -12,7 +12,7 @@ class Captcha extends Notification
     /**
      * @var string
      */
-    private $captcha;
+    private string $captcha;
 
     public function __construct(string $captcha)
     {
@@ -23,7 +23,7 @@ class Captcha extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return [EasySmsChannel::class];
     }
