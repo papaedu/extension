@@ -26,9 +26,9 @@ class CaptchaValidator
      * @param  int  $captcha
      * @return bool
      */
-    public static function validate(string $ISOCode, string $username, int $captcha)
+    public static function validate(string $username, int $captcha, string $ISOCode)
     {
-        return Redis::get("captcha_{$ISOCode}_{$username}") == $captcha;
+        return Redis::get(static::getKey($username, $ISOCode)) == $captcha;
     }
 
     /**
@@ -38,5 +38,15 @@ class CaptchaValidator
     public static function clear(string $ISOCode, string $username)
     {
         Redis::del("captcha_{$ISOCode}_{$username}");
+    }
+
+    protected static function getKey(string $username, string $ISOCode): string
+    {
+        $key = "captcha_{$username}";
+        if ($ISOCode) {
+            $key .= "_{$ISOCode}";
+        }
+
+        return $key;
     }
 }

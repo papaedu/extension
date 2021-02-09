@@ -55,7 +55,7 @@ abstract class CaptchaController extends Controller
 
     protected function sendCaptcha()
     {
-        $captcha = CaptchaValidator::generate($this->ISOCode, $this->phoneNumber);
+        $captcha = CaptchaValidator::generate($this->phoneNumber, $this->ISOCode);
         CaptchaNotification::send($this->phoneNumber, $this->IDDCode, $captcha);
     }
 
@@ -65,7 +65,7 @@ abstract class CaptchaController extends Controller
      */
     public function getISOCode(Request $request): string
     {
-        return $request->input('iso_code', config('extension.locale.iso_code'));
+        return $request->input('iso_code', '');
     }
 
     /**

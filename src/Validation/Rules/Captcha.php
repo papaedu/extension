@@ -19,12 +19,11 @@ class Captcha
     {
         $data = $validator->getData();
 
-        $ISOCode = $data['iso_code'] ?? config('extension.locale.iso_code');
         if (!$username = $data[$parameters[0]] ?? '') {
             return false;
         }
 
-        return CaptchaValidator::validate($ISOCode, $username, $value);
+        return CaptchaValidator::validate($username, $value, $data['iso_code'] ?? '');
     }
 
     /**
