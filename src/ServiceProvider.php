@@ -9,6 +9,7 @@ use Papaedu\Extension\Auth\Console\ControllerCommand;
 use Papaedu\Extension\Filesystem\Disk;
 use Papaedu\Extension\Support\Extend;
 use Papaedu\Extension\UmengPush\UmengPush;
+use Papaedu\Extension\Validation\Rules\AllStringMax;
 use Papaedu\Extension\Validation\Rules\Captcha;
 use Papaedu\Extension\Validation\Rules\MultipleOf;
 use Papaedu\Extension\Validation\Rules\RequiredMultiIf;
@@ -159,6 +160,11 @@ class ServiceProvider extends LaravelProvider
         }, ':attribute格式错误');
 
         $this->app['validator']->extend('captcha', Captcha::class.'@validate');
+
+        $this->app['validator']->extend('all_string_max', function ($attributes, $value, $parameters, $validator) {
+            return (new AllStringMax($parameters))->passes($attributes, $value);
+        }, ':attribute格式错误');
+
 
         $this->app['validator']->extendImplicit(
             'required_multiple_if',
