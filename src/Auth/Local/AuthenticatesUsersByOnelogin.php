@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Auth\LocalPhone;
+namespace Papaedu\Extension\Auth\Local;
 
 use Papaedu\Extension\Auth\BaseAuthenticatesUsersByOnelogin;
 

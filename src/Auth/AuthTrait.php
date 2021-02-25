@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Papaedu\Extension\Enums\AuthStatus;
+use Papaedu\Extension\Enums\BadRequestCode;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait AuthTrait
@@ -18,7 +19,13 @@ trait AuthTrait
         if (AuthStatus::BANED == $status) {
             throw new HttpException(400, trans('extension::auth.status_baned'));
         } elseif (AuthStatus::CLOSED == $status) {
-            throw new HttpException(400, trans('extension::auth.status_closed'));
+            throw new HttpException(
+                400,
+                trans('extension::auth.status_closed'),
+                null,
+                [],
+                BadRequestCode::AUTH_CLOSED
+            );
         }
     }
 

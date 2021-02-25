@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Auth\GlobalPhone;
+namespace Papaedu\Extension\Auth\International;
 
 use Illuminate\Http\Request;
 use Papaedu\Extension\Auth\BaseAuthenticatesUsersByCaptcha;
