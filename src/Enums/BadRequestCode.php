@@ -17,6 +17,8 @@ final class BadRequestCode
 
     public const SOCIALITE_MISS_SESSION_KEY = 10005;// 缺少必要参数，重新获取授权信息
 
+    public const AUTH_CLOSED = 11001;// 账户已注销
+
     /*
      * 通用
      */

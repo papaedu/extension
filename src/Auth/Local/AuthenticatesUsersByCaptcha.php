@@ -1,11 +1,10 @@
 <?php
 
-namespace Papaedu\Extension\Auth\LocalPhone;
+namespace Papaedu\Extension\Auth\Local;
 
 use Illuminate\Http\Request;
 use Papaedu\Extension\Auth\BaseAuthenticatesUsersByCaptcha;
 use Papaedu\Extension\Captcha\CaptchaValidator;
-use Papaedu\Extension\Support\Phone;
 
 trait AuthenticatesUsersByCaptcha
 {
