@@ -6,17 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-/**
- * Class Phone
- *
- * @package Papaedu\Extension\Support
- * @deprecated
- */
 class Phone
 {
     /**
      * Validate auth request by global phone.
      *
+     * @deprecated
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $field
      * @param  array  $rules
@@ -35,6 +30,7 @@ class Phone
     /**
      * Validate auth request with extra by global phone.
      *
+     * @deprecated
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $validation
      * @param  string  $field
@@ -70,6 +66,7 @@ class Phone
     /**
      * Get validate rules.
      *
+     * @deprecated
      * @param  string  $field
      * @param  array  $extraRules
      * @return array
@@ -89,6 +86,7 @@ class Phone
     /**
      * Get extra validate rules.
      *
+     * @deprecated
      * @param  string  $validation
      * @param  string  $field
      * @param  string  $model
@@ -121,6 +119,7 @@ class Phone
     /**
      * Get validate attributes.
      *
+     * @deprecated
      * @param  string  $field
      * @param  array  $extraAttributes
      * @return array

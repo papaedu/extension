@@ -4,7 +4,10 @@ namespace Papaedu\Extension\Auth;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Papaedu\Extension\Exceptions\BadRequestException;
+use Papaedu\Extension\Exceptions\HttpException;
 use Papaedu\Extension\Facades\Geetest;
 
 trait BaseAuthenticatesUsersByOnelogin
@@ -30,32 +33,34 @@ trait BaseAuthenticatesUsersByOnelogin
     /**
      * Attempt to log the user into the application.
      *
-     * @param  string  $appName
      * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
-    protected function attemptLogin(string $appName, Request $request): bool
+    protected function attemptLogin(Request $request): bool
     {
-        $username = Geetest::config($appName)
-            ->oneLoginCheckPhone(
+        try {
+            $username = Geetest::config($request->header('app_name', ''))->oneLoginCheckPhone(
                 $request->input('process_id', ''),
                 $request->input('auth_code', ''),
                 $request->input('token', '')
             );
 
-        if (!$username) {
-            return false;
+            // Only support locale telephone for now.
+            $user = $this->create($this->credentials($username));
+            if ($user->wasRecentlyCreated) {
+                event(new Registered($user));
+            }
+
+            $this->guard()->login($user);
+
+            return true;
+        } catch (HttpException $e) {
+            Log::error($e->getMessage(), $e->getTrace());
+        } catch (BadRequestException $e) {
+            Log::warning($e->getMessage());
         }
 
-        // Only support locale telephone for now.
-        $user = $this->create($this->credentials($username));
-        if ($user->wasRecentlyCreated) {
-            event(new Registered($user));
-        }
-
-        $this->guard()->login($user);
-
-        return true;
+        return false;
     }
 
     /**

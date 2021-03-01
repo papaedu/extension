@@ -11,6 +11,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait AuthTrait
 {
+    protected bool $hasUuid = false;
+
     /**
      * @param  int  $status
      */

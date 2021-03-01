@@ -17,6 +17,8 @@ final class BadRequestCode
 
     public const SOCIALITE_MISS_SESSION_KEY = 10005;// 缺少必要参数，重新获取授权信息
 
+    public const IS_GUEST = 10006;// 当前处于游客模式，请先登录
+
     public const AUTH_CLOSED = 11001;// 账户已注销
 
     /*
@@ -25,4 +27,8 @@ final class BadRequestCode
     public const REDIRECT_TO_HOME = 90001;// 返回首页
 
     public const REDIRECT_BACK = 90002;// 返回上一个页面
+
+    public const ALERT = 90003;// 提示框
+
+    public const CONFIRM = 90004;// 确认框
 }
