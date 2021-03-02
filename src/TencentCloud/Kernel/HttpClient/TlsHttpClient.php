@@ -2,7 +2,8 @@
 
 namespace Papaedu\Extension\TencentCloud\Kernel\HttpClient;
 
-use Papaedu\Extension\TencentCloud\Kernel\BaseRequest;
+use Papaedu\Extension\TencentCloud\Kernel\Contracts\RequestInterface;
+use Papaedu\Extension\TencentCloud\Kernel\Request;
 use Papaedu\Extension\TencentCloud\Kernel\Contracts\TlsSignInterface;
 
 /**
@@ -44,11 +45,11 @@ class TlsHttpClient extends HttpClient
     }
 
     /**
-     * @param  \Papaedu\Extension\TencentCloud\Kernel\BaseRequest  $request
+     * @param  \Papaedu\Extension\TencentCloud\Kernel\Contracts\RequestInterface  $request
      * @param  array  $options
      * @return array
      */
-    protected function options(BaseRequest $request, array $options = [])
+    protected function options(RequestInterface $request, array $options = [])
     {
         $result = array_filter([
             'query' => [

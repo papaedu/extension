@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\TencentCloud\Tim;
 
+use Papaedu\Extension\TencentCloud\Kernel\Client;
 use Papaedu\Extension\TencentCloud\Kernel\HttpClient\TlsHttpClient;
 use Papaedu\Extension\TencentCloud\Kernel\Sign\TlsSign;
 
@@ -10,7 +11,7 @@ use Papaedu\Extension\TencentCloud\Kernel\Sign\TlsSign;
  *
  * @package Papaedu\Extension\TencentCloud\Tim
  */
-class TimClient
+class TimClient extends Client
 {
     /**
      * @var string

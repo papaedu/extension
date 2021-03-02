@@ -15,17 +15,15 @@ interface RequestInterface
     public function getUri(): string;
 
     /**
-     * @return string
+     * @param  bool  $filter
+     * @return array
      */
-    public function getAction(): string;
+    public function getParameters($filter = true): array;
 
     /**
-     * @return string
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return mixed
      */
-    public function getRegion(): string;
-
-    /**
-     * @return string
-     */
-    public function getVersion(): string;
+    public function setParameter(string $key, $value);
 }

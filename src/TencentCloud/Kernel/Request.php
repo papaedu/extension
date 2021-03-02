@@ -4,7 +4,12 @@ namespace Papaedu\Extension\TencentCloud\Kernel;
 
 use Papaedu\Extension\TencentCloud\Kernel\Contracts\RequestInterface;
 
-abstract class BaseRequest implements RequestInterface
+/**
+ * Class Request
+ *
+ * @package Papaedu\Extension\TencentCloud\Kernel
+ */
+abstract class Request implements RequestInterface
 {
     /**
      * @var array
@@ -22,7 +27,7 @@ abstract class BaseRequest implements RequestInterface
 
     /**
      * @param  string  $key
-     * @param  null  $default
+     * @param  mixed  $default
      * @return mixed
      */
     protected function getParameter(string $key, $default = null)
@@ -37,37 +42,5 @@ abstract class BaseRequest implements RequestInterface
     public function setParameter(string $key, $value)
     {
         $this->parameters[$key] = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUri(): string
-    {
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getAction(): string
-    {
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getRegion(): string
-    {
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getVersion(): string
-    {
-        return '';
     }
 }
