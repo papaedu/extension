@@ -16,12 +16,8 @@ class SendMsgRequest extends TimRequest
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\MsgBody  $msgBody
      * @param  string  $fromAccount
      */
-    public function __construct(
-        string $toAccount,
-        int $msgRandom,
-        MsgBody $msgBody,
-        string $fromAccount = ''
-    ) {
+    public function __construct(string $toAccount, int $msgRandom, MsgBody $msgBody, string $fromAccount = '')
+    {
         $this->setToAccount($toAccount)
             ->setMsgRandom($msgRandom)
             ->setMsgBody($msgBody)

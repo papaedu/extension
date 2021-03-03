@@ -15,13 +15,8 @@ class AdminGetRoamMsg extends TimRequest
      * @param  int  $minTime
      * @param  int  $maxTime
      */
-    public function __construct(
-        string $fromAccount,
-        string $toAccount,
-        int $maxCnt,
-        int $minTime,
-        int $maxTime
-    ) {
+    public function __construct(string $fromAccount, string $toAccount, int $maxCnt, int $minTime, int $maxTime)
+    {
         $this->setFromAccount($fromAccount)
             ->setToAccount($toAccount)
             ->setMaxCnt($maxCnt)
