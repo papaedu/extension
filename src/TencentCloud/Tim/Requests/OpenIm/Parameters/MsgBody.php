@@ -9,26 +9,56 @@ class MsgBody extends Parameter
     /**
      * MsgBody constructor.
      *
-     * @param  string  $msgType
-     * @param  string  $msgContentText
+     * @param  string  $text
      */
-    public function __construct(
-        string $msgType,
-        string $msgContentText
-    ) {
-        $this->setMsgType($msgType, $msgContentText);
+    public function __construct(string $text = '')
+    {
+        if ($text) {
+            $this->setTextMsg($text);
+        }
     }
 
     /**
-     * @param $msgType
-     * @param $msgContentText
+     * @param  string  $text
      */
-    public function setMsgType($msgType, $msgContentText)
+    public function setTextMsg(string $text)
     {
         $this->parameters[] = [
-            'MsgType' => $msgType,
+            'MsgType' => 'TIMTextElem',
             'MsgContent' => [
-                'Text' => $msgContentText,
+                'Text' => $text,
+            ],
+        ];
+    }
+
+    /**
+     * @param  string  $desc
+     * @param  string  $latitude
+     * @param  string  $longitude
+     */
+    public function setLocationMsg(string $desc, string $latitude, string $longitude)
+    {
+        $this->parameters[] = [
+            'MsgType' => 'TIMLocationElem',
+            'MsgContent' => [
+                "Desc" => $desc,
+                "Latitude" => $latitude,
+                "Longitude" => $longitude,
+            ],
+        ];
+    }
+
+    /**
+     * @param  int  $index
+     * @param  string  $data
+     */
+    public function setFaceMsg(int $index, string $data)
+    {
+        $this->parameters[] = [
+            'MsgType' => 'TIMFaceElem',
+            'MsgContent' => [
+                "Index" => $index,
+                "Data" => $data,
             ],
         ];
     }
