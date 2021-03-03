@@ -26,7 +26,7 @@ class AccountDeleteRequest extends TimRequest
      */
     public function setDeleteItem(AccountItem $accountItem): AccountDeleteRequest
     {
-        $this->setParameter('DeleteItem', $accountItem->getParameters());
+        $this->setParameter('DeleteItem', $accountItem);
 
         return $this;
     }

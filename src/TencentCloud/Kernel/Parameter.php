@@ -2,13 +2,18 @@
 
 namespace Papaedu\Extension\TencentCloud\Kernel;
 
+use Papaedu\Extension\TencentCloud\Kernel\Contracts\ParameterInterface;
+
 /**
  * Class Parameter
  *
  * @package Papaedu\Extension\TencentCloud\Kernel
  */
-abstract class Parameter
+abstract class Parameter implements ParameterInterface
 {
+    /**
+     * @var array
+     */
     protected array $parameters = [];
 
     /**
@@ -34,6 +39,10 @@ abstract class Parameter
      */
     public function setParameter(string $key, $value)
     {
-        $this->parameters[$key] = $value;
+        if ($value instanceof ParameterInterface) {
+            $this->parameters[$key] = $value->getParameters();
+        } else {
+            $this->parameters[$key] = $value;
+        }
     }
 }

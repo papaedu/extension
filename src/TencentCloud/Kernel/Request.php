@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\TencentCloud\Kernel;
 
+use Papaedu\Extension\TencentCloud\Kernel\Contracts\ParameterInterface;
 use Papaedu\Extension\TencentCloud\Kernel\Contracts\RequestInterface;
 
 /**
@@ -22,7 +23,15 @@ abstract class Request implements RequestInterface
      */
     public function getParameters($filter = true): array
     {
-        return (true === $filter && $this->parameters) ? array_filter($this->parameters) : $this->parameters;
+        if (!$this->parameters) {
+            return [];
+        }
+
+        if (true === $filter) {
+            return array_filter($this->parameters);
+        }
+
+        return $this->parameters;
     }
 
     /**
@@ -41,6 +50,10 @@ abstract class Request implements RequestInterface
      */
     public function setParameter(string $key, $value)
     {
-        $this->parameters[$key] = $value;
+        if ($value instanceof ParameterInterface) {
+            $this->parameters[$key] = $value->getParameters();
+        } else {
+            $this->parameters[$key] = $value;
+        }
     }
 }

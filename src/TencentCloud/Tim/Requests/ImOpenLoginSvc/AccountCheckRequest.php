@@ -26,7 +26,7 @@ class AccountCheckRequest extends TimRequest
      */
     public function setCheckItem(AccountItem $accountItem): AccountCheckRequest
     {
-        $this->setParameter('CheckItem', $accountItem->getParameters());
+        $this->setParameter('CheckItem', $accountItem);
 
         return $this;
     }
