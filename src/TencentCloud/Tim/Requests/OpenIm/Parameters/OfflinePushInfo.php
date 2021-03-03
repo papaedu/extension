@@ -8,77 +8,67 @@ class OfflinePushInfo extends Parameter
 {
     /**
      * @param  int  $pushFlag
+     * @return $this
      */
-    public function setPushFlag(int $pushFlag = 0)
+    public function setPushFlag(int $pushFlag): OfflinePushInfo
     {
-        $this->parameters[] = [
-            'PushFlag' => $pushFlag,
-        ];
+        $this->setParameter('PushFlag', $pushFlag);
+
+        return $this;
     }
 
     /**
      * @param  string  $title
+     * @return $this
      */
-    public function setTitle(string $title = '')
+    public function setTitle(string $title): OfflinePushInfo
     {
-        $this->parameters[] = [
-            'Title' => $title,
-        ];
+        $this->setParameter('Title', $title);
+
+        return $this;
     }
 
     /**
      * @param  string  $desc
+     * @return $this
      */
-    public function setDesc(string $desc = '')
+    public function setDesc(string $desc): OfflinePushInfo
     {
-        $this->parameters[] = [
-            'Desc' => $desc,
-        ];
+        $this->setParameter('Desc', $desc);
+
+        return $this;
     }
 
     /**
      * @param  string  $ext
+     * @return $this
      */
-    public function setExt(string $ext = '')
+    public function setExt(string $ext): OfflinePushInfo
     {
-        $this->parameters[] = [
-            'Ext' => $ext,
-        ];
+        $this->setParameter('Ext', $ext);
+
+        return $this;
     }
 
     /**
-     * @param  string  $sound
-     * @param  array  $channelId
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\AndroidInfo  $androidInfo
+     * @return $this
      */
-    public function setAndroidInfo(string $sound = '', array $channelId = [])
+    public function setAndroidInfo(AndroidInfo $androidInfo): OfflinePushInfo
     {
-        $this->parameters[] = [
-            "AndroidInfo" => ['sound' => $sound] + $channelId,
-        ];
+        $this->setParameter('AndroidInfo', $androidInfo);
+
+        return $this;
     }
 
     /**
-     * @param  string  $sound
-     * @param  int  $badgeMode
-     * @param  string  $title
-     * @param  string  $subTitle
-     * @param  string  $imageUrl
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\ApnsInfo  $apnsInfo
+     * @return $this
      */
-    public function setApnsInfo(
-        string $sound = '',
-        int $badgeMode = 0,
-        string $title = '',
-        string $subTitle = '',
-        string $imageUrl = ''
-    ) {
-        $this->parameters[] = [
-            "ApnsInfo" => [
-                "Sound" => $sound,
-                "BadgeMode" => $badgeMode,
-                "Title" => $title,
-                "SubTitle" => $subTitle,
-                "Image" => $imageUrl,
-            ],
-        ];
+    public function setApnsInfo(ApnsInfo $apnsInfo): OfflinePushInfo
+    {
+        $this->setParameter('ApnsInfo', $apnsInfo);
+
+        return $this;
     }
 }
