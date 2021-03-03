@@ -6,6 +6,11 @@ use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
 class KickRequest extends TimRequest
 {
+    /**
+     * KickRequest constructor.
+     *
+     * @param  string  $identifier
+     */
     public function __construct(string $identifier)
     {
         $this->setIdentifier($identifier);

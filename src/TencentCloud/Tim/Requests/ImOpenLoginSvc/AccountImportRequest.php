@@ -6,6 +6,13 @@ use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
 class AccountImportRequest extends TimRequest
 {
+    /**
+     * AccountImportRequest constructor.
+     *
+     * @param  string  $identifier
+     * @param  string  $nick
+     * @param  string  $faceUrl
+     */
     public function __construct(string $identifier, string $nick = '', string $faceUrl = '')
     {
         $this->setIdentifier($identifier)

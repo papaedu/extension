@@ -7,6 +7,11 @@ use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
 class AccountCheckRequest extends TimRequest
 {
+    /**
+     * AccountCheckRequest constructor.
+     *
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\ImOpenLoginSvc\Parameters\AccountItem  $accountItem
+     */
     public function __construct(AccountItem $accountItem)
     {
         $this->setCheckItem($accountItem);

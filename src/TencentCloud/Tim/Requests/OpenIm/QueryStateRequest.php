@@ -6,6 +6,12 @@ use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
 class QueryStateRequest extends TimRequest
 {
+    /**
+     * QueryStateRequest constructor.
+     *
+     * @param  array  $toAccount
+     * @param  bool  $isNeedDetail
+     */
     public function __construct(array $toAccount, bool $isNeedDetail = false)
     {
         $this->setToAccount($toAccount)
@@ -21,12 +27,12 @@ class QueryStateRequest extends TimRequest
     }
 
     /**
-     * @param  array  $toAccounts
+     * @param  array  $toAccount
      * @return $this
      */
-    public function setToAccount(array $toAccounts): QueryStateRequest
+    public function setToAccount(array $toAccount): QueryStateRequest
     {
-        $this->setParameter('To_Account', $toAccounts);
+        $this->setParameter('To_Account', $toAccount);
 
         return $this;
     }

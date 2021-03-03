@@ -13,4 +13,12 @@ class QueryStateResponse extends TimResponse
     {
         return $this->content['QueryResult'];
     }
+
+    /**
+     * @return array
+     */
+    public function getErrorList(): array
+    {
+        return $this->content['ErrorList'];
+    }
 }

@@ -6,6 +6,11 @@ use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
 class MultiAccountImportRequest extends TimRequest
 {
+    /**
+     * MultiAccountImportRequest constructor.
+     *
+     * @param  array  $accounts
+     */
     public function __construct(array $accounts)
     {
         $this->setAccounts($accounts);
