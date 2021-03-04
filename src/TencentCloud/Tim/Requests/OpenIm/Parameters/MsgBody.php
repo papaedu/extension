@@ -41,9 +41,9 @@ class MsgBody extends Parameter
         $this->parameters[] = [
             'MsgType' => 'TIMLocationElem',
             'MsgContent' => [
-                "Desc" => $desc,
-                "Latitude" => $latitude,
-                "Longitude" => $longitude,
+                'Desc' => $desc,
+                'Latitude' => $latitude,
+                'Longitude' => $longitude,
             ],
         ];
     }
@@ -57,8 +57,90 @@ class MsgBody extends Parameter
         $this->parameters[] = [
             'MsgType' => 'TIMFaceElem',
             'MsgContent' => [
-                "Index" => $index,
-                "Data" => $data,
+                'Index' => $index,
+                'Data' => $data,
+            ],
+        ];
+    }
+
+    public function setCustomMsg(string $data, string $desc, string $ext, string $sound)
+    {
+        $this->parameters[] = [
+            'MsgType' => 'TIMCustomElem',
+            'MsgContent' => [
+                'Data' => $data,
+                'Desc' => $desc,
+                'Ext' => $ext,
+                'Sound' => $sound,
+            ],
+        ];
+    }
+
+    public function setSoundMsg(string $url, int $size, int $second, int $downloadFlag)
+    {
+        $this->parameters[] = [
+            'MsgType' => 'TIMSoundElem',
+            'MsgContent' => [
+                'Url' => $url,
+                'Size' => $size,
+                'Second' => $second,
+                'Download_Flag' => $downloadFlag,
+            ],
+        ];
+    }
+
+    public function setImageElem(string $uuid, int $imageFormat, ImageInfoArray $imageInfoArray)
+    {
+        $this->parameters[] = [
+            'MsgType' => 'TIMImageElem',
+            'MsgContent' => [
+                'UUID' => $uuid,
+                'ImageFormat' => $imageFormat,
+                'ImageInfoArray' => $imageInfoArray->getParameters(),
+            ],
+        ];
+    }
+
+    public function setFileMsg(string $url, int $filesize, string $filename, int $downloadFlag)
+    {
+        $this->parameters[] = [
+            'MsgType' => 'TIMFileElem',
+            'MsgContent' => [
+                'Url' => $url,
+                'FileSize' => $filesize,
+                'FileName' => $filename,
+                'Download_Flag' => $downloadFlag,
+            ],
+        ];
+    }
+
+    public function setVideoMsg(
+        string $videoUrl,
+        int $videoSize,
+        int $videoSecond,
+        string $videoFormat,
+        int $videoDownloadFlag,
+        string $thumbUrl,
+        int $thumbSize,
+        int $thumbWidth,
+        int $thumbHeight,
+        string $thumbFormat,
+        int $thumbDownloadFlag
+    ) {
+        $this->parameters[] = [
+            'MsgType' => 'TIMVideoFileElem',
+            'MsgContent' => [
+                'VideoUrl' => $videoUrl,
+                'VideoSize' => $videoSize,
+                'VideoSecond' => $videoSecond,
+                'VideoFormat' => $videoFormat,
+                'VideoDownloadFlag' => $videoDownloadFlag,
+                'ThumbUrl' => $thumbUrl,
+                'ThumbSize' => $thumbSize,
+                'ThumbWidth' => $thumbWidth,
+                'ThumbHeight' => $thumbHeight,
+                'ThumbFormat' => $thumbFormat,
+                'ThumbDownloadFlag' => $thumbDownloadFlag,
             ],
         ];
     }
