@@ -4,17 +4,18 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class GroupDelete extends TimRequest
+class GroupDeleteRequest extends TimRequest
 {
     /**
-     * GroupDelete constructor.
+     * GroupDeleteRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  array  $groupName
      */
     public function __construct(string $fromAccount, array $groupName)
     {
-        $this->setFromAccount($fromAccount)->setGroupName($groupName);
+        $this->setFromAccount($fromAccount)
+            ->setGroupName($groupName);
     }
 
     /**
@@ -29,7 +30,7 @@ class GroupDelete extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): GroupDelete
+    public function setFromAccount(string $fromAccount): GroupDeleteRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -40,7 +41,7 @@ class GroupDelete extends TimRequest
      * @param  array  $groupName
      * @return $this
      */
-    public function setGroupName(array $groupName): GroupDelete
+    public function setGroupName(array $groupName): GroupDeleteRequest
     {
         $this->setParameter('GroupName', $groupName);
 

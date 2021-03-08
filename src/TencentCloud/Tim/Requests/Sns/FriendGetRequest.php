@@ -4,17 +4,18 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class FriendGet extends TimRequest
+class FriendGetRequest extends TimRequest
 {
     /**
-     * FriendGet constructor.
+     * FriendGetRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  int  $startIndex
      */
     public function __construct(string $fromAccount, int $startIndex)
     {
-        $this->setFromAccount($fromAccount)->setStartIndex($startIndex);
+        $this->setFromAccount($fromAccount)
+            ->setStartIndex($startIndex);
     }
 
     /**
@@ -29,7 +30,7 @@ class FriendGet extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): FriendGet
+    public function setFromAccount(string $fromAccount): FriendGetRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -40,7 +41,7 @@ class FriendGet extends TimRequest
      * @param  int  $startIndex
      * @return $this
      */
-    public function setStartIndex(int $startIndex): FriendGet
+    public function setStartIndex(int $startIndex): FriendGetRequest
     {
         $this->setParameter('StartIndex', $startIndex);
 
@@ -51,7 +52,7 @@ class FriendGet extends TimRequest
      * @param  int  $standardSequence
      * @return $this
      */
-    public function setStandardSequence(int $standardSequence): FriendGet
+    public function setStandardSequence(int $standardSequence): FriendGetRequest
     {
         $this->setParameter('StandardSequence', $standardSequence);
 
@@ -62,7 +63,7 @@ class FriendGet extends TimRequest
      * @param  int  $customSequence
      * @return $this
      */
-    public function setCustomSequence(int $customSequence): FriendGet
+    public function setCustomSequence(int $customSequence): FriendGetRequest
     {
         $this->setParameter('CustomSequence', $customSequence);
 

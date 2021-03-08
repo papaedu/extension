@@ -4,10 +4,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class GroupAdd extends TimRequest
+class GroupAddRequest extends TimRequest
 {
     /**
-     * GroupAdd constructor.
+     * GroupAddRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  array  $groupName
@@ -15,7 +15,9 @@ class GroupAdd extends TimRequest
      */
     public function __construct(string $fromAccount, array $groupName, array $toAccount)
     {
-        $this->setFromAccount($fromAccount)->setGroupName($groupName)->setToAccount($toAccount);
+        $this->setFromAccount($fromAccount)
+            ->setGroupName($groupName)
+            ->setToAccount($toAccount);
     }
 
     /**
@@ -30,7 +32,7 @@ class GroupAdd extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): GroupAdd
+    public function setFromAccount(string $fromAccount): GroupAddRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -41,7 +43,7 @@ class GroupAdd extends TimRequest
      * @param  array  $groupName
      * @return $this
      */
-    public function setGroupName(array $groupName): GroupAdd
+    public function setGroupName(array $groupName): GroupAddRequest
     {
         $this->setParameter('GroupName', $groupName);
 
@@ -52,7 +54,7 @@ class GroupAdd extends TimRequest
      * @param  array  $toAccount
      * @return $this
      */
-    public function setToAccount(array $toAccount): GroupAdd
+    public function setToAccount(array $toAccount): GroupAddRequest
     {
         $this->setParameter('To_Account', $toAccount);
 

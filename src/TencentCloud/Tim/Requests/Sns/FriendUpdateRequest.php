@@ -5,17 +5,18 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 use Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\UpdateItem;
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class FriendUpdate extends TimRequest
+class FriendUpdateRequest extends TimRequest
 {
     /**
-     * FriendUpdate constructor.
+     * FriendUpdateRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\UpdateItem  $updateItem
      */
     public function __construct(string $fromAccount, UpdateItem $updateItem)
     {
-        $this->setFromAccount($fromAccount)->setUpdateItem($updateItem);
+        $this->setFromAccount($fromAccount)
+            ->setUpdateItem($updateItem);
     }
 
     /**
@@ -30,7 +31,7 @@ class FriendUpdate extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): FriendUpdate
+    public function setFromAccount(string $fromAccount): FriendUpdateRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -41,7 +42,7 @@ class FriendUpdate extends TimRequest
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\UpdateItem  $updateItem
      * @return $this
      */
-    public function setUpdateItem(UpdateItem $updateItem): FriendUpdate
+    public function setUpdateItem(UpdateItem $updateItem): FriendUpdateRequest
     {
         $this->setParameter('UpdateItem', $updateItem);
 

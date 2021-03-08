@@ -7,23 +7,27 @@ use Papaedu\Extension\TencentCloud\Kernel\Parameter;
 class CustomItem extends Parameter
 {
     /**
+     * ProfileItem constructor.
+     *
      * @param  string  $tag
-     * @return $this
+     * @param  string  $value
      */
-    public function setTag(string $tag): CustomItem
+    public function __construct(string $tag, string $value)
     {
-        $this->setParameter('Tag', $tag);
-
-        return $this;
+        $this->setTagAndValue($tag, $value);
     }
 
     /**
+     * @param  string  $tag
      * @param  string  $value
      * @return $this
      */
-    public function setValue(string $value): CustomItem
+    public function setTagAndValue(string $tag, string $value): CustomItem
     {
-        $this->setParameter('Value', $value);
+        $this->parameters[] = [
+            'Tag' => "Tag_SNS_Custom_{$tag}",
+            'Value' => $value,
+        ];
 
         return $this;
     }

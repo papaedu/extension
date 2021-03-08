@@ -14,27 +14,19 @@ class UpdateItem extends Parameter
      */
     public function __construct(string $toAccount, SnsItem $snsItem)
     {
-        $this->setToAccount($toAccount)->setSnsItem($snsItem);
+        $this->setUpdateItem($toAccount, $snsItem);
     }
 
     /**
      * @param  string  $toAccount
      * @return $this
      */
-    public function setToAccount(string $toAccount): UpdateItem
+    public function setUpdateItem(string $toAccount, SnsItem $snsItem): UpdateItem
     {
-        $this->setParameter('To_Account', $toAccount);
-
-        return $this;
-    }
-
-    /**
-     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\SnsItem  $snsItem
-     * @return $this
-     */
-    public function setSnsItem(SnsItem $snsItem): UpdateItem
-    {
-        $this->setParameter('SnsItem', $snsItem);
+        $this->parameters[] = [
+            'To_Account' => $toAccount,
+            'SnsItem' => $snsItem->getParameters(),
+        ];
 
         return $this;
     }

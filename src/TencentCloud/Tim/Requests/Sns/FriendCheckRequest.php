@@ -4,10 +4,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class BlackListCheck extends TimRequest
+class FriendCheckRequest extends TimRequest
 {
     /**
-     * BlockListCheck constructor.
+     * FriendCheckRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  array  $toAccount
@@ -15,7 +15,9 @@ class BlackListCheck extends TimRequest
      */
     public function __construct(string $fromAccount, array $toAccount, string $checkType)
     {
-        $this->setFromAccount($fromAccount)->setToAccount($toAccount)->setCheckType($checkType);
+        $this->setFromAccount($fromAccount)
+            ->setToAccount($toAccount)
+            ->setCheckType($checkType);
     }
 
     /**
@@ -23,14 +25,14 @@ class BlackListCheck extends TimRequest
      */
     public function getUri(): string
     {
-        return 'v4/sns/black_list_check';
+        return 'v4/sns/friend_check';
     }
 
     /**
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount)
+    public function setFromAccount(string $fromAccount): FriendCheckRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -41,7 +43,7 @@ class BlackListCheck extends TimRequest
      * @param  array  $toAccount
      * @return $this
      */
-    public function setToAccount(array $toAccount)
+    public function setToAccount(array $toAccount): FriendCheckRequest
     {
         $this->setParameter('To_Account', $toAccount);
 
@@ -52,7 +54,7 @@ class BlackListCheck extends TimRequest
      * @param  string  $checkType
      * @return $this
      */
-    public function setCheckType(string $checkType)
+    public function setCheckType(string $checkType): FriendCheckRequest
     {
         $this->setParameter('CheckType', $checkType);
 

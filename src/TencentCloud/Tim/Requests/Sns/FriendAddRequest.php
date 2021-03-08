@@ -5,20 +5,18 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 use Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\AddFriendItem;
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class FriendAdd extends TimRequest
+class FriendAddRequest extends TimRequest
 {
     /**
-     * FriendAdd constructor.
+     * FriendAddRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\AddFriendItem  $addFriendItem
      */
-    public function __construct(string $fromAccount, AddFriendItem $addFriendItem, string $addTyp, int $forceAddFlags)
+    public function __construct(string $fromAccount, AddFriendItem $addFriendItem)
     {
         $this->setFromAccount($fromAccount)
-            ->setAddFriendItem($addFriendItem)
-            ->setAddType($addTyp)
-            ->setForceAddFlags($forceAddFlags);
+            ->setAddFriendItem($addFriendItem);
     }
 
     /**
@@ -33,7 +31,7 @@ class FriendAdd extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): FriendAdd
+    public function setFromAccount(string $fromAccount): FriendAddRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -44,7 +42,7 @@ class FriendAdd extends TimRequest
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\AddFriendItem  $addFriendItem
      * @return $this
      */
-    public function setAddFriendItem(AddFriendItem $addFriendItem): FriendAdd
+    public function setAddFriendItem(AddFriendItem $addFriendItem): FriendAddRequest
     {
         $this->setParameter('AddFriendItem', $addFriendItem);
 
@@ -55,7 +53,7 @@ class FriendAdd extends TimRequest
      * @param  string  $addType
      * @return $this
      */
-    public function setAddType(string $addType): FriendAdd
+    public function setAddType(string $addType): FriendAddRequest
     {
         $this->setParameter('AddType', $addType);
 
@@ -66,7 +64,7 @@ class FriendAdd extends TimRequest
      * @param  int  $forceAddFlags
      * @return $this
      */
-    public function setForceAddFlags(int $forceAddFlags): FriendAdd
+    public function setForceAddFlags(int $forceAddFlags): FriendAddRequest
     {
         $this->setParameter('ForceAddFlags', $forceAddFlags);
 

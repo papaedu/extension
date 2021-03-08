@@ -4,10 +4,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class BlackListGet extends TimRequest
+class BlackListGetRequest extends TimRequest
 {
     /**
-     * BlackListGet constructor.
+     * BlackListGetRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  int  $startIndex
@@ -34,7 +34,7 @@ class BlackListGet extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): BlackListGet
+    public function setFromAccount(string $fromAccount): BlackListGetRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -45,7 +45,7 @@ class BlackListGet extends TimRequest
      * @param  int  $startIndex
      * @return $this
      */
-    public function setStartIndex(int $startIndex): BlackListGet
+    public function setStartIndex(int $startIndex): BlackListGetRequest
     {
         $this->setParameter('StartIndex', $startIndex);
 
@@ -56,7 +56,7 @@ class BlackListGet extends TimRequest
      * @param  int  $maxLimited
      * @return $this
      */
-    public function setMaxLimited(int $maxLimited): BlackListGet
+    public function setMaxLimited(int $maxLimited): BlackListGetRequest
     {
         $this->setParameter('MaxLimited', $maxLimited);
 
@@ -67,7 +67,7 @@ class BlackListGet extends TimRequest
      * @param  int  $lastSequence
      * @return $this
      */
-    public function setLastSequence(int $lastSequence): BlackListGet
+    public function setLastSequence(int $lastSequence): BlackListGetRequest
     {
         $this->setParameter('LastSequence', $lastSequence);
 

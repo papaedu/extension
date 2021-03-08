@@ -5,17 +5,18 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 use Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\AddFriendItem;
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class FriendImport extends TimRequest
+class FriendImportRequest extends TimRequest
 {
     /**
-     * FriendImport constructor.
+     * FriendImportRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\AddFriendItem  $addFriendItem
      */
     public function __construct(string $fromAccount, AddFriendItem $addFriendItem)
     {
-        $this->setFromAccount($fromAccount)->setAddFriendItem($addFriendItem);
+        $this->setFromAccount($fromAccount)
+            ->setAddFriendItem($addFriendItem);
     }
 
     /**
@@ -30,7 +31,7 @@ class FriendImport extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): FriendImport
+    public function setFromAccount(string $fromAccount): FriendImportRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -41,7 +42,7 @@ class FriendImport extends TimRequest
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Sns\Parameters\AddFriendItem  $addFriendItem
      * @return $this
      */
-    public function setAddFriendItem(AddFriendItem $addFriendItem): FriendImport
+    public function setAddFriendItem(AddFriendItem $addFriendItem): FriendImportRequest
     {
         $this->setParameter('AddFriendItem', $addFriendItem);
 

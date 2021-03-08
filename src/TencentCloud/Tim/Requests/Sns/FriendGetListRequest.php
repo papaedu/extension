@@ -4,20 +4,20 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class FriendCheck extends TimRequest
+class FriendGetListRequest extends TimRequest
 {
     /**
-     * FriendCheck constructor.
+     * FriendGetListRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  array  $toAccount
-     * @param  string  $checkType
+     * @param  array  $tagList
      */
-    public function __construct(string $fromAccount, array $toAccount, string $checkType)
+    public function __construct(string $fromAccount, array $toAccount, array $tagList)
     {
         $this->setFromAccount($fromAccount)
             ->setToAccount($toAccount)
-            ->setCheckType($checkType);
+            ->setTagList($tagList);
     }
 
     /**
@@ -25,14 +25,14 @@ class FriendCheck extends TimRequest
      */
     public function getUri(): string
     {
-        return 'v4/sns/friend_check';
+        return 'v4/sns/friend_get_list';
     }
 
     /**
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): FriendCheck
+    public function setFromAccount(string $fromAccount): FriendGetListRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -43,7 +43,7 @@ class FriendCheck extends TimRequest
      * @param  array  $toAccount
      * @return $this
      */
-    public function setToAccount(array $toAccount): FriendCheck
+    public function setToAccount(array $toAccount): FriendGetListRequest
     {
         $this->setParameter('To_Account', $toAccount);
 
@@ -51,12 +51,12 @@ class FriendCheck extends TimRequest
     }
 
     /**
-     * @param  string  $checkType
+     * @param  array  $tagList
      * @return $this
      */
-    public function setCheckType(string $checkType): FriendCheck
+    public function setTagList(array $tagList): FriendGetListRequest
     {
-        $this->setParameter('CheckType', $checkType);
+        $this->setParameter('TagList', $tagList);
 
         return $this;
     }

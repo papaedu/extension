@@ -4,18 +4,20 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class FriendGetList extends TimRequest
+class BlackListCheckRequest extends TimRequest
 {
     /**
-     * FriendGetList constructor.
+     * BlockListCheck constructor.
      *
      * @param  string  $fromAccount
      * @param  array  $toAccount
-     * @param  array  $tagList
+     * @param  string  $checkType
      */
-    public function __construct(string $fromAccount, array $toAccount, array $tagList)
+    public function __construct(string $fromAccount, array $toAccount, string $checkType)
     {
-        $this->setFromAccount($fromAccount)->setToAccount($toAccount)->setTagList($tagList);
+        $this->setFromAccount($fromAccount)
+            ->setToAccount($toAccount)
+            ->setCheckType($checkType);
     }
 
     /**
@@ -23,14 +25,14 @@ class FriendGetList extends TimRequest
      */
     public function getUri(): string
     {
-        return 'v4/sns/friend_get_list';
+        return 'v4/sns/black_list_check';
     }
 
     /**
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): FriendGetList
+    public function setFromAccount(string $fromAccount): BlackListCheckRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -41,7 +43,7 @@ class FriendGetList extends TimRequest
      * @param  array  $toAccount
      * @return $this
      */
-    public function setToAccount(array $toAccount): FriendGetList
+    public function setToAccount(array $toAccount): BlackListCheckRequest
     {
         $this->setParameter('To_Account', $toAccount);
 
@@ -49,12 +51,12 @@ class FriendGetList extends TimRequest
     }
 
     /**
-     * @param  array  $tagList
+     * @param  string  $checkType
      * @return $this
      */
-    public function setTagList(array $tagList): FriendGetList
+    public function setCheckType(string $checkType): BlackListCheckRequest
     {
-        $this->setParameter('TagList', $tagList);
+        $this->setParameter('CheckType', $checkType);
 
         return $this;
     }

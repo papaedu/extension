@@ -4,10 +4,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class FriendDelete extends TimRequest
+class BlackListAddRequest extends TimRequest
 {
     /**
-     * FriendDelete constructor.
+     * BlackListAddRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  array  $toAccount
@@ -23,14 +23,14 @@ class FriendDelete extends TimRequest
      */
     public function getUri(): string
     {
-        return 'v4/sns/friend_delete';
+        return 'v4/sns/black_list_add';
     }
 
     /**
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): FriendDelete
+    public function setFromAccount(string $fromAccount): BlackListAddRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -41,20 +41,9 @@ class FriendDelete extends TimRequest
      * @param  array  $toAccount
      * @return $this
      */
-    public function setToAccount(array $toAccount): FriendDelete
+    public function setToAccount(array $toAccount): BlackListAddRequest
     {
         $this->setParameter('To_Account', $toAccount);
-
-        return $this;
-    }
-
-    /**
-     * @param  string  $deleteType
-     * @return $this
-     */
-    public function setDeleteType(string $deleteType): FriendDelete
-    {
-        $this->setParameter('DeleteType', $deleteType);
 
         return $this;
     }

@@ -4,10 +4,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Sns;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class FriendDeleteAll extends TimRequest
+class FriendDeleteAllRequest extends TimRequest
 {
     /**
-     * FriendDeleteAll constructor.
+     * FriendDeleteAllRequest constructor.
      *
      * @param  string  $fromAccount
      */
@@ -28,7 +28,7 @@ class FriendDeleteAll extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): FriendDeleteAll
+    public function setFromAccount(string $fromAccount): FriendDeleteAllRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -39,7 +39,7 @@ class FriendDeleteAll extends TimRequest
      * @param  string  $deleteType
      * @return $this
      */
-    public function setDeleteType(string $deleteType): FriendDeleteAll
+    public function setDeleteType(string $deleteType): FriendDeleteAllRequest
     {
         $this->setParameter('DeleteType', $deleteType);
 

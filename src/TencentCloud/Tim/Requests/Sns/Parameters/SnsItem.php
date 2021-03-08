@@ -7,34 +7,27 @@ use Papaedu\Extension\TencentCloud\Kernel\Parameter;
 class SnsItem extends Parameter
 {
     /**
-     * SnsItem constructor.
+     * ProfileItem constructor.
      *
      * @param  string  $tag
-     * @param $value
+     * @param  mixed  $value
      */
     public function __construct(string $tag, $value)
     {
-        $this->setTag($tag)->setValue($value);
+        $this->setTagAndValue($tag, $value);
     }
 
     /**
      * @param  string  $tag
+     * @param  mixed  $value
      * @return $this
      */
-    public function setTag(string $tag): SnsItem
+    public function setTagAndValue(string $tag, $value): SnsItem
     {
-        $this->setParameter('Tag', $tag);
-
-        return $this;
-    }
-
-    /**
-     * @param $value
-     * @return $this
-     */
-    public function setValue($value): SnsItem
-    {
-        $this->setParameter('Value', $value);
+        $this->parameters[] = [
+            'Tag' => $tag,
+            'Value' => $value,
+        ];
 
         return $this;
     }
