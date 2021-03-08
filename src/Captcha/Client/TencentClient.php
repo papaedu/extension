@@ -15,16 +15,16 @@ class TencentClient
     {
         try {
             $cred = new Credential(
-                config('extension.qcloud.secret_id'),
-                config('extension.qcloud.secret_key')
+                config('extension.tencent_cloud.secret_id'),
+                config('extension.tencent_cloud.secret_key')
             );
             $client = new CaptchaClient($cred, '');
             $req = new DescribeCaptchaMiniResultRequest();
             $req->setCaptchaType(9);
             $req->setTicket($ticket);
             $req->setUserIp($userIp);
-            $req->setCaptchaAppId((int)config("extension.qcloud.captcha.{$appName}.app_id"));
-            $req->setAppSecretKey(config("extension.qcloud.captcha.{$appName}.secret_key"));
+            $req->setCaptchaAppId((int)config("extension.tencent_cloud.captcha.{$appName}.app_id"));
+            $req->setAppSecretKey(config("extension.tencent_cloud.captcha.{$appName}.secret_key"));
             $resp = $client->DescribeCaptchaMiniResult($req);
             if (1 != $resp->getCaptchaCode()) {
                 throw new HttpException(400, trans('extension::auth.geetest_failed'));
