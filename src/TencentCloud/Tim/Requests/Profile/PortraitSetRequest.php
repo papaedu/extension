@@ -5,17 +5,18 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Profile;
 use Papaedu\Extension\TencentCloud\Tim\Requests\Profile\Parameters\ProfileItem;
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class PortraitSet extends TimRequest
+class PortraitSetRequest extends TimRequest
 {
     /**
-     * PortraitSet constructor.
+     * PortraitSetRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Profile\Parameters\ProfileItem  $profileItem
      */
     public function __construct(string $fromAccount, ProfileItem $profileItem)
     {
-        $this->setFromAccount($fromAccount)->setProfileItem($profileItem);
+        $this->setFromAccount($fromAccount)
+            ->setProfileItem($profileItem);
     }
 
     /**
@@ -30,7 +31,7 @@ class PortraitSet extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): PortraitSet
+    public function setFromAccount(string $fromAccount): PortraitSetRequest
     {
         $this->setParameter('From_Account', $fromAccount);
 
@@ -41,7 +42,7 @@ class PortraitSet extends TimRequest
      * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\Profile\Parameters\ProfileItem  $profileItem
      * @return $this
      */
-    public function setProfileItem(ProfileItem $profileItem): PortraitSet
+    public function setProfileItem(ProfileItem $profileItem): PortraitSetRequest
     {
         $this->setParameter('ProfileItem', $profileItem);
 

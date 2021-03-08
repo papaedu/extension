@@ -14,27 +14,20 @@ class ProfileItem extends Parameter
      */
     public function __construct(string $tag, string $value)
     {
-        $this->setTag($tag)->setValue($value);
+        $this->setTagAndValue($tag, $value);
     }
 
     /**
      * @param  string  $tag
-     * @return $this
-     */
-    public function setTag(string $tag): ProfileItem
-    {
-        $this->setParameter('Tag', $tag);
-
-        return $this;
-    }
-
-    /**
      * @param  string  $value
      * @return $this
      */
-    public function setValue(string $value): ProfileItem
+    public function setTagAndValue(string $tag, string $value): ProfileItem
     {
-        $this->setParameter('Value', $value);
+        $this->parameters[] = [
+            'Tag' => $tag,
+            'Value' => $value,
+        ];
 
         return $this;
     }

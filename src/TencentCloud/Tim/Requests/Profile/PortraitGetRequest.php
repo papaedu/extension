@@ -4,17 +4,18 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\Profile;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class PortraitGet extends TimRequest
+class PortraitGetRequest extends TimRequest
 {
     /**
-     * PortraitGet constructor.
+     * PortraitGetRequest constructor.
      *
      * @param  array  $toAccount
      * @param  array  $tagList
      */
     public function __construct(array $toAccount, array $tagList)
     {
-        $this->setToAccount($toAccount)->setTagList($tagList);
+        $this->setToAccount($toAccount)
+            ->setTagList($tagList);
     }
 
     /**
@@ -29,7 +30,7 @@ class PortraitGet extends TimRequest
      * @param  array  $toAccount
      * @return $this
      */
-    public function setToAccount(array $toAccount): PortraitGet
+    public function setToAccount(array $toAccount): PortraitGetRequest
     {
         $this->setParameter('To_Account', $toAccount);
 
@@ -40,7 +41,7 @@ class PortraitGet extends TimRequest
      * @param  array  $tagList
      * @return $this
      */
-    public function setTagList(array $tagList): PortraitGet
+    public function setTagList(array $tagList): PortraitGetRequest
     {
         $this->setParameter('TagList', $tagList);
 
