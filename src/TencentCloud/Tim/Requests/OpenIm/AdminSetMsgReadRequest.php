@@ -4,10 +4,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class AdminSetMsgRead extends TimRequest
+class AdminSetMsgReadRequest extends TimRequest
 {
     /**
-     * AdminSetMsgRead constructor.
+     * AdminSetMsgReadRequest constructor.
      *
      * @param  string  $reportAccount
      * @param  string  $peerAccount
@@ -30,7 +30,7 @@ class AdminSetMsgRead extends TimRequest
      * @param  string  $reportAccount
      * @return $this
      */
-    public function setReportAccount(string $reportAccount): AdminSetMsgRead
+    public function setReportAccount(string $reportAccount): AdminSetMsgReadRequest
     {
         $this->setParameter('Report_Account', $reportAccount);
 
@@ -41,7 +41,7 @@ class AdminSetMsgRead extends TimRequest
      * @param  string  $peerAccount
      * @return $this
      */
-    public function setPeerAccount(string $peerAccount): AdminSetMsgRead
+    public function setPeerAccount(string $peerAccount): AdminSetMsgReadRequest
     {
         $this->setParameter('Peer_Account', $peerAccount);
 

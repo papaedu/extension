@@ -4,10 +4,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class AdminGetRoamMsg extends TimRequest
+class AdminGetRoamMsgRequest extends TimRequest
 {
     /**
-     * AdminGetRoamMsg constructor.
+     * AdminGetRoamMsgRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  string  $toAccount
@@ -36,7 +36,7 @@ class AdminGetRoamMsg extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): AdminGetRoamMsg
+    public function setFromAccount(string $fromAccount): AdminGetRoamMsgRequest
     {
         if ($fromAccount) {
             $this->setParameter('From_Account', $fromAccount);
@@ -49,7 +49,7 @@ class AdminGetRoamMsg extends TimRequest
      * @param  string  $toAccounts
      * @return $this
      */
-    public function setToAccount(string $toAccounts): AdminGetRoamMsg
+    public function setToAccount(string $toAccounts): AdminGetRoamMsgRequest
     {
         $this->setParameter('To_Account', $toAccounts);
 
@@ -60,7 +60,7 @@ class AdminGetRoamMsg extends TimRequest
      * @param  int  $maxCnt
      * @return $this
      */
-    public function setMaxCnt(int $maxCnt): AdminGetRoamMsg
+    public function setMaxCnt(int $maxCnt): AdminGetRoamMsgRequest
     {
         $this->setParameter('MaxCnt', $maxCnt);
 
@@ -71,7 +71,7 @@ class AdminGetRoamMsg extends TimRequest
      * @param  int  $minTime
      * @return $this
      */
-    public function setMinTime(int $minTime): AdminGetRoamMsg
+    public function setMinTime(int $minTime): AdminGetRoamMsgRequest
     {
         $this->setParameter('MinTime', $minTime);
 
@@ -82,7 +82,7 @@ class AdminGetRoamMsg extends TimRequest
      * @param  int  $maxTime
      * @return $this
      */
-    public function setMaxTime(int $maxTime): AdminGetRoamMsg
+    public function setMaxTime(int $maxTime): AdminGetRoamMsgRequest
     {
         $this->setParameter('MaxTime', $maxTime);
 
@@ -93,7 +93,7 @@ class AdminGetRoamMsg extends TimRequest
      * @param  string  $lastMsgKey
      * @return $this
      */
-    public function setLastMsgKey(string $lastMsgKey)
+    public function setLastMsgKey(string $lastMsgKey): AdminGetRoamMsgRequest
     {
         $this->setParameter('LastMsgKey', $lastMsgKey);
 

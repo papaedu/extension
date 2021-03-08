@@ -4,10 +4,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm;
 
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class AdminMsgWithDraw extends TimRequest
+class AdminMsgWithDrawRequest extends TimRequest
 {
     /**
-     * AdminMsgWithDraw constructor.
+     * AdminMsgWithDrawRequest constructor.
      *
      * @param  string  $fromAccount
      * @param  string  $toAccount
@@ -32,7 +32,7 @@ class AdminMsgWithDraw extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): AdminMsgWithDraw
+    public function setFromAccount(string $fromAccount): AdminMsgWithDrawRequest
     {
         if ($fromAccount) {
             $this->setParameter('From_Account', $fromAccount);
@@ -45,7 +45,7 @@ class AdminMsgWithDraw extends TimRequest
      * @param  string  $toAccounts
      * @return $this
      */
-    public function setToAccount(string $toAccounts): AdminMsgWithDraw
+    public function setToAccount(string $toAccounts): AdminMsgWithDrawRequest
     {
         $this->setParameter('To_Account', $toAccounts);
 
@@ -56,7 +56,7 @@ class AdminMsgWithDraw extends TimRequest
      * @param  string  $msgKey
      * @return $this
      */
-    public function setMsgKey(string $msgKey): AdminMsgWithDraw
+    public function setMsgKey(string $msgKey): AdminMsgWithDrawRequest
     {
         $this->setParameter('MsgKey', $msgKey);
 

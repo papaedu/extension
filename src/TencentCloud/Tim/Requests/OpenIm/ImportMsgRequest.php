@@ -5,10 +5,10 @@ namespace Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm;
 use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\MsgBody;
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
-class ImportMsg extends TimRequest
+class ImportMsgRequest extends TimRequest
 {
     /**
-     * ImportMsg constructor.
+     * ImportMsgRequest constructor.
      *
      * @param  int  $syncFromOldSystem
      * @param  string  $fromAccount
@@ -23,9 +23,10 @@ class ImportMsg extends TimRequest
         int $msgRandom,
         MsgBody $msgBody
     ) {
-        $this->setSyncOtherMachine($syncFromOldSystem)
+        $this->setSyncFromOldSystem($syncFromOldSystem)
             ->setFromAccount($fromAccount)
             ->setToAccount($toAccount)
+            ->setMsgRandom($msgRandom)
             ->setMsgRandom($msgRandom)
             ->setMsgBody($msgBody);
     }
@@ -39,12 +40,12 @@ class ImportMsg extends TimRequest
     }
 
     /**
-     * @param  int  $syncOtherMachine
+     * @param  int  $syncFromOldSystem
      * @return $this
      */
-    public function setSyncOtherMachine(int $syncOtherMachine): ImportMsg
+    public function setSyncFromOldSystem(int $syncFromOldSystem): ImportMsgRequest
     {
-        $this->setParameter('SyncOtherMachine', $syncOtherMachine);
+        $this->setParameter('SyncFromOldSystem', $syncFromOldSystem);
 
         return $this;
     }
@@ -53,7 +54,7 @@ class ImportMsg extends TimRequest
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): ImportMsg
+    public function setFromAccount(string $fromAccount): ImportMsgRequest
     {
         if ($fromAccount) {
             $this->setParameter('From_Account', $fromAccount);
@@ -63,23 +64,12 @@ class ImportMsg extends TimRequest
     }
 
     /**
-     * @param $toAccounts
+     * @param  string  $toAccounts
      * @return $this
      */
-    public function setToAccount($toAccounts): ImportMsg
+    public function setToAccount(string $toAccounts): ImportMsgRequest
     {
         $this->setParameter('To_Account', $toAccounts);
-
-        return $this;
-    }
-
-    /**
-     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\MsgBody  $msgBody
-     * @return $this
-     */
-    public function setMsgBody(MsgBody $msgBody): ImportMsg
-    {
-        $this->setParameter('MsgBody', $msgBody);
 
         return $this;
     }
@@ -88,9 +78,31 @@ class ImportMsg extends TimRequest
      * @param  int  $msgRandom
      * @return $this
      */
-    public function setMsgRandom(int $msgRandom): ImportMsg
+    public function setMsgRandom(int $msgRandom): ImportMsgRequest
     {
         $this->setParameter('MsgRandom', $msgRandom);
+
+        return $this;
+    }
+
+    /**
+     * @param  int  $msgTimestamp
+     * @return $this
+     */
+    public function setMsgTimestamp(int $msgTimestamp): ImportMsgRequest
+    {
+        $this->setParameter('MsgTimeStamp', $msgTimestamp);
+
+        return $this;
+    }
+
+    /**
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\MsgBody  $msgBody
+     * @return $this
+     */
+    public function setMsgBody(MsgBody $msgBody): ImportMsgRequest
+    {
+        $this->setParameter('MsgBody', $msgBody);
 
         return $this;
     }

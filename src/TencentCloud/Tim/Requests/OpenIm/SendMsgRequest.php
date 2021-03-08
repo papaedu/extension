@@ -33,12 +33,12 @@ class SendMsgRequest extends TimRequest
     }
 
     /**
-     * @param  string  $toAccount
+     * @param  int  $syncOtherMachine
      * @return $this
      */
-    public function setToAccount(string $toAccount): SendMsgRequest
+    public function setSyncOtherMachine(int $syncOtherMachine): SendMsgRequest
     {
-        $this->setParameter('To_Account', $toAccount);
+        $this->setParameter('SyncOtherMachine', $syncOtherMachine);
 
         return $this;
     }
@@ -57,34 +57,12 @@ class SendMsgRequest extends TimRequest
     }
 
     /**
-     * @param  int  $msgRandom
+     * @param  string  $toAccount
      * @return $this
      */
-    public function setMsgRandom(int $msgRandom): SendMsgRequest
+    public function setToAccount(string $toAccount): SendMsgRequest
     {
-        $this->setParameter('MsgRandom', $msgRandom);
-
-        return $this;
-    }
-
-    /**
-     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\MsgBody  $msgBody
-     * @return $this
-     */
-    public function setMsgBody(MsgBody $msgBody): SendMsgRequest
-    {
-        $this->setParameter('MsgBody', $msgBody);
-
-        return $this;
-    }
-
-    /**
-     * @param  int  $syncOtherMachine
-     * @return $this
-     */
-    public function setSyncOtherMachine(int $syncOtherMachine): SendMsgRequest
-    {
-        $this->setParameter('SyncOtherMachine', $syncOtherMachine);
+        $this->setParameter('To_Account', $toAccount);
 
         return $this;
     }
@@ -101,12 +79,45 @@ class SendMsgRequest extends TimRequest
     }
 
     /**
+     * @param  int  $msgRandom
+     * @return $this
+     */
+    public function setMsgRandom(int $msgRandom): SendMsgRequest
+    {
+        $this->setParameter('MsgRandom', $msgRandom);
+
+        return $this;
+    }
+
+    /**
+     * @param  int  $msgTimestamp
+     * @return $this
+     */
+    public function setMsgTimestamp(int $msgTimestamp): SendMsgRequest
+    {
+        $this->setParameter('MsgTimeStamp', $msgTimestamp);
+
+        return $this;
+    }
+
+    /**
      * @param  array  $forbidCallbackControl
      * @return $this
      */
     public function setForbidCallbackControl(array $forbidCallbackControl): SendMsgRequest
     {
         $this->setParameter('ForbidCallbackControl', $forbidCallbackControl);
+
+        return $this;
+    }
+
+    /**
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\MsgBody  $msgBody
+     * @return $this
+     */
+    public function setMsgBody(MsgBody $msgBody): SendMsgRequest
+    {
+        $this->setParameter('MsgBody', $msgBody);
 
         return $this;
     }
