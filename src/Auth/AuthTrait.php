@@ -15,9 +15,9 @@ trait AuthTrait
      */
     protected function validateStatus(int $status)
     {
-        if (AuthStatus::BAN == $status) {
+        if (AuthStatus::BANED == $status) {
             throw new HttpException(400, trans('extension::auth.status_ban'));
-        } elseif (AuthStatus::CLOSE == $status) {
+        } elseif (AuthStatus::CLOSED == $status) {
             throw new HttpException(400, trans('extension::auth.status_close'));
         }
     }
