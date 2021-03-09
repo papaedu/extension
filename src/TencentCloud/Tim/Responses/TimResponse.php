@@ -21,7 +21,7 @@ abstract class TimResponse extends Response
      */
     public function handle(ResponseInterface $response)
     {
-        if ($this->response->getStatusCode() != 200) {
+        if ($response->getStatusCode() != 200) {
             throw new HttpException(
                 'Request failed:'.$response->getBody()->getContents(),
                 $response->getBody()->rewind(),
