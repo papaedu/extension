@@ -12,9 +12,11 @@ class ProfileItem extends Parameter
      * @param  string  $tag
      * @param  string  $value
      */
-    public function __construct(string $tag, string $value)
+    public function __construct(string $tag = '', string $value = '')
     {
-        $this->setTagAndValue($tag, $value);
+        if ($tag) {
+            $this->setTagAndValue($tag, $value);
+        }
     }
 
     /**
