@@ -45,12 +45,4 @@ class AdminGetRoamMsgResponse extends TimResponse
     {
         return $this->content['MsgList'];
     }
-
-    /**
-     * @return string
-     */
-    public function getMsgKey(): string
-    {
-        return $this->content['MsgKey'];
-    }
 }
