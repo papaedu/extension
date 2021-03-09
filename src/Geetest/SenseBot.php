@@ -4,7 +4,7 @@ namespace Papaedu\Extension\Geetest;
 
 use Illuminate\Support\Facades\Http;
 
-class Geetest
+class SenseBot
 {
     /**
      * @var string
@@ -14,14 +14,17 @@ class Geetest
     /**
      * @var array
      */
-    private $response;
+    private array $response;
 
     /**
      * @var array
      */
-    private $config;
+    private array $config;
 
-    private $domain = 'http://api.geetest.com/';
+    /**
+     * @var string
+     */
+    private string $domain = 'http://api.geetest.com/';
 
     public function __construct(array $config)
     {
@@ -35,13 +38,13 @@ class Geetest
      * @param  int  $newCaptcha
      * @return bool
      */
-    public function preProcess(array $param, int $newCaptcha = 1)
+    public function preProcess(array $param, int $newCaptcha = 1): bool
     {
         $data = array_merge([
-            'gt' => $this->config['captcha_id'],
+            'gt' => $this->config['app_id'],
             'new_captcha' => $newCaptcha,
         ], $param);
-        $challenge = Http::timeout(1)->get($this->domain . 'register.php', $data)->body();
+        $challenge = Http::timeout(1)->get($this->domain.'register.php', $data)->body();
         if (strlen($challenge) != 32) {
             $this->failbackProcess();
 
@@ -57,12 +60,12 @@ class Geetest
      *
      * @param  string  $challenge
      */
-    private function successProcess($challenge)
+    private function successProcess(string $challenge)
     {
         $this->response = [
             'success' => 1,
-            'gt' => $this->config['captcha_id'],
-            'challenge' => md5($challenge . $this->config['captcha_key']),
+            'gt' => $this->config['app_id'],
+            'challenge' => md5($challenge.$this->config['key']),
             'new_captcha' => 1,
         ];
     }
@@ -74,10 +77,10 @@ class Geetest
     {
         $rnd1 = md5(rand(0, 100));
         $rnd2 = md5(rand(0, 100));
-        $challenge = $rnd1 . substr($rnd2, 0, 2);
+        $challenge = $rnd1.substr($rnd2, 0, 2);
         $result = [
             'success' => 0,
-            'gt' => $this->config['captcha_id'],
+            'gt' => $this->config['app_id'],
             'challenge' => $challenge,
             'new_captcha' => true,
         ];
@@ -89,7 +92,7 @@ class Geetest
      *
      * @return array
      */
-    public function getResponse()
+    public function getResponse(): array
     {
         return $this->response;
     }
@@ -110,7 +113,7 @@ class Geetest
         string $secCode,
         array $param,
         int $jsonFormat = 1
-    ) {
+    ): bool {
         if (!$this->checkValidate($challenge, $validate)) {
             return false;
         }
@@ -119,11 +122,11 @@ class Geetest
             'seccode' => $secCode,
             'timestamp' => time(),
             'challenge' => $challenge,
-            'captchaid' => $this->config['captcha_id'],
+            'captchaid' => $this->config['app_id'],
             'json_format' => $jsonFormat,
             'sdk' => self::GT_SDK_VERSION,
         ], $param);
-        $codeValidate = Http::timeout(1)->asForm()->post($this->domain . 'validate.php', $data)->body();
+        $codeValidate = Http::timeout(1)->asForm()->post($this->domain.'validate.php', $data)->body();
         $obj = json_decode($codeValidate, true);
         if ($obj === false) {
             return false;
@@ -140,7 +143,7 @@ class Geetest
      * @param  string  $secCode
      * @return bool
      */
-    public function failValidate(string $challenge, string $validate, string $secCode)
+    public function failValidate(string $challenge, string $validate, string $secCode): bool
     {
         return md5($challenge) == $validate;
     }
@@ -150,52 +153,12 @@ class Geetest
      * @param  string  $validate
      * @return bool
      */
-    private function checkValidate(string $challenge, string $validate)
+    private function checkValidate(string $challenge, string $validate): bool
     {
-        if (strlen($validate) != 32 || md5($this->config['captcha_key'] . 'geetest' . $challenge) != $validate) {
+        if (strlen($validate) != 32 || md5($this->config['key'].'geetest'.$challenge) != $validate) {
             return false;
         }
 
         return true;
-    }
-
-    /**
-     * 一键登录
-     *
-     * @param  string  $processId
-     * @param  string  $authCode
-     * @param  string  $token
-     * @return false|string
-     */
-    public function oneLoginCheckPhone(string $processId, string $authCode, string $token)
-    {
-        $data = [
-            'process_id' => $processId,
-            'token' => $token,
-            'timestamp' => intval(microtime(true) * 1000),
-        ];
-        if ($authCode) {
-            $data['authcode'] = $authCode;
-        }
-        $sign = hash_hmac(
-            'sha256',
-            "{$this->config['one_login_id']}&&{$data['timestamp']}",
-            $this->config['one_login_key'],
-            true
-        );
-        $data['sign'] = bin2hex($sign);
-
-        $url = 'https://onelogin.geetest.com/check_phone';
-        $response = Http::timeout(1)->asJson()->post($url, $data);
-        if (200 != $response->status()) {
-            return false;
-        }
-
-        $result = $response->json();
-        if (200 != $result['status']) {
-            return false;
-        }
-
-        return $result['result'] ?? '';
     }
 }
