@@ -30,14 +30,15 @@ abstract class CaptchaController extends Controller
 
     /**
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $appName
+     * @param  string  $configName
      * @param  string  $captchaChannel
      * @param  string  $type
      * @return \Illuminate\Http\JsonResponse
      */
-    public function captcha(Request $request, string $appName, string $captchaChannel, string $type): JsonResponse
+    public function captcha(Request $request, string $configName, string $captchaChannel, string $type): JsonResponse
     {
-        $this->validate($request, $appName, $captchaChannel, $type);
+        $captchaConfigName = $this->geeCaptchaConfigName();
+        $this->validate($request, $captchaConfigName, $captchaChannel, $type);
         $this->initParams($request);
         $this->extraValidator($request, 'exists', trans('extension::auth.unregister'));
 
@@ -85,6 +86,14 @@ abstract class CaptchaController extends Controller
     public function getIDDCode(string $ISOCode, string $phoneNumber): ?int
     {
         return Phone::ISOCode2IDDCode($phoneNumber, $ISOCode);
+    }
+
+    /**
+     * @return string
+     */
+    protected function geeCaptchaConfigName(): string
+    {
+        return '';
     }
 
     /**

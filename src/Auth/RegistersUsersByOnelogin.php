@@ -60,7 +60,7 @@ trait RegistersUsersByOnelogin
      */
     protected function attemptRegister(string $appName, Request $request)
     {
-        $username = Geetest::config($appName)
+        $username = Geetest::onePass($appName)
             ->oneLoginCheckPhone(
                 $request->input('process_id', ''),
                 $request->input('auth_code', ''),
