@@ -17,9 +17,9 @@ abstract class HttpClient
     const MAX_RETRIES = 3;
 
     /**
-     * @var \GuzzleHttp\ClientInterface
+     * @var \GuzzleHttp\ClientInterface|null
      */
-    protected ClientInterface $httpClient;
+    protected ?ClientInterface $httpClient = null;
 
     /**
      * @var string
@@ -30,7 +30,7 @@ abstract class HttpClient
     {
         if (!$this->httpClient instanceof ClientInterface) {
             $handlerStack = HandlerStack::create(new CurlHandler());
-            $handlerStack->push($this->retryMiddleware(), 'retry');
+//            $handlerStack->push($this->retryMiddleware(), 'retry');
 
             $this->httpClient = new Client([
                 'base_uri' => $this->baseUri,
@@ -49,7 +49,7 @@ abstract class HttpClient
         return Middleware::retry(
             function (
                 $retries,
-                RequestInterface $request,
+                \Psr\Http\Message\RequestInterface $request,
                 Response $response = null
             ) {
                 if ($retries >= self::MAX_RETRIES) {
@@ -60,12 +60,9 @@ abstract class HttpClient
                     // Retry on server errors
                     $response = json_decode($body, true);
 
-                    // TODO:
-//                    if (!empty($response['errcode'])) {
-//                        $this->app['logger']->debug('Retrying with refreshed access token.');
-//
-//                        return true;
-//                    }
+                    if (!empty($response['ErrorCode']) && in_array(abs($response['ErrorCode']), [], true)) {
+                        return true;
+                    }
                 }
 
                 return false;
@@ -82,6 +79,7 @@ abstract class HttpClient
      * @param  array  $options
      * @return \Papaedu\Extension\TencentCloud\Kernel\Contracts\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Papaedu\Extension\TencentCloud\Exceptions\BadRequestException
      * @throws \Papaedu\Extension\TencentCloud\Exceptions\HttpException
      */
     public function request(

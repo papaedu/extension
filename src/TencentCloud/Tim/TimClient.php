@@ -7,7 +7,7 @@ use Papaedu\Extension\TencentCloud\Kernel\HttpClient\TlsHttpClient;
 use Papaedu\Extension\TencentCloud\Kernel\Sign\TlsSign;
 
 /**
- * Class TimClient
+ * Class TencentCloud
  *
  * @package Papaedu\Extension\TencentCloud\Tim
  */
@@ -19,19 +19,9 @@ class TimClient extends Client
     protected string $baseUri = 'https://console.tim.qq.com/';
 
     /**
-     * @var bool
+     * @var array
      */
-    private bool $isAdmin;
-
-    /**
-     * @var string
-     */
-    protected string $sdkAppId;
-
-    /**
-     * @var string
-     */
-    protected string $identifier;
+    protected array $config;
 
     /**
      * @var \Papaedu\Extension\TencentCloud\Kernel\HttpClient\TlsHttpClient|null
@@ -46,13 +36,11 @@ class TimClient extends Client
     /**
      * TimClient constructor.
      *
-     * @param  bool  $isAdmin
+     * @param  array  $config
      */
-    public function __construct(bool $isAdmin = false)
+    public function __construct(array $config)
     {
-        $this->sdkAppId = config('extension.tencent_cloud.tim.sdk_app_id');
-        $this->identifier = config('extension.tencent_cloud.tim.identifier');
-        $this->isAdmin = $isAdmin;
+        $this->config = $config;
     }
 
     /**
@@ -65,8 +53,8 @@ class TimClient extends Client
             $tlsSign = $this->getTlsSign();
 
             $this->client = new TlsHttpClient(
-                $this->sdkAppId,
-                $this->identifier,
+                $this->config['sdk_app_id'],
+                $this->config['identifier'],
                 $tlsSign->getTlsSign(),
                 $this->baseUri
             );
@@ -76,18 +64,19 @@ class TimClient extends Client
     }
 
     /**
+     * @param  bool  $isAdmin
      * @return \Papaedu\Extension\TencentCloud\Kernel\Sign\TlsSign
      */
-    public function getTlsSign(): TlsSign
+    public function getTlsSign(bool $isAdmin = false): TlsSign
     {
         if (!$this->tlsSign instanceof TlsSign) {
             $this->tlsSign = new TlsSign(
-                $this->isAdmin,
-                $this->sdkAppId,
-                config('extension.tencent_cloud.tim.sign.version'),
-                config('extension.tencent_cloud.tim.sign.key'),
-                config('extension.tencent_cloud.tim.sign.private_key', ''),
-                config('extension.tencent_cloud.tim.sign.public_key', ''),
+                $isAdmin,
+                $this->config['sdk_app_id'],
+                $this->config['sign']['version'],
+                $this->config['sign']['key'],
+                $this->config['sign']['private_key'],
+                $this->config['sign']['public_key'],
             );
         }
 

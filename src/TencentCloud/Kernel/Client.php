@@ -15,6 +15,7 @@ abstract class Client implements ClientInterface
      * @param  array  $options
      * @return \Papaedu\Extension\TencentCloud\Kernel\Contracts\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Papaedu\Extension\TencentCloud\Exceptions\BadRequestException
      * @throws \Papaedu\Extension\TencentCloud\Exceptions\HttpException
      * @throws \Papaedu\Extension\TencentCloud\Exceptions\InvalidArgumentException
      */

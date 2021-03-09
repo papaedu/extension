@@ -10,11 +10,6 @@ use Psr\Http\Message\ResponseInterface;
 abstract class TimResponse extends Response
 {
     /**
-     * @var \Psr\Http\Message\ResponseInterface
-     */
-    private ResponseInterface $response;
-
-    /**
      * @param  \Psr\Http\Message\ResponseInterface  $response
      * @throws \Papaedu\Extension\TencentCloud\Exceptions\BadRequestException
      * @throws \Papaedu\Extension\TencentCloud\Exceptions\HttpException
