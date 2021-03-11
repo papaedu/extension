@@ -3,6 +3,8 @@
 namespace Papaedu\Extension\Geetest;
 
 use Illuminate\Support\Facades\Http;
+use Papaedu\Extension\Exceptions\BadRequestException;
+use Papaedu\Extension\Exceptions\HttpException;
 
 class SenseBot
 {
