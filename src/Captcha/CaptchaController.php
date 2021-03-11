@@ -47,6 +47,24 @@ abstract class CaptchaController extends Controller
         return $this->response->noContent();
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $captchaChannel
+     * @param  string  $type
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function captchaByConfigName(Request $request, string $captchaChannel, string $type): JsonResponse
+    {
+        $captchaConfigName = $this->geeCaptchaConfigName();
+        $this->validate($request, $captchaConfigName, $captchaChannel, $type);
+        $this->initParams($request);
+        $this->extraValidator($request, 'exists', trans('extension::auth.unregister'));
+
+        $this->sendCaptcha();
+
+        return $this->response->noContent();
+    }
+
     protected function initParams(Request $request)
     {
         $this->ISOCode = $request->input('iso_code', config('extension.locale.iso_code'));
