@@ -24,6 +24,9 @@ class ServiceProvider extends LaravelProvider
     public function register()
     {
         $this->registerConfig();
+        $this->registerGeetestConfig();
+        $this->registerTencentCloudConfig();
+
         $this->registerEnums();
         $this->registerChannels();
         $this->registerCommands();
@@ -39,6 +42,28 @@ class ServiceProvider extends LaravelProvider
         }
 
         $this->mergeConfigFrom($source, 'extension');
+    }
+
+    private function registerGeetestConfig()
+    {
+        $source = realpath(__DIR__.'/config-geetest.php');
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([$source => config_path('geetest.php')], 'extension-config-geetest');
+        }
+
+        $this->mergeConfigFrom($source, 'geetest');
+    }
+
+    private function registerTencentCloudConfig()
+    {
+        $source = realpath(__DIR__.'/config-tencent-cloud.php');
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([$source => config_path('tencent-cloud.php')], 'extension-config-tencent-cloud');
+        }
+
+        $this->mergeConfigFrom($source, 'tencent-cloud');
     }
 
     private function registerEnums()
@@ -112,7 +137,7 @@ class ServiceProvider extends LaravelProvider
     private function registerMigrations()
     {
         $this->publishes([
-            __DIR__ . '/Database/Migrations/' => database_path('migrations'),
+            __DIR__.'/Database/Migrations/' => database_path('migrations'),
         ], 'migrations');
     }
 
@@ -164,7 +189,6 @@ class ServiceProvider extends LaravelProvider
         $this->app['validator']->extend('all_string_max', function ($attributes, $value, $parameters, $validator) {
             return (new AllStringMax($parameters))->passes($attributes, $value);
         }, ':attribute格式错误');
-
 
         $this->app['validator']->extendImplicit(
             'required_multiple_if',

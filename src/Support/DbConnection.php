@@ -16,7 +16,7 @@ class DbConnection
 
         $connections = [];
         foreach ($names as $name) {
-            $nameArray = explode('_', $name);
+            $nameArray = explode('_', $name, 2);
             $key = strtoupper($nameArray[1] ?? '');
             $key = $key ? "_{$key}" : $key;
             $connectionConfig['database'] = env("DB_DATABASE{$key}", 'forge');

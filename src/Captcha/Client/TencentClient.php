@@ -11,20 +11,28 @@ use TencentCloud\Common\Exception\TencentCloudSDKException;
 
 class TencentClient
 {
-    public static function validate(string $appName, string $ticket, string $userIp)
+    /**
+     * @param  string  $ticket
+     * @param  string  $userIp
+     * @param  string  $configName
+     */
+    public static function validate(string $ticket, string $userIp, string $configName = '')
     {
         try {
             $cred = new Credential(
-                config('extension.qcloud.secret_id'),
-                config('extension.qcloud.secret_key')
+                config('tencent_cloud.secret_id'),
+                config('tencent_cloud.secret_key')
             );
             $client = new CaptchaClient($cred, '');
             $req = new DescribeCaptchaMiniResultRequest();
             $req->setCaptchaType(9);
             $req->setTicket($ticket);
             $req->setUserIp($userIp);
-            $req->setCaptchaAppId((int)config("extension.qcloud.captcha.{$appName}.app_id"));
-            $req->setAppSecretKey(config("extension.qcloud.captcha.{$appName}.secret_key"));
+
+            $captchaConfigName = $configName ? "tencent_cloud.captcha.{$configName}" : 'tencent_cloud.captcha';
+            $req->setCaptchaAppId((int)config("{$captchaConfigName}.app_id"));
+            $req->setAppSecretKey(config("{$captchaConfigName}.secret_key"));
+
             $resp = $client->DescribeCaptchaMiniResult($req);
             if (1 != $resp->getCaptchaCode()) {
                 throw new HttpException(400, trans('extension::auth.geetest_failed'));

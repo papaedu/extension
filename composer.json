@@ -11,8 +11,8 @@
     "require": {
         "php": "^7.4",
         "ext-openssl": "*",
+        "ext-json": "*",
         "bensampo/laravel-enum": "^1.35",
-        "biubiujun/qcloud": "^1.0",
         "james-heinrich/getid3": "^1.9",
         "jenssegers/agent": "^2.6",
         "overtrue/easy-sms": "^1.1",
@@ -44,7 +44,8 @@
                 "Papaedu\\Extension\\ServiceProvider"
             ],
             "aliases": {
-                "Geetest": "Papaedu\\Extension\\Facades\\Geetest"
+                "Geetest": "Papaedu\\Extension\\Facades\\Geetest",
+                "TencentCloud": "Papaedu\\Extension\\Facades\\TencentCloud"
             }
         }
     },

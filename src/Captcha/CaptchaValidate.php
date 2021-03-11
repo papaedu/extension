@@ -13,11 +13,11 @@ trait CaptchaValidate
 {
     /**
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $appName
+     * @param  string  $configName
      * @param  string  $captchaChannel
      * @param  string  $type
      */
-    protected function validate(Request $request, string $appName, string $captchaChannel, string $type)
+    protected function validate(Request $request, string $configName, string $captchaChannel, string $type)
     {
         $request->validate($this->getRules($captchaChannel), [
             'required' => trans('extension::status_message.400.default'),
@@ -26,28 +26,28 @@ trait CaptchaValidate
             $this->username() => trans('extension::field.username'),
         ]);
 
-        $this->validateRequest($request, $appName, $captchaChannel, $type);
+        $this->validateRequest($request, $configName, $captchaChannel, $type);
     }
 
     /**
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $appName
+     * @param  string  $configName
      * @param  string  $captchaChannel
      * @param  string  $type
      */
-    protected function validateRequest(Request $request, string $appName, string $captchaChannel, string $type)
+    protected function validateRequest(Request $request, string $configName, string $captchaChannel, string $type)
     {
         if (CaptchaChannel::GEETEST == $captchaChannel) {
             GeetestClient::validate(
+                $configName,
                 $request->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'),
-                $appName,
                 $type
             );
         } elseif (CaptchaChannel::TENCENT == $captchaChannel) {
             TencentClient::validate(
-                $appName,
                 $request->input('ticket', ''),
-                $request->ip()
+                $request->ip(),
+                $configName
             );
         } else {
             throw new HttpException(400, trans('extension::auth.geetest_failed'));

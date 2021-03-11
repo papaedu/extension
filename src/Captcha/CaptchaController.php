@@ -30,14 +30,33 @@ abstract class CaptchaController extends Controller
 
     /**
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $appName
+     * @param  string  $configName
      * @param  string  $captchaChannel
      * @param  string  $type
      * @return \Illuminate\Http\JsonResponse
      */
-    public function captcha(Request $request, string $appName, string $captchaChannel, string $type): JsonResponse
+    public function captcha(Request $request, string $configName, string $captchaChannel, string $type): JsonResponse
     {
-        $this->validate($request, $appName, $captchaChannel, $type);
+        $captchaConfigName = $this->geeCaptchaConfigName();
+        $this->validate($request, $captchaConfigName, $captchaChannel, $type);
+        $this->initParams($request);
+        $this->extraValidator($request, 'exists', trans('extension::auth.unregister'));
+
+        $this->sendCaptcha();
+
+        return $this->response->noContent();
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $captchaChannel
+     * @param  string  $type
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function captchaByConfigName(Request $request, string $captchaChannel, string $type): JsonResponse
+    {
+        $captchaConfigName = $this->geeCaptchaConfigName();
+        $this->validate($request, $captchaConfigName, $captchaChannel, $type);
         $this->initParams($request);
         $this->extraValidator($request, 'exists', trans('extension::auth.unregister'));
 
@@ -55,7 +74,7 @@ abstract class CaptchaController extends Controller
 
     protected function sendCaptcha()
     {
-        $captcha = CaptchaValidator::generate($this->ISOCode, $this->phoneNumber);
+        $captcha = CaptchaValidator::generate($this->phoneNumber, $this->ISOCode);
         CaptchaNotification::send($this->phoneNumber, $this->IDDCode, $captcha);
     }
 
@@ -65,7 +84,7 @@ abstract class CaptchaController extends Controller
      */
     public function getISOCode(Request $request): string
     {
-        return $request->input('iso_code', config('extension.locale.iso_code'));
+        return $request->input('iso_code', '');
     }
 
     /**
@@ -85,6 +104,14 @@ abstract class CaptchaController extends Controller
     public function getIDDCode(string $ISOCode, string $phoneNumber): ?int
     {
         return Phone::ISOCode2IDDCode($phoneNumber, $ISOCode);
+    }
+
+    /**
+     * @return string
+     */
+    protected function geeCaptchaConfigName(): string
+    {
+        return '';
     }
 
     /**

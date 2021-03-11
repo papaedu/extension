@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Papaedu\Extension\Auth\International\AuthenticatesUsersByCaptcha;
+
+class LoginByCaptchaController extends Controller
+{
+    use AuthenticatesUsersByCaptcha;
+
+    /**
+     * @param  array  $data
+     * @return mixed
+     */
+    protected function create(array $data)
+    {
+        //
+    }
+
+    /**
+     * Get the sanctum token name to be used by the controller.
+     *
+     * @return string
+     */
+    public function tokenName(): string
+    {
+        return 'user';
+    }
+}

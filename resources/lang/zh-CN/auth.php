@@ -12,6 +12,6 @@ return [
     'captcha_failed' => ':attribute错误',
     'onelogin_failed' => '一键登录失败',
 
-    'status_ban' => '此账号已封停',
-    'status_close' => '此账号已注销',
+    'status_baned' => '此账号已封停',
+    'status_closed' => '此账号已注销',
 ];

@@ -8,14 +8,14 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class GeetestClient
 {
     /**
-     * @param  string  $appName
+     * @param  string  $configName
      * @param  string  $clientType
      * @param  string  $userId
      * @return array
      */
-    public static function config(string $appName, string $clientType, $userId = 'UnLoginUser')
+    public static function config(string $configName, string $clientType, $userId = 'UnLoginUser')
     {
-        $status = Geetest::config($appName)->preProcess([
+        $status = Geetest::senseBot($configName)->preProcess([
             'user_id' => $userId,
             'client_type' => $clientType,
             'ip_address' => request()->ip(),
@@ -23,16 +23,16 @@ class GeetestClient
         session()->put('gtserver', $status);
         session()->put('user_id', $userId);
 
-        return Geetest::config($appName)->getResponse();
+        return Geetest::senseBot($configName)->getResponse();
     }
 
     /**
+     * @param  string  $configName
      * @param  array  $data
-     * @param  string  $appName
      * @param  string  $clientType
      * @param  string  $userId
      */
-    public static function validate(array $data, string $appName, string $clientType, $userId = 'UnLoginUser')
+    public static function validate(string $configName, array $data, string $clientType, $userId = 'UnLoginUser')
     {
         [$challenge, $validate, $secCode] = array_values($data);
         if (!$challenge || !$validate || !$secCode) {
@@ -40,13 +40,13 @@ class GeetestClient
         }
 
         if (1 == session()->get('gtserver')) {
-            $result = Geetest::config($appName)->successValidate($challenge, $validate, $secCode, [
+            $result = Geetest::senseBot($configName)->successValidate($challenge, $validate, $secCode, [
                 'user_id' => $userId,
                 'client_type' => $clientType,
                 'ip_address' => request()->ip(),
             ]);
         } else {
-            $result = Geetest::config($appName)->failValidate($challenge, $validate, $secCode);
+            $result = Geetest::senseBot($configName)->failValidate($challenge, $validate, $secCode);
         }
 
         if (false === $result) {

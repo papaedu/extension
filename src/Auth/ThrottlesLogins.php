@@ -18,7 +18,7 @@ trait ThrottlesLogins
      * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
-    protected function hasTooManyLoginAttempts(Request $request)
+    protected function hasTooManyLoginAttempts(Request $request): bool
     {
         return $this->limiter()->tooManyAttempts(
             $this->throttleKey($request),
@@ -112,7 +112,7 @@ trait ThrottlesLogins
      *
      * @return int
      */
-    public function maxAttempts()
+    public function maxAttempts(): int
     {
         return property_exists($this, 'maxAttempts') ? $this->maxAttempts : 5;
     }
@@ -122,7 +122,7 @@ trait ThrottlesLogins
      *
      * @return int
      */
-    public function decayMinutes()
+    public function decayMinutes(): int
     {
         return property_exists($this, 'decayMinutes') ? $this->decayMinutes : 1;
     }
