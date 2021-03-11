@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Papaedu\Extension\Enums\Header;
 use Papaedu\Extension\Exceptions\BadRequestException;
 use Papaedu\Extension\Exceptions\HttpException;
 use Papaedu\Extension\Facades\Geetest;
@@ -33,18 +34,18 @@ trait BaseAuthenticatesUsersByOnelogin
     /**
      * Attempt to log the user into the application.
      *
-     * @param  string  $appName
      * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
     protected function attemptLogin(Request $request): bool
     {
         try {
-            $username = Geetest::config($request->header('app_name', ''))->oneLoginCheckPhone(
-                $request->input('process_id', ''),
-                $request->input('auth_code', ''),
-                $request->input('token', '')
-            );
+            $username = Geetest::onePass($request->header(Header::APP_NAME, ''))
+                ->oneLoginCheckPhone(
+                    $request->input('process_id', ''),
+                    $request->input('auth_code', ''),
+                    $request->input('token', '')
+                );
 
             // Only support locale telephone for now.
             $user = $this->create($this->credentials($username));

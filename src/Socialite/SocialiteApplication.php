@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\Socialite;
 
+use Papaedu\Extension\Enums\Header;
 use Papaedu\Extension\Enums\WeChatPlatform;
 use Papaedu\Extension\Http\Exceptions\SocialiteOfWeChatException;
 
@@ -9,8 +10,8 @@ class SocialiteApplication
 {
     public static function wechat()
     {
-        $platform = request()->header('platform');
-        $channel = request()->header('channel');
+        $platform = request()->header(Header::PLATFORM);
+        $channel = request()->header(Header::CHANNEL);
 
         if ($platform && $channel) {
             $weChatPlatform = WeChatPlatform::transform($platform);
