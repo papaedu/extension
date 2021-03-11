@@ -63,12 +63,12 @@ class MsgBody extends Parameter
         ];
     }
 
-    public function setCustomMsg(string $data, string $desc, string $ext, string $sound)
+    public function setCustomMsg(array $data, string $desc = '', string $ext = '', string $sound = '')
     {
         $this->parameters[] = [
             'MsgType' => 'TIMCustomElem',
             'MsgContent' => [
-                'Data' => $data,
+                'Data' => json_encode($data),
                 'Desc' => $desc,
                 'Ext' => $ext,
                 'Sound' => $sound,
