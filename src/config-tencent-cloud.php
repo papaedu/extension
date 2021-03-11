@@ -16,8 +16,8 @@ return [
         'sign' => [
             'version' => env('TENCENT_CLOUD_TIM_SIGN_VERSION'),
             'key' => env('TENCENT_CLOUD_TIM_KEY'),
-            'private_key' => env('TENCENT_CLOUD_TIM_PRIVATE_KEY'),
-            'public_key' => env('TENCENT_CLOUD_TIM_PUBLIC_KEY'),
+            'private_key' => env('TENCENT_CLOUD_TIM_PRIVATE_KEY', ''),
+            'public_key' => env('TENCENT_CLOUD_TIM_PUBLIC_KEY', ''),
         ],
     ],
 ];
