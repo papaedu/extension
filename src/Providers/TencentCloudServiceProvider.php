@@ -19,17 +19,17 @@ class TencentCloudServiceProvider extends ServiceProvider
         ];
 
         foreach ($apps as $name => $class) {
-            if (empty(config("tencent_cloud.{$name}"))) {
+            if (empty(config("tencent-cloud.{$name}"))) {
                 continue;
             }
 
-            if (!empty(config("tencent_cloud.{$name}.sdk_app_id"))) {
+            if (!empty(config("tencent-cloud.{$name}.sdk_app_id"))) {
                 $accounts = [
-                    'default' => config("tencent_cloud.{$name}"),
+                    'default' => config("tencent-cloud.{$name}"),
                 ];
-                config(["tencent_cloud.{$name}.default" => $accounts['default']]);
+                config(["tencent-cloud.{$name}.default" => $accounts['default']]);
             } else {
-                $accounts = config("tencent_cloud.{$name}");
+                $accounts = config("tencent-cloud.{$name}");
             }
 
             foreach ($accounts as $account => $config) {
