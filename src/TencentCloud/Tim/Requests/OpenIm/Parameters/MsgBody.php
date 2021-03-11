@@ -63,6 +63,12 @@ class MsgBody extends Parameter
         ];
     }
 
+    /**
+     * @param  array  $data
+     * @param  string  $desc
+     * @param  string  $ext
+     * @param  string  $sound
+     */
     public function setCustomMsg(array $data, string $desc = '', string $ext = '', string $sound = '')
     {
         $this->parameters[] = [
@@ -76,6 +82,12 @@ class MsgBody extends Parameter
         ];
     }
 
+    /**
+     * @param  string  $url
+     * @param  int  $size
+     * @param  int  $second
+     * @param  int  $downloadFlag
+     */
     public function setSoundMsg(string $url, int $size, int $second, int $downloadFlag)
     {
         $this->parameters[] = [
@@ -89,6 +101,11 @@ class MsgBody extends Parameter
         ];
     }
 
+    /**
+     * @param  string  $uuid
+     * @param  int  $imageFormat
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\ImageInfoArray  $imageInfoArray
+     */
     public function setImageElem(string $uuid, int $imageFormat, ImageInfoArray $imageInfoArray)
     {
         $this->parameters[] = [
@@ -101,6 +118,12 @@ class MsgBody extends Parameter
         ];
     }
 
+    /**
+     * @param  string  $url
+     * @param  int  $filesize
+     * @param  string  $filename
+     * @param  int  $downloadFlag
+     */
     public function setFileMsg(string $url, int $filesize, string $filename, int $downloadFlag)
     {
         $this->parameters[] = [
@@ -114,6 +137,19 @@ class MsgBody extends Parameter
         ];
     }
 
+    /**
+     * @param  string  $videoUrl
+     * @param  int  $videoSize
+     * @param  int  $videoSecond
+     * @param  string  $videoFormat
+     * @param  int  $videoDownloadFlag
+     * @param  string  $thumbUrl
+     * @param  int  $thumbSize
+     * @param  int  $thumbWidth
+     * @param  int  $thumbHeight
+     * @param  string  $thumbFormat
+     * @param  int  $thumbDownloadFlag
+     */
     public function setVideoMsg(
         string $videoUrl,
         int $videoSize,
