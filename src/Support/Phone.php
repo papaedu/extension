@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
+/**
+ * Class Phone
+ *
+ * @package Papaedu\Extension\Support
+ * @deprecated
+ */
 class Phone
 {
     /**

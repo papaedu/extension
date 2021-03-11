@@ -33,6 +33,7 @@ trait BaseAuthenticatesUsersByOnelogin
     /**
      * Attempt to log the user into the application.
      *
+     * @param  string  $appName
      * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
@@ -51,7 +52,11 @@ trait BaseAuthenticatesUsersByOnelogin
                 event(new Registered($user));
             }
 
+        // Only support locale telephone for now.
             $this->guard()->login($user);
+        if ($user->wasRecentlyCreated) {
+            event(new Registered($user));
+        }
 
             return true;
         } catch (HttpException $e) {
