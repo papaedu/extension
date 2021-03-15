@@ -15,7 +15,7 @@ class DeleteGroupMemberRequest extends TimRequest
     public function __construct(string $groupId, array $memberToDelAccount)
     {
         $this->setGroupId($groupId)
-            ->setMemberTpDelAccount($memberToDelAccount);
+            ->setMemberToDelAccount($memberToDelAccount);
     }
 
     /**
@@ -63,7 +63,7 @@ class DeleteGroupMemberRequest extends TimRequest
      * @param  array  $memberToDelAccount
      * @return $this
      */
-    public function setMemberTpDelAccount(array $memberToDelAccount): DeleteGroupMemberRequest
+    public function setMemberToDelAccount(array $memberToDelAccount): DeleteGroupMemberRequest
     {
         $this->setParameter('MemberToDel_Account', $memberToDelAccount);
 

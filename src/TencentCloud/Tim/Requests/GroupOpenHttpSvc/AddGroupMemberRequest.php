@@ -11,9 +11,9 @@ class AddGroupMemberRequest extends TimRequest
      * AddGroupMemberRequest constructor.
      *
      * @param  string  $groupId
-     * @param  array  $memberList
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\MemberList  $memberList
      */
-    public function __construct(string $groupId, array $memberList)
+    public function __construct(string $groupId, MemberList $memberList)
     {
         $this->setGroupId($groupId)
             ->setMemberList($memberList);

@@ -7,6 +7,18 @@ use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 class SendGroupSystemNotificationRequest extends TimRequest
 {
     /**
+     * SendGroupSystemNotificationRequest constructor.
+     *
+     * @param  string  $groupId
+     * @param  string  $content
+     */
+    public function __construct(string $groupId, string $content)
+    {
+        $this->setGroupId($groupId)
+            ->setContent($content);
+    }
+
+    /**
      * @return string
      */
     public function getUri(): string
