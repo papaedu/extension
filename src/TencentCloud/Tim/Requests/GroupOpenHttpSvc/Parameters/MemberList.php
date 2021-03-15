@@ -7,6 +7,16 @@ use Papaedu\Extension\TencentCloud\Kernel\Parameter;
 class MemberList extends Parameter
 {
     /**
+     * MemberList constructor.
+     *
+     * @param  string  $memberAccount
+     */
+    public function __construct(string $memberAccount)
+    {
+        $this->setMemberAccount($memberAccount);
+    }
+
+    /**
      * @param  string  $memberAccount
      */
     public function setMemberAccount(string $memberAccount)
