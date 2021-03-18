@@ -46,6 +46,9 @@ trait AuthTrait
         if (isset($user->uuid)) {
             $data['uuid'] = $user->uuid;
         }
+        if (isset($user->login_count)) {
+            $data['login_count'] = $user->login_count;
+        }
 
         return new JsonResponse(['data' => $data]);
     }
