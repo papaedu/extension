@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc;
 
+use Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\AppDefinedData;
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
 class ModifyGroupBaseInfoRequest extends TimRequest
@@ -102,10 +103,10 @@ class ModifyGroupBaseInfoRequest extends TimRequest
     }
 
     /**
-     * @param  array  $appDefinedData
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\AppDefinedData  $appDefinedData
      * @return $this
      */
-    public function setAppDefinedData(array $appDefinedData): ModifyGroupBaseInfoRequest
+    public function setAppDefinedData(AppDefinedData $appDefinedData): ModifyGroupBaseInfoRequest
     {
         $this->setParameter('AppDefinedData', $appDefinedData);
 

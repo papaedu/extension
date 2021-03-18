@@ -2,6 +2,8 @@
 
 namespace Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc;
 
+use Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\AppDefinedData;
+use Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\AppMemberDefinedData;
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
 class CreateGroupRequest extends TimRequest
@@ -126,10 +128,10 @@ class CreateGroupRequest extends TimRequest
     }
 
     /**
-     * @param  array  $appDefinedData
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\AppDefinedData  $appDefinedData
      * @return $this
      */
-    public function setAppDefinedData(array $appDefinedData): CreateGroupRequest
+    public function setAppDefinedData(AppDefinedData $appDefinedData): CreateGroupRequest
     {
         $this->setParameter('AppDefinedData', $appDefinedData);
 
@@ -148,10 +150,10 @@ class CreateGroupRequest extends TimRequest
     }
 
     /**
-     * @param  array  $appMemberDefinedData
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\AppMemberDefinedData  $appMemberDefinedData
      * @return $this
      */
-    public function setAppMemberDefinedData(array $appMemberDefinedData): CreateGroupRequest
+    public function setAppMemberDefinedData(AppMemberDefinedData $appMemberDefinedData): CreateGroupRequest
     {
         $this->setParameter('AppMemberDefinedData', $appMemberDefinedData);
 
