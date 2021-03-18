@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Papaedu\Extension\Enums\CaptchaChannel;
+use Papaedu\Extension\Enums\Header;
 use Papaedu\Extension\Support\Phone;
 use Papaedu\Extension\Support\Traits\Extension;
 
@@ -38,8 +39,7 @@ abstract class CaptchaController extends Controller
      */
     public function captcha(Request $request, string $configName, string $captchaChannel, string $type): JsonResponse
     {
-        $captchaConfigName = $this->geeCaptchaConfigName();
-        $this->validate($request, $captchaConfigName, $captchaChannel, $type);
+        $this->validate($request, $request->header(Header::APP_NAME, ''), $captchaChannel, $type);
         $this->initParams($request);
         $this->extraValidator($request, 'exists', trans('extension::auth.unregister'));
 
@@ -55,8 +55,7 @@ abstract class CaptchaController extends Controller
      */
     public function captchaByConfigName(Request $request, string $type): JsonResponse
     {
-        $captchaConfigName = $this->geeCaptchaConfigName();
-        $this->validate($request, $captchaConfigName, CaptchaChannel::GEETEST, $type);
+        $this->validate($request, $request->header(Header::APP_NAME, ''), CaptchaChannel::GEETEST, $type);
         $this->initParams($request);
         $this->extraValidator($request, 'exists', trans('extension::auth.unregister'));
 
@@ -104,14 +103,6 @@ abstract class CaptchaController extends Controller
     public function getIDDCode(string $ISOCode, string $phoneNumber): ?int
     {
         return Phone::ISOCode2IDDCode($phoneNumber, $ISOCode);
-    }
-
-    /**
-     * @return string
-     */
-    protected function geeCaptchaConfigName(): string
-    {
-        return '';
     }
 
     /**
