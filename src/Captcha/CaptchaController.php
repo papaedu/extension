@@ -5,6 +5,7 @@ namespace Papaedu\Extension\Captcha;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Papaedu\Extension\Enums\CaptchaChannel;
 use Papaedu\Extension\Support\Phone;
 use Papaedu\Extension\Support\Traits\Extension;
 
@@ -49,14 +50,13 @@ abstract class CaptchaController extends Controller
 
     /**
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $captchaChannel
      * @param  string  $type
      * @return \Illuminate\Http\JsonResponse
      */
-    public function captchaByConfigName(Request $request, string $captchaChannel, string $type): JsonResponse
+    public function captchaByConfigName(Request $request, string $type): JsonResponse
     {
         $captchaConfigName = $this->geeCaptchaConfigName();
-        $this->validate($request, $captchaConfigName, $captchaChannel, $type);
+        $this->validate($request, $captchaConfigName, CaptchaChannel::GEETEST, $type);
         $this->initParams($request);
         $this->extraValidator($request, 'exists', trans('extension::auth.unregister'));
 
