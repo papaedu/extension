@@ -34,7 +34,7 @@ class ResponseFilter extends Parameter
      */
     public function setAppDefinedDataFilterGroup(array $appDefinedDataFilterGroup): ResponseFilter
     {
-        $this->setParameter('AppDefinedData', $appDefinedDataFilterGroup);
+        $this->setParameter('AppDefinedDataFilter_Group', $appDefinedDataFilterGroup);
 
         return $this;
     }
@@ -45,7 +45,7 @@ class ResponseFilter extends Parameter
      */
     public function setAppDefinedDataFilterGroupMember(array $appDefinedDataFilterGroupMember): ResponseFilter
     {
-        $this->setParameter('AppDefinedDataFilterGroupMember', $appDefinedDataFilterGroupMember);
+        $this->setParameter('AppDefinedDataFilter_GroupMember', $appDefinedDataFilterGroupMember);
 
         return $this;
     }
