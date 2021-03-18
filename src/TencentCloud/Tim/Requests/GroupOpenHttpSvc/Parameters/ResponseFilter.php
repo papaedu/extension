@@ -34,7 +34,7 @@ class ResponseFilter extends Parameter
      */
     public function setAppDefinedDataFilterGroup(array $appDefinedDataFilterGroup): ResponseFilter
     {
-        $this->setParameter('AppDefinedDatFilterGroup', $appDefinedDataFilterGroup);
+        $this->setParameter('AppDefinedData', $appDefinedDataFilterGroup);
 
         return $this;
     }

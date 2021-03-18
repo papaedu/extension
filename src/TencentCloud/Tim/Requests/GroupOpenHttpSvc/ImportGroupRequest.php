@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc;
 
+use Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\AppDefinedData;
 use Papaedu\Extension\TencentCloud\Tim\Requests\TimRequest;
 
 class ImportGroupRequest extends TimRequest
@@ -126,12 +127,12 @@ class ImportGroupRequest extends TimRequest
     }
 
     /**
-     * @param  array  $appDefinedDAta
+     * @param  \Papaedu\Extension\TencentCloud\Tim\Requests\GroupOpenHttpSvc\Parameters\AppDefinedData  $appDefinedData
      * @return $this
      */
-    public function setAppDefinedData(array $appDefinedDAta): ImportGroupRequest
+    public function setAppDefinedData(AppDefinedData $appDefinedData): ImportGroupRequest
     {
-        $this->setParameter('AppDefinedData', $appDefinedDAta);
+        $this->setParameter('AppDefinedData', $appDefinedData);
 
         return $this;
     }
