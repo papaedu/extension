@@ -18,17 +18,12 @@ abstract class Request implements RequestInterface
     protected array $parameters = [];
 
     /**
-     * @param  bool  $filter
      * @return array
      */
-    public function getParameters($filter = true): array
+    public function getParameters(): array
     {
         if (!$this->parameters) {
             return [];
-        }
-
-        if (true === $filter) {
-            return array_filter($this->parameters);
         }
 
         return $this->parameters;
