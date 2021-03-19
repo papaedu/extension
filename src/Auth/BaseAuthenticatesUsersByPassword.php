@@ -52,7 +52,7 @@ trait BaseAuthenticatesUsersByPassword
      */
     public function logout(Request $request): JsonResponse
     {
-        $this->guard()->user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->delete();
 
         if ($response = $this->loggedOut($request)) {
             return $response;
