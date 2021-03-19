@@ -15,10 +15,9 @@ interface RequestInterface
     public function getUri(): string;
 
     /**
-     * @param  bool  $filter
      * @return array
      */
-    public function getParameters($filter = true): array;
+    public function getParameters(): array;
 
     /**
      * @param  string  $key
