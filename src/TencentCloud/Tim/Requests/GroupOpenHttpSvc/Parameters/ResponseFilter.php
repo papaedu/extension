@@ -29,6 +29,17 @@ class ResponseFilter extends Parameter
     }
 
     /**
+     * @param  array  $selfInfoFilter
+     * @return $this
+     */
+    public function setSelfInfoFilter(array $selfInfoFilter): ResponseFilter
+    {
+        $this->setParameter('SelfInfoFilter', $selfInfoFilter);
+
+        return $this;
+    }
+
+    /**
      * @param  array  $appDefinedDataFilterGroup
      * @return $this
      */
