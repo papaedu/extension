@@ -19,7 +19,11 @@ final class BadRequestCode
 
     public const IS_GUEST = 10006;// 当前处于游客模式，请先登录
 
-    public const AUTH_CLOSED = 11001;// 账户已注销
+    public const ACCOUNT_BANED = 11098;// 账户已封号
+
+    public const ACCOUNT_CLOSED = 11099;// 账户已注销
+
+    public const ACCOUNT_INCOMPLETE_INFORMATION = 11011;// 账户资料未完善
 
     /*
      * 通用
