@@ -30,8 +30,19 @@ class TencentCloudImChannel
         $message = $notification->toTencentCloudIm($notifiable);
 
         try {
+            $offlinePushInfo = new OfflinePushInfo();
+            $offlinePushInfo->setTitle($message->getFromAccountName());
+
             $msgBody = new MsgBody();
-            $msgBody->setTextMsg($message->getText());
+            if ($customMessage = $message->getCustomMessage()) {
+                $msgBody->setCustomMsg($customMessage);
+                $offlinePushInfo->setDesc($message->getText());
+            } elseif ($text = $message->getText()) {
+                $msgBody->setTextMsg($text);
+                $offlinePushInfo->setDesc($message->getText());
+            } else {
+                return;
+            }
             $request = new SendMsgRequest(
                 $notifiable->uuid,
                 random_int(1, 999999),
@@ -39,10 +50,6 @@ class TencentCloudImChannel
                 $message->getFromAccount()
             );
             $request->setSyncOtherMachine(SyncOtherMachine::OUT_OF_SYNC);
-
-            $offlinePushInfo = new OfflinePushInfo();
-            $offlinePushInfo->setTitle($message->getFromAccountName());
-            $offlinePushInfo->setDesc($message->getText());
             $request->setOfflinePushInfo($offlinePushInfo);
 
             TencentCloud::tim()->sendRequest($request);
