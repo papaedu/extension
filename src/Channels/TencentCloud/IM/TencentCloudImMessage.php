@@ -22,7 +22,7 @@ class TencentCloudImMessage
     /**
      * @var array
      */
-    private array $customMessage;
+    private array $customMessage = [];
 
     /**
      * @param  string  $fromAccount
