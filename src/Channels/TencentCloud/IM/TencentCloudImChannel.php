@@ -3,36 +3,69 @@
 namespace Papaedu\Extension\Channels\TencentCloud\IM;
 
 use App\Enums\ImSystemIdentifier;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
 use Papaedu\Extension\Facades\TencentCloud;
+use Papaedu\Extension\TencentCloud\Exceptions\BadRequestException;
+use Papaedu\Extension\TencentCloud\Exceptions\HttpException;
+use Papaedu\Extension\TencentCloud\Exceptions\InvalidArgumentException;
 use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Enums\SyncOtherMachine;
 use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\MsgBody;
+use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\OfflinePushInfo;
 use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\SendMsgRequest;
 
 class TencentCloudImChannel
 {
     /**
-     * 单发消息
-     *
-     * @param $notifiable
+     * @param  mixed  $notifiable
      * @param  \Illuminate\Notifications\Notification  $notification
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Papaedu\Extension\TencentCloud\Exceptions\BadRequestException
-     * @throws \Papaedu\Extension\TencentCloud\Exceptions\HttpException
-     * @throws \Papaedu\Extension\TencentCloud\Exceptions\InvalidArgumentException
      */
     public function send($notifiable, Notification $notification)
     {
-        $message = $notification->toTencentIM($notifiable);
-        $msgBody = new MsgBody();
-        $msgBody->setTextMsg($message->getText());
-        $request = new SendMsgRequest(
-            $notifiable->uuid,
-            random_int(1, 999999),
-            $msgBody,
-            $message->getFromAccount()
-        );
-        $request->setSyncOtherMachine(SyncOtherMachine::OUT_OF_SYNC);
-        TencentCloud::tim()->sendRequest($request);
+        if (!$receiver = $notifiable->routeNotificationFor('tencent_cloud_im')) {
+            return;
+        }
+
+        $message = $notification->toTencentCloudIm($notifiable);
+
+        try {
+            $msgBody = new MsgBody();
+            $msgBody->setTextMsg($message->getText());
+            $request = new SendMsgRequest(
+                $notifiable->uuid,
+                random_int(1, 999999),
+                $msgBody,
+                $message->getFromAccount()
+            );
+            $request->setSyncOtherMachine(SyncOtherMachine::OUT_OF_SYNC);
+
+            $offlinePushInfo = new OfflinePushInfo();
+            $offlinePushInfo->setTitle($message->getFromAccountName());
+            $offlinePushInfo->setDesc($message->getText());
+            $request->setOfflinePushInfo($offlinePushInfo);
+
+            TencentCloud::tim()->sendRequest($request);
+        } catch (GuzzleException | HttpException $e) {
+            Log::error('TencentCloudImChannel 请求异常', [
+                'text' => $message->getText(),
+                'error_code' => $e->getCode(),
+                'error_message' => $e->getMessage(),
+            ]);
+        } catch (BadRequestException $e) {
+            Log::error('TencentCloudImChannel 异常请求', [
+                'guest' => $this->guest->id,
+                'day' => $this->day,
+                'error_code' => $e->getCode(),
+                'error_message' => $e->getMessage(),
+            ]);
+        } catch (InvalidArgumentException $e) {
+            Log::error('TencentCloudImChannel 参数异常', [
+                'guest' => $this->guest->id,
+                'day' => $this->day,
+                'error_code' => $e->getCode(),
+                'error_message' => $e->getMessage(),
+            ]);
+        }
     }
 }

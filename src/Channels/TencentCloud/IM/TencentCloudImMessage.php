@@ -4,17 +4,39 @@ namespace Papaedu\Extension\Channels\TencentCloud\IM;
 
 class TencentCloudImMessage
 {
-    public $fromAccount;
+    /**
+     * @var string
+     */
+    private string $fromAccount;
 
-    public $text;
+    /**
+     * @var string
+     */
+    private string $fromAccountName;
+
+    /**
+     * @var string
+     */
+    private string $text;
 
     /**
      * @param  string  $fromAccount
      * @return $this
      */
-    public function setFromAccount(string $fromAccount): self
+    public function setFromAccount(string $fromAccount): TencentCloudImMessage
     {
         $this->fromAccount = $fromAccount;
+
+        return $this;
+    }
+
+    /**
+     * @param  string  $fromAccountName
+     * @return $this
+     */
+    public function setFromAccountName(string $fromAccountName): TencentCloudImMessage
+    {
+        $this->fromAccountName = $fromAccountName;
 
         return $this;
     }
@@ -23,7 +45,7 @@ class TencentCloudImMessage
      * @param  string  $text
      * @return $this
      */
-    public function setText(string $text): self
+    public function setText(string $text): TencentCloudImMessage
     {
         $this->text = $text;
 
@@ -36,6 +58,14 @@ class TencentCloudImMessage
     public function getFromAccount(): string
     {
         return $this->fromAccount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFromAccountName(): string
+    {
+        return $this->fromAccountName;
     }
 
     /**
