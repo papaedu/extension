@@ -20,6 +20,11 @@ class TencentCloudImMessage
     private string $text;
 
     /**
+     * @var array
+     */
+    private array $customMessage;
+
+    /**
      * @param  string  $fromAccount
      * @return $this
      */
@@ -53,6 +58,17 @@ class TencentCloudImMessage
     }
 
     /**
+     * @param  array  $customMessage
+     * @return $this
+     */
+    public function setCustomMessage(array $customMessage): TencentCloudImMessage
+    {
+        $this->customMessage = $customMessage;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getFromAccount(): string
@@ -74,5 +90,13 @@ class TencentCloudImMessage
     public function getText(): string
     {
         return $this->text;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomMessage(): array
+    {
+        return $this->customMessage;
     }
 }
