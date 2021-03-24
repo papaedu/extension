@@ -55,9 +55,6 @@ trait BaseAuthenticatesUsersByOnelogin
 
             // Only support locale telephone for now.
             $this->guard()->login($user);
-            if ($user->wasRecentlyCreated) {
-                event(new Registered($user));
-            }
 
             return true;
         } catch (HttpException $e) {
