@@ -47,6 +47,10 @@ trait BaseAuthenticatesUsersByOnelogin
                     $request->input('token', '')
                 );
 
+            if (empty($username)) {
+                return false;
+            }
+
             // Only support locale telephone for now.
             $user = $this->create($this->credentials($username));
             if ($user->wasRecentlyCreated) {

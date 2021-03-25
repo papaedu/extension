@@ -3,6 +3,7 @@
 namespace Papaedu\Extension\Geetest;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class OnePass
 {
@@ -54,6 +55,7 @@ class OnePass
 
         $result = $response->json();
         if (200 != $result['status']) {
+            Log::warning('OnePass', $result);
             return false;
         }
 
