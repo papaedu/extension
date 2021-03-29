@@ -3,6 +3,7 @@
 namespace Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters;
 
 use Papaedu\Extension\TencentCloud\Kernel\Parameter;
+use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Enums\MsgType;
 
 class MsgBody extends Parameter
 {
@@ -24,7 +25,7 @@ class MsgBody extends Parameter
     public function setTextMsg(string $text)
     {
         $this->parameters[] = [
-            'MsgType' => 'TIMTextElem',
+            'MsgType' => MsgType::TEXT,
             'MsgContent' => [
                 'Text' => $text,
             ],
@@ -39,7 +40,7 @@ class MsgBody extends Parameter
     public function setLocationMsg(string $desc, string $latitude, string $longitude)
     {
         $this->parameters[] = [
-            'MsgType' => 'TIMLocationElem',
+            'MsgType' => MsgType::LOCATION,
             'MsgContent' => [
                 'Desc' => $desc,
                 'Latitude' => $latitude,
@@ -55,7 +56,7 @@ class MsgBody extends Parameter
     public function setFaceMsg(int $index, string $data)
     {
         $this->parameters[] = [
-            'MsgType' => 'TIMFaceElem',
+            'MsgType' => MsgType::FACE,
             'MsgContent' => [
                 'Index' => $index,
                 'Data' => $data,
@@ -72,7 +73,7 @@ class MsgBody extends Parameter
     public function setCustomMsg(array $data, string $desc = '', string $ext = '', string $sound = '')
     {
         $this->parameters[] = [
-            'MsgType' => 'TIMCustomElem',
+            'MsgType' => MsgType::CUSTOM,
             'MsgContent' => [
                 'Data' => json_encode($data),
                 'Desc' => $desc,
@@ -91,7 +92,7 @@ class MsgBody extends Parameter
     public function setSoundMsg(string $url, int $size, int $second, int $downloadFlag)
     {
         $this->parameters[] = [
-            'MsgType' => 'TIMSoundElem',
+            'MsgType' => MsgType::SOUND,
             'MsgContent' => [
                 'Url' => $url,
                 'Size' => $size,
@@ -109,7 +110,7 @@ class MsgBody extends Parameter
     public function setImageElem(string $uuid, int $imageFormat, ImageInfoArray $imageInfoArray)
     {
         $this->parameters[] = [
-            'MsgType' => 'TIMImageElem',
+            'MsgType' => MsgType::IMAGE,
             'MsgContent' => [
                 'UUID' => $uuid,
                 'ImageFormat' => $imageFormat,
@@ -127,7 +128,7 @@ class MsgBody extends Parameter
     public function setFileMsg(string $url, int $filesize, string $filename, int $downloadFlag)
     {
         $this->parameters[] = [
-            'MsgType' => 'TIMFileElem',
+            'MsgType' => MsgType::FILE,
             'MsgContent' => [
                 'Url' => $url,
                 'FileSize' => $filesize,
@@ -164,7 +165,7 @@ class MsgBody extends Parameter
         int $thumbDownloadFlag
     ) {
         $this->parameters[] = [
-            'MsgType' => 'TIMVideoFileElem',
+            'MsgType' => MsgType::VIDEO_FILE,
             'MsgContent' => [
                 'VideoUrl' => $videoUrl,
                 'VideoSize' => $videoSize,
