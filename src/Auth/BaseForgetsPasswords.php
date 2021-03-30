@@ -28,14 +28,14 @@ trait BaseForgetsPasswords
         $this->validateForgot($request);
 
         event(new PasswordReset(
-            $guest = $this->update(
+            $user = $this->update(
                 ['idd_code' => $this->IDDCode] + $request->only($this->username(), 'password')
             )
         ));
 
-        $guest->tokens()->delete();
+        $user->tokens()->delete();
 
-        $this->guard()->login($guest);
+        $this->guard()->login($user);
 
         return $this->sendForgotResponse($request);
     }
