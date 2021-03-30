@@ -11,9 +11,9 @@ trait CaptchaInternational
     protected function validateCaptcha(Request $request)
     {
         $request->validate([
-//            'geetest_challenge' => ['required'],
-//            'geetest_validate' => ['required'],
-//            'geetest_seccode' => ['required'],
+            'geetest_challenge' => ['required'],
+            'geetest_validate' => ['required'],
+            'geetest_seccode' => ['required'],
             'iso_code' => ['required_with:'.$this->username()],
             $this->username() => ['required', 'phone:iso_code,mobile'],
         ], [
