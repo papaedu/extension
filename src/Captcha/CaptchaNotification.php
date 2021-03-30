@@ -30,9 +30,9 @@ class CaptchaNotification
             $message = '发送失败，请稍候再试';
             foreach ($e->getExceptions() as $gateway => $exception) {
                 if ('aliyun' == $gateway) {
-                    $message = static::exceptionAliyun($exception->raw);
+                    $message = static::exceptionAliYun($exception->raw);
                 } elseif ('qcloud' == $gateway) {
-                    $message = static::exceptionQcloud($exception->raw);
+                    $message = static::exceptionTencentCloud($exception->raw);
                 }
             }
 
@@ -62,7 +62,11 @@ class CaptchaNotification
         }
     }
 
-    protected static function exceptionAliyun(array $raw)
+    /**
+     * @param  array  $raw
+     * @return string
+     */
+    protected static function exceptionAliYun(array $raw): string
     {
         switch ($raw['result']) {
             case 'isv.MOBILE_NUMBER_ILLEGAL':
@@ -80,7 +84,11 @@ class CaptchaNotification
         return $message;
     }
 
-    protected static function exceptionQcloud(array $raw)
+    /**
+     * @param  array  $raw
+     * @return string
+     */
+    protected static function exceptionTencentCloud(array $raw): string
     {
         switch ($raw['result']) {
             case 1016:
