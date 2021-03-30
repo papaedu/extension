@@ -13,7 +13,7 @@ class GeetestClient
      * @param  string  $userId
      * @return array
      */
-    public static function config(string $configName, string $clientType, $userId = 'UnLoginUser')
+    public static function config(string $configName, string $clientType, $userId = 'UnLoginUser'): array
     {
         $status = Geetest::senseBot($configName)->preProcess([
             'user_id' => $userId,

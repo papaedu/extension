@@ -20,8 +20,8 @@ class TencentClient
     {
         try {
             $cred = new Credential(
-                config('tencent_cloud.secret_id'),
-                config('tencent_cloud.secret_key')
+                config('tencent-cloud.secret_id'),
+                config('tencent-cloud.secret_key')
             );
             $client = new CaptchaClient($cred, '');
             $req = new DescribeCaptchaMiniResultRequest();
@@ -38,7 +38,7 @@ class TencentClient
                 throw new HttpException(400, trans('extension::auth.geetest_failed'));
             }
         } catch (TencentCloudSDKException $e) {
-            Log::error($e);
+            Log::error('', $e);
             throw new HttpException(400, trans('extension::auth.geetest_failed'));
         }
     }
