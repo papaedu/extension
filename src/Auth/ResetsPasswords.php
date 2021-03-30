@@ -16,7 +16,7 @@ trait ResetsPasswords
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function reset(Request $request)
+    public function reset(Request $request): JsonResponse
     {
         $this->validateReset($request);
 
@@ -35,10 +35,13 @@ trait ResetsPasswords
      */
     protected function validateReset(Request $request)
     {
-        $request->validate([
-            'password' => ['required', 'password'],
-            'new_password' => ['required', 'password_strength'],
-        ], [], [
+        $rules = [];
+        if (!empty($this->guard()->user()->password)) {
+            $rules['password'] = ['required', 'password'];
+        }
+        $rules['new_password'] = ['required', 'password_strength'];
+
+        $request->validate($rules, [], [
             'password' => trans('extension::field.old_password'),
             'new_password' => trans('extension::field.new_password'),
         ]);
@@ -50,7 +53,7 @@ trait ResetsPasswords
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function sendResetResponse(Request $request)
+    protected function sendResetResponse(Request $request): JsonResponse
     {
         if ($response = $this->beforeResetResponse($request, $this->guard()->user())) {
             return $response;
