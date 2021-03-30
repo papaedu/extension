@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 use Papaedu\Extension\Captcha\CaptchaValidator;
 use Papaedu\Extension\Support\Phone;
 
-trait ResetsUsernames
+trait BaseResetsUsernames
 {
     use AuthTrait;
 
     /**
-     * @var string
+     * @var int|null
      */
-    protected $IDDCode = '';
+    protected ?int $IDDCode = null;
 
     /**
      * Handle a reset mobile request to the application.
@@ -22,7 +22,7 @@ trait ResetsUsernames
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function reset(Request $request)
+    public function reset(Request $request): JsonResponse
     {
         $this->validateReset($request);
 
@@ -37,48 +37,13 @@ trait ResetsUsernames
     }
 
     /**
-     * Validate the guest login request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
-    protected function validateReset(Request $request)
-    {
-        Phone::validate($request, 'new_username', [
-            'password' => ['required', 'password_strength'],
-            'captcha' => ['required', 'digits:' . config('extension.auth.captcha.length'), 'captcha:new_username'],
-        ], [
-            'captcha.digits' => trans('extension::auth.captcha_failed'),
-        ], [
-            'password' => trans('extension::field.password'),
-            'new_username' => trans('extension::field.new_username'),
-            'captcha' => trans('extension::field.captcha'),
-        ]);
-
-        $this->IDDCode = Phone::ISOCode2IDDCode(
-            $request->new_username,
-            $request->input('iso_code', config('extension.locale.iso_code'))
-        );
-        Phone::extraValidate(
-            $request,
-            'unique',
-            'new_username',
-            $this->userModel(),
-            $this->IDDCode,
-            trans('extension::auth.registered'),
-            '',
-            $this->username()
-        );
-    }
-
-    /**
      * Send the response after the guest was reset mobile.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function sendResetResponse(Request $request, $user)
+    protected function sendResetResponse(Request $request, $user): JsonResponse
     {
         CaptchaValidator::clear(
             $request->input('idd_code', config('extension.locale.idd_code')),
@@ -109,7 +74,7 @@ trait ResetsUsernames
      *
      * @return string
      */
-    public function userModel()
+    public function userModel(): string
     {
         return 'App\User';
     }

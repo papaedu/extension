@@ -54,7 +54,7 @@ trait BaseAuthenticatesUsers
 
         $this->clearByMethod($request);
 
-        $this->validateStatus($this->guard()->user()->status);
+        $this->validateStatus($this->guard()->user());
 
         if ($response = $this->authenticated($request, $this->guard()->user())) {
             return $response;

@@ -4,7 +4,6 @@ namespace Papaedu\Extension\Auth;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Papaedu\Extension\Enums\AuthStatus;
 use Papaedu\Extension\Enums\BadRequestCode;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -14,19 +13,30 @@ trait AuthTrait
     protected bool $hasUuid = false;
 
     /**
-     * @param  int  $status
+     * @param  mixed  $user
      */
-    protected function validateStatus(int $status)
+    protected function validateStatus($user)
     {
-        if (AuthStatus::BANED == $status) {
-            throw new HttpException(400, trans('extension::auth.status_baned'));
-        } elseif (AuthStatus::CLOSED == $status) {
+        if (isset($user->status)) {
+            return;
+        }
+
+        if (AuthStatus::BANED == $user->status) {
+            throw new HttpException(
+                400,
+                trans('extension::auth.status_baned'),
+                null,
+                [],
+                BadRequestCode::ACCOUNT_BANED
+            );
+        }
+        if (AuthStatus::CLOSED == $user->status) {
             throw new HttpException(
                 400,
                 trans('extension::auth.status_closed'),
                 null,
                 [],
-                BadRequestCode::AUTH_CLOSED
+                BadRequestCode::ACCOUNT_CLOSED
             );
         }
     }
@@ -51,19 +61,6 @@ trait AuthTrait
         }
 
         return new JsonResponse(['data' => $data]);
-    }
-
-    /**
-     * Validate user uuid, if not generate.
-     *
-     * @param  mixed  $user
-     */
-    protected function validateUuid($user)
-    {
-        if (!$user->uuid) {
-            $user->uuid = str_replace('-', '', Str::uuid()->toString());
-            $user->save();
-        }
     }
 
     /**
