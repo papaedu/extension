@@ -4,7 +4,6 @@ namespace Papaedu\Extension\Auth;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Papaedu\Extension\Enums\AuthStatus;
 use Papaedu\Extension\Enums\BadRequestCode;
 use Symfony\Component\HttpKernel\Exception\HttpException;
