@@ -29,7 +29,7 @@ trait BaseForgetsPasswords
 
         event(new PasswordReset(
             $user = $this->update(
-                ['idd_code' => $this->IDDCode] + $request->only($this->username(), 'password')
+                $this->extraParams($request) + $request->only($this->username(), 'password')
             )
         ));
 

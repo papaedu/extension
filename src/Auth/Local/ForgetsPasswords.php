@@ -49,4 +49,13 @@ trait ForgetsPasswords
             ]
         );
     }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function extraParams(Request $request): array
+    {
+        return [];
+    }
 }

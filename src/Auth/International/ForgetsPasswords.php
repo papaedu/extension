@@ -47,8 +47,7 @@ trait ForgetsPasswords
         $request->validate(
             [
                 $this->username() => [
-                    Rule::exists($this->userModel(), $this->username())
-                        ->where('idd_code', $this->IDDCode),
+                    Rule::exists($this->userModel(), $this->username())->where('idd_code', $this->IDDCode),
                 ],
             ],
             [
@@ -58,5 +57,14 @@ trait ForgetsPasswords
                 $this->username() => trans('extension::field.username'),
             ]
         );
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function extraParams(Request $request): array
+    {
+        return ['idd_code' => $this->IDDCode];
     }
 }
