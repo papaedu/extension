@@ -3,18 +3,19 @@
 namespace Papaedu\Extension\Auth;
 
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Papaedu\Extension\Captcha\CaptchaValidator;
 use Papaedu\Extension\Support\Phone;
 
-trait ForgetsPasswords
+trait BaseForgetsPasswords
 {
     use AuthTrait;
 
     /**
-     * @var string
+     * @var int|null
      */
-    protected $IDDCode = '';
+    protected ?int $IDDCode = null;
 
     /**
      * Handle a forgot password request to the application.
@@ -22,7 +23,7 @@ trait ForgetsPasswords
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function forgot(Request $request)
+    public function forgot(Request $request): JsonResponse
     {
         $this->validateForgot($request);
 
@@ -40,51 +41,19 @@ trait ForgetsPasswords
     }
 
     /**
-     * Validate the guest forgot password request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
-    protected function validateForgot(Request $request)
-    {
-        Phone::validate($request, $this->username(), [
-            'password' => ['required', 'password_strength'],
-            'captcha' => ['required', 'digits:'.config('extension.auth.captcha.length'), 'captcha:'.$this->username()],
-        ], [
-            'captcha.digits' => trans('extension::auth.captcha_failed'),
-        ], [
-            'captcha' => trans('extension::field.captcha'),
-            'password' => trans('extension::field.password'),
-        ]);
-
-        $this->IDDCode = Phone::ISOCode2IDDCode(
-            $request->input($this->username()),
-            $request->input('iso_code', config('extension.locale.iso_code'))
-        );
-        Phone::extraValidate(
-            $request,
-            'exists',
-            $this->username(),
-            $this->userModel(),
-            $this->IDDCode,
-            trans('extension::auth.unregister')
-        );
-    }
-
-    /**
      * Send the response after the guest was forgot password.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function sendForgotResponse(Request $request)
+    protected function sendForgotResponse(Request $request): JsonResponse
     {
         CaptchaValidator::clear(
             $request->input('idd_code', config('extension.locale.idd_code')),
             $request->input($this->username())
         );
 
-        $this->validateStatus($this->guard()->user()->status);
+        $this->validateStatus($this->guard()->user());
 
         if ($response = $this->beforeForgotResponse($request, $this->guard()->user())) {
             return $response;
@@ -109,7 +78,7 @@ trait ForgetsPasswords
      *
      * @return string
      */
-    public function userModel()
+    public function userModel(): string
     {
         return 'App\User';
     }
