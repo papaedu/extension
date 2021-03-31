@@ -178,7 +178,15 @@ class ServiceProvider extends LaravelProvider
 
         $this->app['validator']->extend('password_strength', function ($attributes, $value, $parameters, $validator) {
             return Extend::passwordStrength($value);
-        }, ':attribute必须包含数字，且必须包含字母或其它符号（!@_#$%^&*()-+=,.?）');
+        }, ':attribute必须包含数字、字母及符号，长度在8-16位');
+
+        $this->app['validator']->extend(
+            'password_strength_low',
+            function ($attributes, $value, $parameters, $validator) {
+                return Extend::passwordStrengthLow($value);
+            },
+            ':attribute必须包含数字与字母，长度在8-16位'
+        );
 
         $this->app['validator']->extend('multiple_of', function ($attributes, $value, $parameters, $validator) {
             return (new MultipleOf($parameters))->passes($attributes, $value);
