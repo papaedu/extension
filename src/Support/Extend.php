@@ -52,6 +52,17 @@ class Extend
      */
     public static function passwordStrength(string $password)
     {
-        return preg_match('/^(?=.*[0-9])(?=.*[a-zA-Z!@_#$%^&*()\-+=,.?]).{8,16}$/', $password);
+        return preg_match('/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@_#$%^&*~()\[\]\-+=,.?;:\'\"]).{8,16}$/', $password);
+    }
+
+    /**
+     * 密码强度
+     *
+     * @param  string  $password
+     * @return false|int
+     */
+    public static function passwordStrengthLow(string $password)
+    {
+        return preg_match('/^(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}$/', $password);
     }
 }
