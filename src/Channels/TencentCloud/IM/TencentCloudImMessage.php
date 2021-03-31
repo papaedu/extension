@@ -7,17 +7,17 @@ class TencentCloudImMessage
     /**
      * @var string
      */
-    private string $fromAccount;
+    private string $fromAccount = '';
 
     /**
      * @var string
      */
-    private string $fromAccountName;
+    private string $fromAccountName = '';
 
     /**
      * @var string
      */
-    private string $text;
+    private string $text = '';
 
     /**
      * @var array
