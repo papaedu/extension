@@ -25,6 +25,11 @@ class TencentCloudImMessage
     private array $customMessage = [];
 
     /**
+     * @var array
+     */
+    private array $forbidCallbackControl = [];
+
+    /**
      * @param  string  $fromAccount
      * @return $this
      */
@@ -69,6 +74,17 @@ class TencentCloudImMessage
     }
 
     /**
+     * @param  array  $forbidCallbackControl
+     * @return $this
+     */
+    public function setForbidCallbackControl(array $forbidCallbackControl): TencentCloudImMessage
+    {
+        $this->forbidCallbackControl = $forbidCallbackControl;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getFromAccount(): string
@@ -98,5 +114,13 @@ class TencentCloudImMessage
     public function getCustomMessage(): array
     {
         return $this->customMessage;
+    }
+
+    /**
+     * @return array
+     */
+    public function getForbidCallbackControl(): array
+    {
+        return $this->forbidCallbackControl;
     }
 }
