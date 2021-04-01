@@ -7,6 +7,7 @@ final class BadRequestCode
     /*
      * 用户
      */
+    // 登录相关
     public const SOCIALITE_UNBIND = 10001;// 授权未绑定账户,需跳转绑定页面
 
     public const SOCIALITE_UNBOUND_DONT_JUMP = 10002;// 授权未绑定,无需跳转绑定页面
@@ -19,11 +20,16 @@ final class BadRequestCode
 
     public const IS_GUEST = 10006;// 当前处于游客模式，请先登录
 
-    public const ACCOUNT_BANED = 11098;// 账户已封号
+    public const ACCOUNT_BANED = 10098;// 账户已封号
 
-    public const ACCOUNT_CLOSED = 11099;// 账户已注销
+    public const ACCOUNT_CLOSED = 10099;// 账户已注销
 
-    public const ACCOUNT_INCOMPLETE_INFORMATION = 11011;// 账户资料未完善
+    // 访问相关
+    public const VISIT_ACCOUNT_INCOMPLETE_INFORMATION = 11003;// 访问的账户未完善信息
+
+    public const VISIT_ACCOUNT_BANED = 11098;// 访问的账户已封号
+
+    public const VISIT_ACCOUNT_CLOSED = 11099;// 访问的账户已注销
 
     /*
      * 通用
