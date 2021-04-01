@@ -10,7 +10,15 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait AuthTrait
 {
-    protected bool $hasUuid = false;
+    /**
+     * @var bool
+     */
+    protected bool $handleBaned = true;
+
+    /**
+     * @var bool
+     */
+    protected bool $handleClosed = true;
 
     /**
      * @param  mixed  $user
@@ -21,7 +29,7 @@ trait AuthTrait
             return;
         }
 
-        if (AuthStatus::BANED == $user->status) {
+        if (AuthStatus::BANED == $user->status && true == $this->handleBaned) {
             throw new HttpException(
                 400,
                 trans('extension::auth.status_baned'),
@@ -30,7 +38,7 @@ trait AuthTrait
                 BadRequestCode::ACCOUNT_BANED
             );
         }
-        if (AuthStatus::CLOSED == $user->status) {
+        if (AuthStatus::CLOSED == $user->status && true == $this->handleClosed) {
             throw new HttpException(
                 400,
                 trans('extension::auth.status_closed'),
