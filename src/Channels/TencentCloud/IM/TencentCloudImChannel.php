@@ -61,15 +61,15 @@ class TencentCloudImChannel
             ]);
         } catch (BadRequestException $e) {
             Log::error('TencentCloudImChannel 异常请求', [
-                'guest' => $this->guest->id,
-                'day' => $this->day,
+                $notifiable->uuid,
+                'text' => $message->getText(),
                 'error_code' => $e->getCode(),
                 'error_message' => $e->getMessage(),
             ]);
         } catch (InvalidArgumentException $e) {
             Log::error('TencentCloudImChannel 参数异常', [
-                'guest' => $this->guest->id,
-                'day' => $this->day,
+                $notifiable->uuid,
+                'text' => $message->getText(),
                 'error_code' => $e->getCode(),
                 'error_message' => $e->getMessage(),
             ]);
