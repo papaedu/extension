@@ -55,21 +55,25 @@ class TencentCloudImChannel
             TencentCloud::tim()->sendRequest($request);
         } catch (GuzzleException | HttpException $e) {
             Log::error('TencentCloudImChannel 请求异常', [
+                'uuid' => $notifiable->uuid,
                 'text' => $message->getText(),
+                'parameters' => isset($request) ? $request->getParameters() : '',
                 'error_code' => $e->getCode(),
                 'error_message' => $e->getMessage(),
             ]);
         } catch (BadRequestException $e) {
             Log::error('TencentCloudImChannel 异常请求', [
-                $notifiable->uuid,
+                'uuid' => $notifiable->uuid,
                 'text' => $message->getText(),
+                'parameters' => isset($request) ? $request->getParameters() : '',
                 'error_code' => $e->getCode(),
                 'error_message' => $e->getMessage(),
             ]);
         } catch (InvalidArgumentException $e) {
             Log::error('TencentCloudImChannel 参数异常', [
-                $notifiable->uuid,
+                'uuid' => $notifiable->uuid,
                 'text' => $message->getText(),
+                'parameters' => isset($request) ? $request->getParameters() : '',
                 'error_code' => $e->getCode(),
                 'error_message' => $e->getMessage(),
             ]);
