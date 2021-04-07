@@ -51,6 +51,11 @@ return [
         'enable' => env('EXTENSION_WHITELIST_ENABLE', true),
     ],
 
+    'header' => [
+        'keys' => explode(',', env('EXTENSION_HEADER_KEYS')),
+        'secret' => env('EXTENSION_HEADER_SECRET'),
+    ],
+
     'tencent_cloud' => [
         'secret_id' => env('TENCENT_CLOUD_SECRET_ID'),
         'secret_key' => env('TENCENT_CLOUD_SECRET_KEY'),
