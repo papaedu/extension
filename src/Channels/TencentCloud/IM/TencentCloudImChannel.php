@@ -2,7 +2,6 @@
 
 namespace Papaedu\Extension\Channels\TencentCloud\IM;
 
-use App\Enums\ImSystemIdentifier;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
