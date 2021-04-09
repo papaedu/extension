@@ -18,9 +18,17 @@ class VerifyHeader
      */
     public function handle(Request $request, Closure $next)
     {
-        $headers = Arr::only($request->header(), config('extension.header.keys', []));
-        if (!$headers) {
+        $headerKeys = config('extension.header.keys', []);
+        if (!$headerKeys) {
             return $next($request);
+        }
+
+        $headers = [];
+        foreach ($headerKeys as $headerKey) {
+            $headers[$headerKey] = $request->header($headerKey);
+        }
+        if (!$headers) {
+            throw new HttpException(403, 'Forbidden');
         }
 
         ksort($headers);
