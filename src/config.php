@@ -53,7 +53,7 @@ return [
 
     'header' => [
         'keys' => explode(',', env('EXTENSION_HEADER_KEYS')),
-        'secret' => env('EXTENSION_HEADER_SECRET'),
+        'public_key_path' => env('EXTENSION_PUBLIC_KEY_PATH'),
     ],
 
     'tencent_cloud' => [
