@@ -4,7 +4,6 @@ namespace Papaedu\Extension\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class VerifyHeader
@@ -33,10 +32,15 @@ class VerifyHeader
 
         ksort($headers);
         $string = http_build_query($headers);
-        if (md5($string.config('extension.header.secret')) == $request->header('sign')) {
-            return $next($request);
+        $ret = openssl_verify(
+            $string,
+            base64_decode($request->header('sign')),
+            config('extension.header.public_key_path')
+        );
+        if ($ret == -1) {
+            throw new HttpException(403, 'Forbidden');
         }
 
-        throw new HttpException(403, 'Forbidden');
+        return $next($request);
     }
 }
