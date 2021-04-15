@@ -53,6 +53,8 @@ return [
 
     'header' => [
         'keys' => explode(',', env('EXTENSION_HEADER_KEYS')),
+        'verify_type' => env('EXTENSION_HEADER_VERIFY_TYPE'),
+        'secret' => env('EXTENSION_HEADER_SECRET'),
         'public_key_path' => env('EXTENSION_PUBLIC_KEY_PATH'),
     ],
 
