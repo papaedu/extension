@@ -27,17 +27,14 @@ class Logger
 
     /**
      * @param  string  $action
-     * @param  array  $fields
+     * @param  array  $context
      * @param  string  $module
      */
-    public function info(string $action, array $fields = [], string $module = '')
+    public function info(string $action, array $context = [], string $module = '')
     {
         $module = $module ?: $this->module;
 
-        Log::channel('runlog')->info(
-            "<{$module}> {$action} SUCCESS. {$this->getRequestUrl()}",
-            array_filter(['fields' => $fields])
-        );
+        Log::channel('runlog')->info("<{$module}> {$action} SUCCESS. {$this->getRequestUrl()}", $context);
     }
 
     /**
@@ -47,10 +44,7 @@ class Logger
     public function start(array $context = [], $action = '')
     {
         $action = $action ?: 'start';
-        Log::channel('runlog')->info(
-            "<{$this->module}> -----{$action}----- {$this->getRequestUrl()}",
-            $context
-        );
+        Log::channel('runlog')->info("<{$this->module}> -----{$action}----- {$this->getRequestUrl()}", $context);
     }
 
     /**
@@ -60,10 +54,7 @@ class Logger
     public function finish(array $context = [], $action = '')
     {
         $action = $action ?: 'finish';
-        Log::channel('runlog')->info(
-            "<{$this->module}> -----{$action}----- {$this->getRequestUrl()}",
-            $context
-        );
+        Log::channel('runlog')->info("<{$this->module}> -----{$action}----- {$this->getRequestUrl()}", $context);
     }
 
     /**
