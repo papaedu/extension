@@ -25,10 +25,6 @@ trait AuthTrait
      */
     protected function validateStatus($user)
     {
-        if (isset($user->status)) {
-            return;
-        }
-
         if (AuthStatus::BANED == $user->status && true == $this->handleBaned) {
             throw new HttpException(
                 400,
