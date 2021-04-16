@@ -25,7 +25,7 @@ class VerifyHeader
 
         $headers = $this->getHeaders($request, $headerKeys);
 
-        if (false === $this->validate($headers, $request->header('sign'))) {
+        if (false === $this->validate($headers, $request->header('sign', ''))) {
             throw new HttpException(403, 'Forbidden');
         }
 
@@ -65,6 +65,10 @@ class VerifyHeader
      */
     protected function validate(array $headers, string $sign): bool
     {
+        if (!$headers || !$sign) {
+            return false;
+        }
+
         switch (config('extension.header.verify_type')) {
             case 'MD5':
                 $result = $this->validateByMd5($headers, $sign);
