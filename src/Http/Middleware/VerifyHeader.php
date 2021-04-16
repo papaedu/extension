@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class VerifyHeader
@@ -26,6 +27,10 @@ class VerifyHeader
 
         if (false === $this->validate($headers, $request->header('sign'))) {
             throw new HttpException(403, 'Forbidden');
+        }
+
+        if (Redis::sismember(config('begin.device.ban_list'), $request->header('device-id'))) {
+            throw new HttpException(400, trans('bad_request.device_baned'));
         }
 
         return $next($request);
@@ -96,9 +101,9 @@ class VerifyHeader
         $encryptString = http_build_query($headers);
 
         return 1 == openssl_verify(
-            $encryptString,
-            base64_decode($sign),
-            config('extension.header.public_key_path')
-        );
+                $encryptString,
+                base64_decode($sign),
+                config('extension.header.public_key_path')
+            );
     }
 }
