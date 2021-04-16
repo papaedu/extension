@@ -20,6 +20,10 @@ return [
         ],
     ],
 
+    'device' => [
+        'ban_list' => 'd:b',
+    ],
+
     'socialite' => [
         'model' => Papaedu\Extension\Models\Socialite::class,
         'type' => Papaedu\Extension\Enums\SocialiteType::class,

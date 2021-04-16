@@ -29,8 +29,8 @@ class VerifyHeader
             throw new HttpException(403, 'Forbidden');
         }
 
-        if (Redis::sismember(config('begin.device.ban_list'), $request->header('device-id'))) {
-            throw new HttpException(400, trans('bad_request.device_baned'));
+        if (Redis::sismember(config('extension.device.ban_list'), $request->header('device-id'))) {
+            throw new HttpException(400, trans('extension::device_baned'));
         }
 
         return $next($request);

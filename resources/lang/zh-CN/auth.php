@@ -14,4 +14,5 @@ return [
 
     'status_baned' => '该账号已封停',
     'status_closed' => '该账号已注销',
+    'device_baned' => '涉嫌违规已封号',
 ];
