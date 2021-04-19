@@ -109,11 +109,12 @@ abstract class DiskAbstract
      */
     public function delete(string $path)
     {
+        $path = $this->parseUrl($path);
         if (in_array($path, array_values(config('extension.image.ban')))) {
             return true;
         }
 
-        return $this->getDisk()->delete($this->parseUrl($path));
+        return $this->getDisk()->delete($path);
     }
 
     /**
