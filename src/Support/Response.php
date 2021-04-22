@@ -9,6 +9,15 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class Response
 {
     /**
+     * @param  null  $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ok($data = null): JsonResponse
+    {
+        return new JsonResponse($data);
+    }
+
+    /**
      * Respond a array response.
      *
      * @param  array  $data
