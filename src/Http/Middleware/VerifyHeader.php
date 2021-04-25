@@ -33,7 +33,20 @@ class VerifyHeader
             throw new HttpException(400, trans('extension::auth.device_baned'));
         }
 
+        if ($response = $this->customHandle($request, $next)) {
+            return $response;
+        }
+
         return $next($request);
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function customHandle(Request $request, Closure $next)
+    {
     }
 
     /**
