@@ -5,11 +5,13 @@ namespace Papaedu\Extension\Channels\TencentCloud\IM;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
+use Papaedu\Extension\Enums\TencentCloudChatType;
 use Papaedu\Extension\Facades\TencentCloud;
 use Papaedu\Extension\TencentCloud\Exceptions\BadRequestException;
 use Papaedu\Extension\TencentCloud\Exceptions\HttpException;
 use Papaedu\Extension\TencentCloud\Exceptions\InvalidArgumentException;
 use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Enums\SyncOtherMachine;
+use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\AndroidInfo;
 use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\MsgBody;
 use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\Parameters\OfflinePushInfo;
 use Papaedu\Extension\TencentCloud\Tim\Requests\OpenIm\SendMsgRequest;
@@ -42,6 +44,26 @@ class TencentCloudImChannel
             } else {
                 return;
             }
+
+            $ext = [
+                'entity' => [
+                    'chat_type' => TencentCloudChatType::PRIVATE_CHAT,
+                    'content' => $message->getText(),
+                    'nickname' => $notifiable->nickname,
+                    'send_time' => time(),
+                    'sender' => $notifiable->uuid,
+                ],
+            ];
+            $offlinePushInfo->setExt(json_encode($ext));
+
+            if (config('extension.offline_push.android_info.oppo_channel_id')
+                || config('extension.offline_push.android_info.xiaomi_channel_id')) {
+                $androidInfo = new AndroidInfo();
+                $androidInfo->setOppoChannelId(config('extension.offline_push.android_info.oppo_channel_id'));
+                $androidInfo->setOppoChannelId(config('extension.offline_push.android_info.xiaomi_channel_id'));
+                $offlinePushInfo->setAndroidInfo($androidInfo);
+            }
+
             $request = new SendMsgRequest(
                 $notifiable->uuid,
                 random_int(1, 999999),
