@@ -49,9 +49,9 @@ class TencentCloudImChannel
                 'entity' => [
                     'chat_type' => TencentCloudChatType::PRIVATE_CHAT,
                     'content' => $message->getText(),
-                    'nickname' => $notifiable->setFromAccountName(),
+                    'nickname' => $message->getFromAccountName(),
                     'send_time' => time(),
-                    'sender' => $message->setFromAccount(),
+                    'sender' => $message->getFromAccount(),
                 ],
             ];
             $offlinePushInfo->setExt(json_encode($ext));
