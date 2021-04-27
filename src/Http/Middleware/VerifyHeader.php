@@ -23,6 +23,10 @@ class VerifyHeader
             return $next($request);
         }
 
+        if ($response = $this->beforeValidate($request, $next)) {
+            return $response;
+        }
+
         $headers = $this->getHeaders($request, $headerKeys);
 
         if (false === $this->validate($headers, $request->header('sign', ''))) {
@@ -33,7 +37,7 @@ class VerifyHeader
             throw new HttpException(400, trans('extension::auth.device_baned'));
         }
 
-        if ($response = $this->customHandle($request, $next)) {
+        if ($response = $this->validated($request, $next)) {
             return $response;
         }
 
@@ -45,7 +49,16 @@ class VerifyHeader
      * @param  \Closure  $next
      * @return mixed
      */
-    public function customHandle(Request $request, Closure $next)
+    public function beforeValidate(Request $request, Closure $next)
+    {
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function validated(Request $request, Closure $next)
     {
     }
 
