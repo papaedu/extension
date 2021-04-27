@@ -56,11 +56,11 @@ class TencentCloudImChannel
             ];
             $offlinePushInfo->setExt(json_encode($ext));
 
-            if (config('extension.offline_push.android_info.oppo_channel_id')
-                || config('extension.offline_push.android_info.xiaomi_channel_id')) {
+            if (config('extension.tencent_cloud.tim.offline_push.android_info.oppo_channel_id')
+                || config('extension.tencent_cloud.tim.offline_push.android_info.xiaomi_channel_id')) {
                 $androidInfo = new AndroidInfo();
-                $androidInfo->setOppoChannelId(config('extension.offline_push.android_info.oppo_channel_id'));
-                $androidInfo->setOppoChannelId(config('extension.offline_push.android_info.xiaomi_channel_id'));
+                $androidInfo->setOppoChannelId(config('extension.tencent_cloud.tim.offline_push.android_info.oppo_channel_id'));
+                $androidInfo->setOppoChannelId(config('extension.tencent_cloud.tim.offline_push.android_info.xiaomi_channel_id'));
                 $offlinePushInfo->setAndroidInfo($androidInfo);
             }
 
