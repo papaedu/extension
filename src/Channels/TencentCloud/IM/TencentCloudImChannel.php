@@ -49,7 +49,7 @@ class TencentCloudImChannel
                 'entity' => [
                     'chat_type' => TencentCloudChatType::PRIVATE_CHAT,
                     'content' => $message->getText(),
-                    'nickname' => $notifiable->getFromAccountName(),
+                    'nickname' => $message->getFromAccountName(),
                     'send_time' => time(),
                     'sender' => $message->getFromAccount(),
                 ],
