@@ -48,9 +48,7 @@ class TencentCloudImChannel
             $ext = [
                 'entity' => [
                     'chat_type' => TencentCloudChatType::PRIVATE_CHAT,
-                    'content' => $message->getText(),
                     'nickname' => $message->getFromAccountName(),
-                    'send_time' => time(),
                     'sender' => $message->getFromAccount(),
                 ],
             ];
