@@ -23,7 +23,7 @@ class Captcha
             return false;
         }
 
-        return CaptchaValidator::validate($username, $value, $data['iso_code'] ?? '');
+        return CaptchaValidator::validate($username, $data['iso_code'] ?? '', $value);
     }
 
     /**
