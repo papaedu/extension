@@ -6,7 +6,6 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Papaedu\Extension\Captcha\CaptchaValidator;
-use Papaedu\Extension\Support\Phone;
 
 trait BaseForgetsPasswords
 {
@@ -48,9 +47,9 @@ trait BaseForgetsPasswords
      */
     protected function sendForgotResponse(Request $request): JsonResponse
     {
-        CaptchaValidator::clear(
-            $request->input('idd_code', config('extension.locale.idd_code')),
-            $request->input($this->username())
+        CaptchaValidator::clean(
+            $request->input($this->username()),
+            $request->input('iso_code', config('extension.locale.iso_code'))
         );
 
         $this->validateStatus($this->guard()->user());

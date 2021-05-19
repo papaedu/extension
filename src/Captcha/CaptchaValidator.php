@@ -8,41 +8,79 @@ use Papaedu\Extension\Support\Extend;
 class CaptchaValidator
 {
     /**
-     * @param  string  $ISOCode
      * @param  string  $username
+     * @param  string  $ISOCode
      * @return string
      */
-    public static function generate(string $ISOCode, string $username)
+    public static function generate(string $username, string $ISOCode)
     {
         $captcha = Extend::randomNumeric(config('extension.auth.captcha.length'));
-        Redis::setex("captcha_{$ISOCode}_{$username}", config('extension.auth.captcha.ttl'), $captcha);
+        Redis::setex(static::getKey($username, $ISOCode), config('extension.auth.captcha.ttl'), $captcha);
 
         return $captcha;
     }
 
     /**
-     * @param  string  $ISOCode
      * @param  string  $username
+     * @param  string  $ISOCode
      * @param  int  $captcha
      * @return bool
      */
-    public static function validate(string $username, int $captcha, string $ISOCode)
+    public static function validate(string $username, string $ISOCode, int $captcha)
     {
         return Redis::get(static::getKey($username, $ISOCode)) == $captcha;
     }
 
     /**
-     * @param  string  $ISOCode
      * @param  string  $username
+     * @param  string  $ISOCode
      */
-    public static function clear(string $ISOCode, string $username)
+    public static function clean(string $username, string $ISOCode)
     {
-        Redis::del("captcha_{$ISOCode}_{$username}");
+        Redis::del(static::getKey($username, $ISOCode));
+    }
+
+    /**
+     * @param  string  $username
+     * @param  string  $ISOCode
+     */
+    public static function createPassToken(string $username, string $ISOCode)
+    {
+        Redis::setex(static::getTokenKey($username, $ISOCode), config('extension.auth.captcha.ttl'), 1);
+    }
+
+    /**
+     * @param  string  $username
+     * @param  string  $ISOCode
+     * @return bool
+     */
+    public static function checkPassToken(string $username, string $ISOCode): bool
+    {
+        return Redis::exists(static::getTokenKey($username, $ISOCode));
+    }
+
+    /**
+     * @param  string  $username
+     * @param  string  $ISOCode
+     */
+    public static function cleanPassToken(string $username, string $ISOCode)
+    {
+        Redis::del(static::getTokenKey($username, $ISOCode));
     }
 
     protected static function getKey(string $username, string $ISOCode): string
     {
         $key = "captcha_{$username}";
+        if ($ISOCode) {
+            $key .= "_{$ISOCode}";
+        }
+
+        return $key;
+    }
+
+    protected static function getTokenKey(string $username, string $ISOCode): string
+    {
+        $key = "captcha_token_{$username}";
         if ($ISOCode) {
             $key .= "_{$ISOCode}";
         }

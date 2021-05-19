@@ -45,9 +45,9 @@ trait BaseResetsUsernames
      */
     protected function sendResetResponse(Request $request, $user): JsonResponse
     {
-        CaptchaValidator::clear(
-            $request->input('idd_code', config('extension.locale.idd_code')),
-            $request->new_username
+        CaptchaValidator::clean(
+            $request->new_username,
+            $request->input('iso_code', config('extension.locale.iso_code'))
         );
 
         if ($response = $this->beforeResetResponse($request, $user)) {

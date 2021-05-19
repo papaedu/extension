@@ -67,9 +67,9 @@ trait AuthenticatesUsersByCaptcha
      */
     protected function clearByMethod(Request $request)
     {
-        CaptchaValidator::clear(
-            $request->input('idd_code', config('extension.locale.idd_code')),
-            $request->input($this->username())
+        CaptchaValidator::clean(
+            $request->input($this->username()),
+            $request->input('iso_code', config('extension.locale.iso_code'))
         );
     }
 }

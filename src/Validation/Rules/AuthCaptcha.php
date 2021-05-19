@@ -17,7 +17,7 @@ class AuthCaptcha
      */
     public function validate($attribute, $value, array $parameters, $validator): bool
     {
-        return CaptchaValidator::validate($parameters[0], $value, $parameters[1] ?? '');
+        return CaptchaValidator::validate($parameters[0], $parameters[1] ?? '', $value);
     }
 
     /**
