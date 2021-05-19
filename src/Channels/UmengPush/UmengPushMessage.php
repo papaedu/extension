@@ -25,6 +25,11 @@ class UmengPushMessage
     private string $afterOpen;
 
     /**
+     * @var string
+     */
+    private string $activity;
+
+    /**
      * @param  string  $title
      * @return $this
      */
@@ -69,6 +74,17 @@ class UmengPushMessage
     }
 
     /**
+     * @param  string  $activity
+     * @return $this
+     */
+    public function setActivity(string $activity): self
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getPredefinedForIOS(): array
@@ -94,6 +110,7 @@ class UmengPushMessage
             'title' => $this->title,
             'text' => $this->content,
             'after_open' => $this->afterOpen,
+            'activity' => $this->activity,
             'description' => $this->content,
         ];
     }
