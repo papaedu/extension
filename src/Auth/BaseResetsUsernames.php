@@ -5,7 +5,6 @@ namespace Papaedu\Extension\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Papaedu\Extension\Captcha\CaptchaValidator;
-use Papaedu\Extension\Support\Phone;
 
 trait BaseResetsUsernames
 {
