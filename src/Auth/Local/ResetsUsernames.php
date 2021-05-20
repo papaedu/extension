@@ -22,7 +22,7 @@ trait ResetsUsernames
         $request->validate(
             [
                 'password' => ['required', 'password'],
-                'new_password' => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
+                'new_username' => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
                 'captcha' => [
                     'required',
                     'digits:'.config('extension.auth.captcha.length'),
