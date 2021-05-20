@@ -23,7 +23,7 @@ trait ResetsUsernames
             [
                 'password' => ['required', 'password'],
                 'iso_code' => ['required_with:new_username'],
-                'new_password' => ['required', 'phone:iso_code,mobile'],
+                'new_username' => ['required', 'phone:iso_code,mobile'],
                 'captcha' => [
                     'required',
                     'digits:'.config('extension.auth.captcha.length'),
