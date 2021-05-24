@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'web_url' => env('WEB_URL'),
+    'wap_url' => env('WAP_URL'),
+
     'auth' => [
         'nickname_prefix' => '用户',
 

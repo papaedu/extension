@@ -2,6 +2,8 @@
 
 namespace Papaedu\Extension\Support;
 
+use Illuminate\Support\Str;
+
 class Extend
 {
     private const ROMAN_NUMERAL = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'xiii'];
@@ -89,5 +91,27 @@ class Extend
     public static function passwordStrengthLow(string $password)
     {
         return preg_match('/^(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}$/', $password);
+    }
+
+    /**
+     * 获取 web 页面地址
+     *
+     * @param  string  $path
+     * @return string
+     */
+    public static function webUrl(string $path): string
+    {
+        return Str::finish(config('extension.web_url'), '/').ltrim($path, '/');
+    }
+
+    /**
+     * 获取 wap 页面地址
+     *
+     * @param  string  $path
+     * @return string
+     */
+    public static function wapUrl(string $path): string
+    {
+        return Str::finish(config('extension.wap_url'), '/').ltrim($path, '/');
     }
 }
