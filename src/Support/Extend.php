@@ -32,6 +32,31 @@ class Extend
     }
 
     /**
+     * 计算2个经纬度之间的距离
+     *
+     * @param  float  $lat1
+     * @param  float  $lng1
+     * @param  float  $lat2
+     * @param  float  $lng2
+     * @return float
+     */
+    public static function getDistance(float $lat1, float $lng1, float $lat2, float $lng2): float
+    {
+        $pi80 = M_PI / 180;
+        $lat1 *= $pi80;
+        $lng1 *= $pi80;
+        $lat2 *= $pi80;
+        $lng2 *= $pi80;
+        $r = 6378.137;
+        $dLat = $lat2 - $lat1;
+        $dLng = $lng2 - $lng1;
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos($lat1) * cos($lat2) * sin($dLng / 2) * sin($dLng / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        return $r * $c;
+    }
+
+    /**
      * 生成订单号
      *
      * @param  int  $length
