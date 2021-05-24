@@ -11,9 +11,11 @@ class MemberList extends Parameter
      *
      * @param  string  $memberAccount
      */
-    public function __construct(string $memberAccount)
+    public function __construct(string $memberAccount = '')
     {
-        $this->setMemberAccount($memberAccount);
+        if ($memberAccount) {
+            $this->setMemberAccount($memberAccount);
+        }
     }
 
     /**
@@ -24,6 +26,18 @@ class MemberList extends Parameter
         $this->parameters[] = [
             'Member_Account' => $memberAccount,
         ];
+    }
+
+    /**
+     * @param  array  $memberAccounts
+     */
+    public function setMemberAccounts(array $memberAccounts)
+    {
+        foreach ($memberAccounts as $memberAccount) {
+            $this->parameters[] = [
+                'Member_Account' => $memberAccount,
+            ];
+        }
     }
 
     /**
