@@ -1,10 +1,10 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Modules\Begin\Database\Migrations\BeginMigration;
 
-class CreateDevicesTable extends BeginMigration
+class CreateDevicesTable extends Migration
 {
     /**
      * Run the migrations.
