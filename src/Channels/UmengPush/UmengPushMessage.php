@@ -12,7 +12,7 @@ class UmengPushMessage
     /**
      * @var string
      */
-    private string $content;
+    private string $content = '';
 
     /**
      * @var array
@@ -22,12 +22,12 @@ class UmengPushMessage
     /**
      * @var string
      */
-    private string $afterOpen;
+    private string $afterOpen = '';
 
     /**
      * @var string
      */
-    private string $activity;
+    private string $activity = '';
 
     /**
      * @param  string  $title
