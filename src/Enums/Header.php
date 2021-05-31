@@ -9,4 +9,8 @@ final class Header
     public const PLATFORM = 'platform';
 
     public const CHANNEL = 'channel';
+
+    public const VERSION = 'version';
+
+    public const SIGN = 'sign';
 }
