@@ -20,7 +20,6 @@ class CreateDevicesTable extends Migration
             $table->string('system', 20)->comment('系统信息');
             $table->string('device_type', 20)->default('')->comment('设备类型');
             $table->string('device_name', 50)->comment('设备名');
-            $table->unsignedBigInteger('token_id')->comment('令牌ID');
             $table->boolean('is_baned')->comment('是否封停');
             $table->timestamps();
 
