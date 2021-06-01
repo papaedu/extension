@@ -20,10 +20,10 @@ trait AuthenticatesUsersByPassword
         $request->validate(
             [
                 $this->username() => ['required', 'phone:'.config('extension.locale.iso_code').',mobile'],
-                'password' => ['required', 'string', 'min:8'],
+                'password' => ['required', 'string', 'between:8,16'],
             ],
             [
-                'password.min' => trans('extension::auth.failed'),
+                'password.between' => trans('extension::auth.failed'),
             ],
             [
                 $this->username() => trans('extension::field.username'),

@@ -27,10 +27,10 @@ trait AuthenticatesUsersByPassword
             [
                 'iso_code' => ['required_with:'.$this->username()],
                 $this->username() => ['required', 'phone:iso_code,mobile'],
-                'password' => ['required', 'string', 'min:8'],
+                'password' => ['required', 'string', 'between:8,16'],
             ],
             [
-                'password.min' => trans('extension::auth.failed'),
+                'password.between' => trans('extension::auth.failed'),
             ],
             [
                 'iso_code' => trans('extension::field.iso_code'),
