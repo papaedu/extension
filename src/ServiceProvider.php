@@ -70,7 +70,7 @@ class ServiceProvider extends LaravelProvider
     private function registerEnums()
     {
         Enum::macro('toEnumArray', function ($removeNone = true) {
-            $array = self::toArray();
+            $array = self::asArray();
             $enumArray = [];
 
             if ($removeNone) {
@@ -88,7 +88,7 @@ class ServiceProvider extends LaravelProvider
         });
 
         Enum::macro('toEnumValueArray', function ($removeNone = true) {
-            $array = self::toArray();
+            $array = self::asArray();
             $enumArray = [];
 
             if ($removeNone) {
