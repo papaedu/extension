@@ -2,33 +2,31 @@
 
 namespace Papaedu\Extension\Support;
 
-class AES
+class Desensitization
 {
     /**
      * @param  string  $data
-     * @param  string  $key
      * @return string
      * @throws \Exception
      */
-    public static function encrypt(string $data, string $key): string
+    public static function encrypt(string $data): string
     {
-        $encrypted = openssl_encrypt($data, 'AES-256-ECB', $key, OPENSSL_RAW_DATA);
+        $encrypted = openssl_encrypt($data, 'AES-128-ECB', 'papaEnglish', OPENSSL_RAW_DATA);
         if (false === $encrypted) {
             throw new \Exception('AES encrypt error.');
         }
 
-        return base64_encode($encrypted);
+        return strtoupper(bin2hex($encrypted));
     }
 
     /**
      * @param  string  $data
-     * @param  string  $key
      * @return string
      * @throws \Exception
      */
-    public static function decrypt(string $data, string $key): string
+    public static function decrypt(string $data): string
     {
-        $decrypted = openssl_decrypt(base64_decode($data), 'AES-256-ECB', $key, OPENSSL_RAW_DATA);
+        $decrypted = openssl_decrypt(hex2bin($data), 'AES-128-ECB', 'papaEnglish', OPENSSL_RAW_DATA);
         if (false === $decrypted) {
             throw new \Exception('AES decrypt error.');
         }
