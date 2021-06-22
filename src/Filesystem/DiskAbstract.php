@@ -17,7 +17,7 @@ abstract class DiskAbstract
     /**
      * @var string
      */
-    protected $domain = '';
+    protected string $domain = '';
 
     public function __construct(string $diskName, string $domain)
     {
@@ -44,7 +44,7 @@ abstract class DiskAbstract
      * @param  string  $default
      * @return string
      */
-    public function url(string $path, string $default = '')
+    public function url(string $path, string $default = ''): string
     {
         $path = $path ? $path : $default;
         if (!$path) {
@@ -59,12 +59,12 @@ abstract class DiskAbstract
     }
 
     /**
-     * 去除地址的域名
+     * 去除链接的域名
      *
      * @param  string  $url
-     * @return string|void
+     * @return string
      */
-    public function parseUrl(string $url)
+    public function parseUrl(string $url): string
     {
         if (parse_url($url, PHP_URL_HOST) == $this->domain) {
             return ltrim(parse_url($url, PHP_URL_PATH), '/');
@@ -78,10 +78,10 @@ abstract class DiskAbstract
      *
      * @param  \Illuminate\Http\UploadedFile|string  $file
      * @param  string  $ext
-     * @param  string|null  $prefix
+     * @param  string  $prefix
      * @return string
      */
-    public function put($file, string $ext = '', ?string $prefix = null)
+    public function put($file, string $ext = '', string $prefix = ''): string
     {
         $path = is_string($file) ? $this->getKey($ext, $prefix) : $this->getPathPrefix($prefix);
 
@@ -91,12 +91,26 @@ abstract class DiskAbstract
     }
 
     /**
+     * @param  string  $path
+     * @param  string  $content
+     * @param  string  $ext
+     * @return string
+     */
+    public function simplePut(string $path, string $content, string $ext = ''): string
+    {
+        $path = $this->getPrePathPrefix().trim($path, '/').'/'.$this->getFilename($ext);
+        $this->getDisk()->put($path, $content);
+
+        return $path;
+    }
+
+    /**
      * 是否存在
      *
      * @param  string  $path
      * @return bool
      */
-    public function exists(string $path)
+    public function exists(string $path): bool
     {
         return $this->getDisk()->exists($path);
     }
@@ -107,7 +121,7 @@ abstract class DiskAbstract
      * @param  string  $path
      * @return bool
      */
-    public function delete(string $path)
+    public function delete(string $path): bool
     {
         $path = $this->parseUrl($path);
         if (in_array($path, array_values(config('extension.image.ban')))) {
@@ -121,10 +135,10 @@ abstract class DiskAbstract
      * 获取随机文件名
      *
      * @param  string  $ext
-     * @param  string|null  $prefix
+     * @param  string  $prefix
      * @return string
      */
-    public function getKey(string $ext, ?string $prefix = null)
+    public function getKey(string $ext, string $prefix = ''): string
     {
         $key = $this->getPathPrefix($prefix).'/'.$this->getFilename($ext);
         if ($this->exists($key)) {
@@ -159,7 +173,6 @@ abstract class DiskAbstract
      * 设置域名
      *
      * @param  string  $domain
-     * @return string
      */
     protected function setDomain(string $domain)
     {
