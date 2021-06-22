@@ -9,30 +9,30 @@ trait DiskTrait
     /**
      * @return string
      */
-    public static function getTestPathPrefix()
+    public static function getPrePathPrefix(): string
     {
         return app()->environment('production') ? '' : 'test/';
     }
 
     /**
-     * @param  string|null  $prefix
+     * @param  string  $prefix
      * @return string
      */
-    public static function getPathPrefix(?string $prefix = null)
+    public static function getPathPrefix(string $prefix = ''): string
     {
-        $path = self::getTestPathPrefix() . date('Y/m/d/');
-        if ($prefix) {
-            return $path . trim($prefix, '/');
+        $path = self::getPrePathPrefix().date('Y/m/d/');
+        if (empty($prefix)) {
+            return trim($path, '/');
         }
 
-        return trim($path, '/');
+        return $path.trim($prefix, '/');
     }
 
     /**
      * @param  string  $ext
      * @return string
      */
-    public static function getFilename(string $ext)
+    public static function getFilename(string $ext): string
     {
         $filename = Str::random(40);
 
