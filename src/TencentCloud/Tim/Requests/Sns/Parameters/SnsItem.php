@@ -10,19 +10,19 @@ class SnsItem extends Parameter
      * ProfileItem constructor.
      *
      * @param  string  $tag
-     * @param  mixed  $value
+     * @param  string  $value
      */
-    public function __construct(string $tag, $value)
+    public function __construct(string $tag, string $value)
     {
         $this->setTagAndValue($tag, $value);
     }
 
     /**
      * @param  string  $tag
-     * @param  mixed  $value
+     * @param  string  $value
      * @return $this
      */
-    public function setTagAndValue(string $tag, $value): SnsItem
+    public function setTagAndValue(string $tag, string $value): SnsItem
     {
         $this->parameters[] = [
             'Tag' => $tag,
