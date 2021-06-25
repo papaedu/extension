@@ -29,6 +29,6 @@ return [
     ],
 
     'vod' => [
-        'url' => env('TENCENT_CLOUD_VOD_URL'),
+        'host' => env('TENCENT_CLOUD_VOD_URL'),
     ],
 ];

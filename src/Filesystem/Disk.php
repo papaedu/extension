@@ -38,7 +38,7 @@ class Disk
     public static function vod()
     {
         if (!isset(self::$disks['vod'])) {
-            self::$disks['vod'] = new Vod('', config('qcloud.vod.host', ''));
+            self::$disks['vod'] = new Vod('', config('tencent-cloud.vod.host', ''));
         }
 
         return self::$disks['vod'];
