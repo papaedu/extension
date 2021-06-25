@@ -24,6 +24,6 @@ class Vod extends DiskAbstract
             return $path;
         }
 
-        return Str::finish(config('qcloud.vod.host', ''), '/').ltrim($path, '/');
+        return Str::finish(config('tencent-cloud.vod.host', ''), '/').ltrim($path, '/');
     }
 }
