@@ -20,7 +20,7 @@ class Vod extends DiskAbstract
             return '';
         }
 
-        if (preg_match('/http[s]:\/\//', $path)) {
+        if (preg_match('/^http[s]?:\/\//', $path)) {
             return $path;
         }
 
