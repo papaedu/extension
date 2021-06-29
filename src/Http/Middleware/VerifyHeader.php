@@ -5,6 +5,7 @@ namespace Papaedu\Extension\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Papaedu\Extension\Enums\Header;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class VerifyHeader
@@ -29,11 +30,11 @@ class VerifyHeader
 
         $headers = $this->getHeaders($request, $headerKeys);
 
-        if (false === $this->validate($headers, $request->header('sign', ''))) {
+        if (false === $this->validate($headers, $request->header(Header::SIGN, ''))) {
             throw new HttpException(403, 'Forbidden');
         }
 
-        if (Redis::sismember(config('extension.device.ban_list'), $request->header('device-id'))) {
+        if (Redis::sismember(config('extension.device.ban_list'), $request->header(Header::DEVICE_ID))) {
             throw new HttpException(400, trans('extension::auth.device_baned'));
         }
 
