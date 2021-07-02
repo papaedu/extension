@@ -38,7 +38,11 @@ final class BadRequestCode
 
     public const REDIRECT_BACK = 90002;// 返回上一个页面
 
-    public const ALERT = 90003;// 提示框
+    public const ALERT = 90003;// 提示框, 确认按钮无交互
 
-    public const CONFIRM = 90004;// 确认框
+    public const CONFIRM = 90004;// 确认框, 取消按钮无交互
+
+    public const ALERT_BACK = 90005;// 提示框, 确认按钮为返回上一个页面
+
+    public const CONFIRM_BACK = 90006;// 确认框, 取消按钮为返回上一个页面
 }
