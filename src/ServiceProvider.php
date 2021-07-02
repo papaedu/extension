@@ -26,6 +26,7 @@ class ServiceProvider extends LaravelProvider
     {
         $this->registerConfig();
         $this->registerGeetestConfig();
+        $this->registerPaymentConfig();
         $this->registerTencentCloudConfig();
 
         $this->registerEnums();
@@ -54,6 +55,17 @@ class ServiceProvider extends LaravelProvider
         }
 
         $this->mergeConfigFrom($source, 'geetest');
+    }
+
+    private function registerPaymentConfig()
+    {
+        $source = realpath(__DIR__.'/config-payment.php');
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([$source => config_path('payment.php')], 'extension-config-payment');
+        }
+
+        $this->mergeConfigFrom($source, 'payment');
     }
 
     private function registerTencentCloudConfig()
