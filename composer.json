@@ -21,7 +21,8 @@
         "propaganistas/laravel-phone": "^4.3",
         "s1lentium/iptools": "^1.1",
         "vinkla/hashids": "^9.1",
-        "tencentcloud/captcha": "^3.0"
+        "tencentcloud/captcha": "^3.0",
+        "yansongda/pay": "^2.10"
     },
     "require-dev": {
         "laravel/framework": "^8.0",
