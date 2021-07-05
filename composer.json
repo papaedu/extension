@@ -46,7 +46,8 @@
             ],
             "aliases": {
                 "Geetest": "Papaedu\\Extension\\Facades\\Geetest",
-                "TencentCloud": "Papaedu\\Extension\\Facades\\TencentCloud"
+                "TencentCloud": "Papaedu\\Extension\\Facades\\TencentCloud",
+                "Response": "Papaedu\\Extension\\Facades\\Response"
             }
         }
     },
