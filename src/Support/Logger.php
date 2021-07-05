@@ -18,7 +18,7 @@ class Logger
      *
      * @param  string  $module
      */
-    public function __construct($module = '')
+    public function __construct(string $module = '')
     {
         if ($module) {
             $this->module = $module;

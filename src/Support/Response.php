@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class Response
 {
     /**
-     * @param  null  $data
+     * @param  mixed|null  $data
      * @return \Illuminate\Http\JsonResponse
      */
     public function ok($data = null): JsonResponse
@@ -115,7 +115,7 @@ class Response
      * @param  string  $message
      * @param  int|null  $code
      */
-    public function errorBadRequest($message = 'Bad Request', ?int $code = 0)
+    public function errorBadRequest(string $message = 'Bad Request', ?int $code = 0)
     {
         throw new HttpException(400, $message, null, [], $code);
     }
@@ -125,7 +125,7 @@ class Response
      *
      * @param  string  $message
      */
-    public function errorUnauthorized($message = 'Unauthorized')
+    public function errorUnauthorized(string $message = 'Unauthorized')
     {
         throw new HttpException(401, $message);
     }
@@ -135,7 +135,7 @@ class Response
      *
      * @param  string  $message
      */
-    public function errorForbidden($message = 'Forbidden')
+    public function errorForbidden(string $message = 'Forbidden')
     {
         throw new HttpException(403, $message);
     }
@@ -145,7 +145,7 @@ class Response
      *
      * @param  string  $message
      */
-    public function errorNotFound($message = 'Not Found')
+    public function errorNotFound(string $message = 'Not Found')
     {
         throw new HttpException(404, $message);
     }
@@ -155,7 +155,7 @@ class Response
      *
      * @param  string  $message
      */
-    public function errorMethodNotAllowed($message = 'Method Not Allowed')
+    public function errorMethodNotAllowed(string $message = 'Method Not Allowed')
     {
         throw new HttpException(405, $message);
     }
@@ -165,7 +165,7 @@ class Response
      *
      * @param  string  $message
      */
-    public function errorInternalServerError($message = 'Internal Server Error')
+    public function errorInternalServerError(string $message = 'Internal Server Error')
     {
         throw new HttpException(500, $message);
     }
