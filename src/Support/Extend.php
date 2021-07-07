@@ -64,11 +64,24 @@ class Extend
      * @param  int  $length
      * @return string
      */
-    public static function generateOrderSn(int $length = 18)
+    public static function generateOrderSn(int $length = 18): string
     {
-        $now = now();
+        $orderSn = now()->format('ymdHis').substr((string) now()->micro, -3);
 
-        return $now->format('ymdHis').substr((string)$now->micro, -3).self::randomNumeric($length - 15);
+        return $orderSn.self::randomNumeric($length - strlen($orderSn));
+    }
+
+    /**
+     * 生成支付交易号
+     *
+     * @param  int  $length
+     * @return string
+     */
+    public static function generateOutTradeNo(int $length = 28): string
+    {
+        $outTradeNo = now()->format('YmdHis').now()->micro;
+
+        return $outTradeNo.self::randomNumeric($length - strlen($outTradeNo));
     }
 
     /**
