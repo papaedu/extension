@@ -2,6 +2,7 @@
 
 namespace Papaedu\Extension\Filesystem;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
 
@@ -30,7 +31,7 @@ abstract class DiskAbstract
      */
     public function getDisk()
     {
-        if (!$this->diskName) {
+        if (! $this->diskName) {
             throw new InvalidArgumentException('Disk Name is empty.');
         }
 
@@ -38,7 +39,7 @@ abstract class DiskAbstract
     }
 
     /**
-     * 获取完整地址
+     * Get full url.
      *
      * @param  string  $path
      * @param  string  $default
@@ -47,7 +48,7 @@ abstract class DiskAbstract
     public function url(string $path, string $default = ''): string
     {
         $path = $path ? $path : $default;
-        if (!$path) {
+        if (! $path) {
             return '';
         }
 
@@ -59,7 +60,7 @@ abstract class DiskAbstract
     }
 
     /**
-     * 去除链接的域名
+     * Parse host for url.
      *
      * @param  string  $url
      * @return string
@@ -74,7 +75,7 @@ abstract class DiskAbstract
     }
 
     /**
-     * 上传
+     * Upload new file.
      *
      * @param  \Illuminate\Http\UploadedFile|string  $file
      * @param  string  $ext
@@ -88,6 +89,28 @@ abstract class DiskAbstract
         $result = $this->getDisk()->put($path, $file);
 
         return is_string($file) ? $path : $result;
+    }
+
+    /**
+     * Copy file to new path.
+     *
+     * @param  string  $path
+     * @param  string  $newPath
+     * @return string
+     */
+    public function copy(string $path, string $newPath = ''): string
+    {
+        if (! $path) {
+            return '';
+        }
+
+        if (! $newPath) {
+            $newPath = $this->getKey(pathinfo($path, PATHINFO_EXTENSION));
+        }
+
+        $this->getDisk()->copy($path, $newPath);
+
+        return $newPath;
     }
 
     /**
@@ -105,7 +128,7 @@ abstract class DiskAbstract
     }
 
     /**
-     * 是否存在
+     * Check file exists.
      *
      * @param  string  $path
      * @return bool
@@ -116,7 +139,7 @@ abstract class DiskAbstract
     }
 
     /**
-     * 删除
+     * Delete file.
      *
      * @param  string  $path
      * @return bool
