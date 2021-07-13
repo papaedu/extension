@@ -3,6 +3,7 @@
 namespace Papaedu\Extension\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Papaedu\Extension\JdPay\JdPay;
 use Yansongda\Pay\Pay;
 
 class PaymentServiceProvider extends ServiceProvider
@@ -17,6 +18,7 @@ class PaymentServiceProvider extends ServiceProvider
         $apps = [
             'alipay',
             'wechat',
+            'jdpay',
         ];
 
         foreach ($apps as $name) {
@@ -24,7 +26,7 @@ class PaymentServiceProvider extends ServiceProvider
                 continue;
             }
 
-            if (!empty(config("payment.{$name}.app_id"))) {
+            if (! empty(config("payment.{$name}.app_id"))) {
                 $accounts = [
                     'default' => config("payment.{$name}"),
                 ];
@@ -35,7 +37,11 @@ class PaymentServiceProvider extends ServiceProvider
 
             foreach ($accounts as $account => $config) {
                 $this->app->singleton("payment.{$name}.{$account}", function ($app) use ($config, $name) {
-                    return Pay::{$name}($config);
+                    if ($name == 'jdpay') {
+                        return new JdPay($config);
+                    } else {
+                        return Pay::{$name}($config);
+                    }
                 });
             }
             $this->app->alias("payment.{$name}.default", "payment.{$name}");

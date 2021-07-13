@@ -3,6 +3,7 @@
 namespace Papaedu\Extension\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Papaedu\Extension\JdPay\JdPay;
 use Yansongda\Pay\Gateways\Alipay;
 use Yansongda\Pay\Gateways\Wechat;
 
@@ -34,5 +35,14 @@ class Payment extends Facade
     public static function wechat(string $name = ''): Wechat
     {
         return $name ? app('payment.wechat.'.$name) : app('payment.wechat');
+    }
+
+    /**
+     * @param  string  $name
+     * @return \Papaedu\Extension\JdPay\JdPay
+     */
+    public static function jdpay(string $name = ''): JdPay
+    {
+        return $name ? app('payment.jdpay.'.$name) : app('payment.jdpay');
     }
 }
