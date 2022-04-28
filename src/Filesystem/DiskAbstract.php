@@ -191,7 +191,7 @@ abstract class DiskAbstract
             $policy['fsizeLimit'] = $fSizeLimit;
         }
 
-        return $this->getDisk()->getUploadToken($path, 3600, $policy);
+        return $this->getDisk()->getAdapter()->getUploadTokenFixed($path, 3600, $policy);
     }
 
     /**

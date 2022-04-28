@@ -2,8 +2,6 @@
 
 namespace Papaedu\Extension\Filesystem;
 
-use Illuminate\Support\Arr;
-
 class Image extends DiskAbstract
 {
     /**

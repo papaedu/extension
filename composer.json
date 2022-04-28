@@ -19,7 +19,7 @@
         "laravel/sanctum": "^2.14.1",
         "luoyy/ali-oss-storage": "^3.0",
         "overtrue/easy-sms": "^2.0",
-        "overtrue/laravel-filesystem-qiniu": "^2.0",
+        "overtrue/flysystem-qiniu": "^3.1",
         "overtrue/laravel-wechat": "^7.0",
         "propaganistas/laravel-phone": "^4.3",
         "s1lentium/iptools": "^1.1",
