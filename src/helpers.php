@@ -4,9 +4,9 @@ use Papaedu\Extension\Enums\Header;
 use Papaedu\Extension\Enums\Platform;
 
 if (! function_exists('app_name')) {
-    function app_name(): string
+    function app_name(string $default = ''): string
     {
-        return app('request')->header(Header::APP_NAME->value, '');
+        return app('request')->header(Header::APP_NAME->value, $default);
     }
 }
 
