@@ -5,8 +5,8 @@ namespace Papaedu\Extension\Facades;
 use Illuminate\Support\Facades\Facade;
 use Papaedu\Extension\Payment\ApplePay\ApplePay;
 use Papaedu\Extension\Payment\JdPay\JdPay;
-use Yansongda\Pay\Gateways\Alipay;
-use Yansongda\Pay\Gateways\Wechat;
+use Yansongda\Pay\Provider\Alipay;
+use Yansongda\Pay\Provider\Wechat;
 
 class Payment extends Facade
 {
@@ -22,7 +22,7 @@ class Payment extends Facade
 
     /**
      * @param  string  $name
-     * @return \Yansongda\Pay\Gateways\Alipay
+     * @return \Yansongda\Pay\Provider\Alipay
      */
     public static function alipay(string $name = ''): Alipay
     {
@@ -31,7 +31,7 @@ class Payment extends Facade
 
     /**
      * @param  string  $name
-     * @return \Yansongda\Pay\Gateways\Wechat
+     * @return \Yansongda\Pay\Provider\Wechat
      */
     public static function wechat(string $name = ''): Wechat
     {
