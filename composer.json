@@ -1,0 +1,73 @@
+{
+    "name": "papaedu/extension",
+    "description": "Papaedu extension.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PapaEdu",
+            "email": "developer@papaenglish.cn"
+        }
+    ],
+    "require": {
+        "php": "^8.0.2",
+        "ext-openssl": "*",
+        "ext-json": "*",
+        "alibabacloud/green": "^1.8",
+        "alibabacloud/sts": "^1.8",
+        "james-heinrich/getid3": "^1.9",
+        "jenssegers/agent": "^2.6",
+        "laravel/sanctum": "^2.14.1",
+        "luoyy/ali-oss-storage": "^3.0",
+        "overtrue/easy-sms": "^2.0",
+        "overtrue/laravel-filesystem-qiniu": "^2.0",
+        "overtrue/laravel-wechat": "^7.0",
+        "propaganistas/laravel-phone": "^4.3",
+        "s1lentium/iptools": "^1.1",
+        "socialiteproviders/weixin": "^4.1",
+        "tencentcloud/captcha": "^3.0",
+        "tencentcloud/vod": "^3.0",
+        "tencentcloud/tiw": "^3.0",
+        "tencentcloud/trtc": "^3.0",
+        "vinkla/hashids": "^10.0",
+        "yansongda/pay": "^3.0.0"
+    },
+    "require-dev": {
+        "laravel/framework": "^9.2",
+        "nunomaduro/phpinsights": "^2.0",
+        "phpstan/phpstan": "^1.4",
+        "phpunit/phpunit": "^9.5.10"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Papaedu\\Extension\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Papaedu\\Extension\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Papaedu\\Extension\\ServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=psr12 src/",
+        "fix-style": "phpcbf -p --standard=psr12 src/"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "easywechat-composer/easywechat-composer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

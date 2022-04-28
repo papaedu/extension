@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Papaedu\Extension\Foundation\Auth\ResetsUsernames;
+
+class ResetUsernameController extends Controller
+{
+    /**
+     * @var string
+     */
+    use ResetsMobiles;
+
+    protected $oldUsername = '';
+
+    /**
+     * Update user password.
+     *
+     * @param  mixed  $user
+     * @param  string  $username
+     * @return \Illuminate\Contracts\Auth\Authenticatable
+     */
+    protected function update($user, string $username)
+    {
+        $this->oldUsername = $user->username;
+        $user->username = $username;
+        $user->save();
+
+        return $user;
+    }
+
+    /**
+     * Get the guard model to be used.
+     *
+     * @return string
+     */
+    public function userModel()
+    {
+        return 'App\Models\User';
+    }
+}

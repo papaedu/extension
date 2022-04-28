@@ -1,0 +1,14 @@
+parameters:
+
+    paths:
+        - src
+
+    level: 5
+
+    ignoreErrors:
+        - '#Call to an undefined static method Illuminate\\Support\\Facades\\Redis::[a-zA-Z0-9\\_]+\(\)\.#'
+
+    excludes_analyse:
+
+    checkMissingIterableValueType: false
+    treatPhpDocTypesAsCertain: false
