@@ -23,7 +23,6 @@
         "overtrue/laravel-wechat": "^7.0",
         "propaganistas/laravel-phone": "^4.3",
         "s1lentium/iptools": "^1.1",
-        "socialiteproviders/weixin": "^4.1",
         "tencentcloud/captcha": "^3.0",
         "tencentcloud/vod": "^3.0",
         "tencentcloud/tiw": "^3.0",
