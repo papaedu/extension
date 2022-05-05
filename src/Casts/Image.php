@@ -33,6 +33,6 @@ class Image implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return MediaLibrary::image()->parseUrl($value);
+        return Disk::image()->parseUrl($value);
     }
 }

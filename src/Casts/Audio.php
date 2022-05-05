@@ -33,6 +33,6 @@ class Audio implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return MediaLibrary::audio()->parseUrl($value);
+        return Disk::audio()->parseUrl($value);
     }
 }

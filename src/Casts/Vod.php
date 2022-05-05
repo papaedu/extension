@@ -33,6 +33,6 @@ class Vod implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return MediaLibrary::vod()->parseUrl($value);
+        return Disk::vod()->parseUrl($value);
     }
 }
