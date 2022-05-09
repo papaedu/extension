@@ -18,6 +18,6 @@ if (! function_exists('platform')) {
             return $headerPlatform;
         }
 
-        return $headerPlatform == $platform->value;
+        return $headerPlatform == $platform;
     }
 }
