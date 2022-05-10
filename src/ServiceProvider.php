@@ -5,6 +5,7 @@ namespace Papaedu\Extension;
 use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Illuminate\Validation\Rules\Password;
 use Overtrue\EasySms\EasySms;
+use Papaedu\Extension\Filesystem\Disk;
 use Papaedu\Extension\MediaLibrary\MediaLibrary;
 use Papaedu\Extension\UmengPush\UmengPush;
 use Papaedu\Extension\Validation\Rules\AllStringMax;
@@ -92,19 +93,19 @@ class ServiceProvider extends LaravelProvider
     {
         $this->app['validator']->extend(
             'image_exists',
-            fn ($attribute, $value, $parameters, $validator) => MediaLibrary::image()->exists($value),
+            fn ($attribute, $value, $parameters, $validator) => Disk::image()->exists($value),
             ':attribute不存在或上传失败'
         );
 
         $this->app['validator']->extend(
             'audio_exists',
-            fn ($attribute, $value, $parameters, $validator) => MediaLibrary::audio()->exists($value)
+            fn ($attribute, $value, $parameters, $validator) => Disk::audio()->exists($value)
             , ':attribute不存在或上传失败'
         );
 
         $this->app['validator']->extend(
             'file_exists',
-            fn ($attribute, $value, $parameters, $validator) => MediaLibrary::file()->exists($value),
+            fn ($attribute, $value, $parameters, $validator) => Disk::file()->exists($value),
             ':attribute不存在或上传失败'
         );
 
