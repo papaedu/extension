@@ -50,6 +50,7 @@ class CaptchaNotification
                 'phone_number' => $phoneNumber,
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
+                'exceptions' => $e->getExceptions(),
             ]);
 
             throw new BadRequestHttpException(trans('extension::validator.sms.others_error'));
