@@ -16,11 +16,16 @@ trait HashidsAttribute
         return new Attribute(
             get: function (): string {
                 if (! $this->hashidsValue) {
-                    $this->hashidsValue = Hashids::connection($this->hashidsConnection ?? $this->defaultHashidsConnection)->encode($this->id);
+                    $this->hashidsValue = $this->getHashidsConnection()->encode($this->id);
                 }
 
                 return $this->hashidsValue;
             }
         );
+    }
+
+    public function getHashidsConnection(): \Hashids\Hashids
+    {
+        return Hashids::connection($this->hashidsConnection ?? $this->defaultHashidsConnection);
     }
 }

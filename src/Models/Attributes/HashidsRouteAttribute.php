@@ -10,7 +10,7 @@ trait HashidsRouteAttribute
 
     public function resolveRouteBinding($value, $field = null)
     {
-        $value = current(Hashids::connection($this->hashidsConnection ?? $this->defaultHashidsConnection)->decode($value));
+        $value = current($this->getHashidsConnection()->decode($value));
         if (! $value) {
             return;
         }
