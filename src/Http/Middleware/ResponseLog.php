@@ -84,13 +84,13 @@ class ResponseLog
         return implode(' ', [
             $request->method(),
             $request->path(),
-            urldecode(http_build_query($request->except(self::QUERY_EXCEPT))),
+            http_build_query($request->except(self::QUERY_EXCEPT)),
         ]);
     }
 
     protected function getHeadersString(Request $request): string
     {
-        return urldecode(http_build_query($this->getHeaders($request, config('extension.header.keys', []))));
+        return http_build_query($this->getHeaders($request, config('extension.header.keys', [])));
     }
 
     protected function getIpPortString(Request $request): string
