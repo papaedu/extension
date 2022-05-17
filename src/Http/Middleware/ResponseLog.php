@@ -63,6 +63,8 @@ class ResponseLog
 
         if ($request->method() != 'GET' && $response instanceof JsonResponse) {
             $message[] = $response->isServerError() ? 'ServerError' : $response->getContent();
+        } else {
+            $message[] = '{}';
         }
 
         return $message;
