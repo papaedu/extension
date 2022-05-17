@@ -71,7 +71,7 @@ return [
 
     'log' => [
         'response' => [
-            'channel_name' => env('EXTENSION_RESPONSE_LOG_CHANNEL_NAME'),
+            'channel_name' => env('EXTENSION_RESPONSE_LOG_CHANNEL_NAME', 'resplog'),
         ],
     ],
 
