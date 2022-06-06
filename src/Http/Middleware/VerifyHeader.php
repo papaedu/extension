@@ -117,6 +117,6 @@ class VerifyHeader
             return false;
         }
 
-        return md5(urldecode(http_build_query($params)).config('extension.header.secret')) == $sign;
+        return md5(http_build_query($params).config('extension.header.secret')) == $sign;
     }
 }
