@@ -80,43 +80,43 @@ class VerifyHeader
 
     /**
      * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    protected function getParams(Request $request): array
-    {
-        $params = $this->getHeaders($request, $this->headerKeys);
-        $params = array_filter($params);
-
-        if (! $params) {
-            throw new HttpException(403, 'Forbidden');
-        }
-        if (isset($params[Header::TIMESTAMP->value]) && now()->diffInSeconds(Carbon::createFromTimestamp($params[Header::TIMESTAMP->value])) > self::TIMESTAMP_OFFSET_SECONDS) {
-            throw new HttpException(403, 'Forbidden');
-        }
-        if (in_array(platform(), [Platform::MINI_PROGRAM, Platform::H5])) {
-            unset($params[Header::USER_AGENT->value]);
-        }
-
-        $params['path'] = $request->path();
-        $params += $request->all();
-        $params = array_filter($params);
-
-        return Arr::sortRecursive($params);
-    }
-
-    /**
-     * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
     protected function validate(Request $request): bool
     {
-        $params = $this->getParams($request);
+        $payload = $this->getPayload($request);
         $sign = $request->header(Header::SIGN->value, '');
 
-        if (! $params || ! $sign) {
+        if (! $payload || ! $sign) {
             return false;
         }
 
-        return md5(http_build_query($params).config('extension.header.secret')) == $sign;
+        return md5(Arr::query($payload).config('extension.header.secret')) == $sign;
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function getPayload(Request $request): array
+    {
+        $payload = $this->getHeaders($request, $this->headerKeys);
+        $payload = array_filter($payload);
+
+        if (! $payload) {
+            throw new HttpException(403, 'Forbidden');
+        }
+        if (isset($payload[Header::TIMESTAMP->value]) && now()->diffInSeconds(Carbon::createFromTimestamp($payload[Header::TIMESTAMP->value])) > self::TIMESTAMP_OFFSET_SECONDS) {
+            throw new HttpException(403, 'Forbidden');
+        }
+        if (in_array(platform(), [Platform::MINI_PROGRAM, Platform::H5])) {
+            unset($payload[Header::USER_AGENT->value]);
+        }
+
+        $payload['path'] = $request->path();
+        $payload += $request->all();
+        $payload = array_filter($payload);
+
+        return Arr::sortRecursive($payload);
     }
 }
