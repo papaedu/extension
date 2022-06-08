@@ -99,8 +99,14 @@ class ServiceProvider extends LaravelProvider
 
         $this->app['validator']->extend(
             'audio_exists',
-            fn ($attribute, $value, $parameters, $validator) => Disk::audio()->exists($value)
-            , ':attribute不存在或上传失败'
+            fn ($attribute, $value, $parameters, $validator) => Disk::audio()->exists($value),
+            ':attribute不存在或上传失败'
+        );
+
+        $this->app['validator']->extend(
+            'video_exists',
+            fn ($attribute, $value, $parameters, $validator) => MediaLibrary::video()->exists($value),
+            ':attribute不存在或上传失败'
         );
 
         $this->app['validator']->extend(
