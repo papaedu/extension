@@ -7,7 +7,7 @@ use Papaedu\Extension\Enums\MediaType;
 
 class Video extends MediaLibraryAbstract
 {
-    protected MediaType $type = MediaType::AUDIO;
+    protected MediaType $type = MediaType::VIDEO;
 
     public function getDuration(string $url)
     {

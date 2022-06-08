@@ -6,7 +6,6 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -21,14 +20,13 @@ abstract class MediaLibraryAbstract
 
     protected string $diskName;
 
-    protected string $cdnUrl;
+    protected ?Filesystem $disk = null;
 
     protected MediaType $type;
 
     public function __construct(string $diskName)
     {
         $this->diskName = $diskName;
-        $this->cdnUrl = config("filesystems.disks.oss-{$diskName}.cdn_url", '');
     }
 
     public function getDisk(): Filesystem
@@ -37,7 +35,11 @@ abstract class MediaLibraryAbstract
             throw new InvalidArgumentException('Disk name is empty.');
         }
 
-        return Storage::disk("{$this->diskType}-{$this->diskName}");
+        if (is_null($this->disk)) {
+            $this->disk = Storage::disk("oss-{$this->diskName}");
+        }
+
+        return $this->disk;
     }
 
     public function verify(Request $request): bool
@@ -197,11 +199,11 @@ abstract class MediaLibraryAbstract
             return '';
         }
 
-        if (preg_match('/^http[s]?:\/\//', $path)) {
+        if (preg_match('/^https?:\/\//', $path)) {
             return $path;
         }
 
-        return rtrim($this->cdnUrl, '/').'/'.ltrim($path, '/');
+        return $this->getDisk()->url($path);
     }
 
     public function parseUrl(string $url): string
