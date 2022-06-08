@@ -17,11 +17,11 @@ return [
 
     'sts' => [
         'oss' => [
-            'access_key_id' => env('OSS_ACCESS_KEY_ID'),
-            'access_key_secret' => env('OSS_ACCESS_KEY_SECRET'),
-            'region_id' => env('OSS_REGION_ID', 'cn-hangzhou'),
-            'role_arn' => env('OSS_ROLE_ARN'),
-            'role_session_name' => env('OSS_ROLE_SESSION_NAME'),
+            'access_key_id' => env('ALIBABA_CLOUD_OSS_ACCESS_KEY_ID'),
+            'access_key_secret' => env('ALIBABA_CLOUD_OSS_ACCESS_KEY_SECRET'),
+            'region_id' => env('ALIBABA_CLOUD_OSS_REGION_ID', 'cn-hangzhou'),
+            'role_arn' => env('ALIBABA_CLOUD_OSS_ROLE_ARN'),
+            'role_session_name' => env('ALIBABA_CLOUD_OSS_ROLE_SESSION_NAME'),
         ],
     ],
 ];

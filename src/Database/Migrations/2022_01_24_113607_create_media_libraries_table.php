@@ -26,8 +26,6 @@ class CreateMediaLibrariesTable extends Migration
             $table->unsignedTinyInteger('scan_result')->default(0)->comment('检测结果');
             $table->morphs('model');
             $table->timestamps();
-
-            $table->index('url');
         });
     }
 

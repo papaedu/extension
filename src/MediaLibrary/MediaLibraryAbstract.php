@@ -2,11 +2,11 @@
 
 namespace Papaedu\Extension\MediaLibrary;
 
-use Closure;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -27,9 +27,8 @@ abstract class MediaLibraryAbstract
 
     public function __construct(string $diskName)
     {
-        $this->diskType = config('extension.filesystem.disk_type', '');
         $this->diskName = $diskName;
-        $this->cdnUrl = config("filesystems.disks.{$this->diskType}-{$diskName}.cdn_url", '');
+        $this->cdnUrl = config("filesystems.disks.oss-{$diskName}.cdn_url", '');
     }
 
     public function getDisk(): Filesystem
@@ -285,6 +284,10 @@ abstract class MediaLibraryAbstract
         }
 
         return $this->getDisk()->delete($path);
+    }
+
+    public function forceDelete(string $path): bool
+    {
     }
 
     public function getPreDir(): string

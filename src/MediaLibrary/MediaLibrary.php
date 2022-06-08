@@ -7,6 +7,7 @@ use InvalidArgumentException;
 /**
  * @method static \Papaedu\Extension\MediaLibrary\Image image()
  * @method static \Papaedu\Extension\MediaLibrary\Audio audio()
+ * @method static \Papaedu\Extension\MediaLibrary\Video video()
  * @method static \Papaedu\Extension\MediaLibrary\File file()
  * @method static \Papaedu\Extension\MediaLibrary\Vod vod()
  */
