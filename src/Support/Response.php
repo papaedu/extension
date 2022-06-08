@@ -19,6 +19,15 @@ class Response
     }
 
     /**
+     * @param  string  $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function json(string $data = ''): JsonResponse
+    {
+        return new JsonResponse($data, json: true);
+    }
+
+    /**
      * Respond a array response.
      *
      * @param  array  $data
