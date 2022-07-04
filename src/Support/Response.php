@@ -33,7 +33,7 @@ class Response
      * @param  array  $data
      * @return \Illuminate\Http\JsonResponse
      */
-    public function array(array $data): JsonResponse
+    public function array(array $data = []): JsonResponse
     {
         return new JsonResponse(['data' => $data]);
     }
@@ -54,6 +54,7 @@ class Response
      *
      * @param  string  $string
      * @return \Illuminate\Http\JsonResponse
+     * @deprecated
      */
     public function string(string $string): JsonResponse
     {

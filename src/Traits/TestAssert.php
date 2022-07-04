@@ -13,7 +13,7 @@ trait TestAssert
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  array  $data
      */
-    protected function assertJsonStructurePaginate(TestResponse $response, array $data)
+    protected function assertJsonStructurePaginate(TestResponse $response, array $data): void
     {
         $response->assertOk()
             ->assertJsonStructure([
@@ -34,7 +34,7 @@ trait TestAssert
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  array  $data
      */
-    protected function assertJsonStructureSimplePaginate(TestResponse $response, array $data)
+    protected function assertJsonStructureSimplePaginate(TestResponse $response, array $data): void
     {
         $response->assertOk()
             ->assertJsonStructure([
@@ -63,7 +63,7 @@ trait TestAssert
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  array  $data
      */
-    protected function assertJsonStructure(TestResponse $response, array $data)
+    protected function assertJsonStructure(TestResponse $response, array $data): void
     {
         $response->assertOk()
             ->assertJsonStructure([
@@ -79,7 +79,7 @@ trait TestAssert
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  array  $data
      */
-    protected function assertJsonStructureView(TestResponse $response, array $data)
+    protected function assertJsonStructureView(TestResponse $response, array $data): void
     {
         $response->assertOk()
             ->assertJsonStructure([
@@ -93,7 +93,7 @@ trait TestAssert
      * @param  \Illuminate\Testing\TestResponse  $response
      * @param  string  $message
      */
-    protected function assertJsonBadRequestMessage(TestResponse $response, string $message)
+    protected function assertJsonBadRequestMessage(TestResponse $response, string $message): void
     {
         $response->assertStatus(Response::HTTP_BAD_REQUEST)
             ->assertJsonFragment(['message' => $message]);
@@ -106,7 +106,7 @@ trait TestAssert
      * @param  string  $message
      * @param  int  $code
      */
-    protected function assertJsonBadRequestMessageAndCode(TestResponse $response, string $message, int $code)
+    protected function assertJsonBadRequestMessageAndCode(TestResponse $response, string $message, int $code): void
     {
         $response->assertStatus(Response::HTTP_BAD_REQUEST)
             ->assertJsonFragment([
