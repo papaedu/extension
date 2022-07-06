@@ -39,9 +39,9 @@ class TencentCloudServiceProvider extends ServiceProvider
     protected function registerSecretId()
     {
         $apps = [
-            'vod' => VodClient::class,
             'tiw' => TiwClient::class,
             'trtc' => TrtcClient::class,
+            'vod' => VodClient::class,
         ];
 
         foreach ($apps as $name => $class) {

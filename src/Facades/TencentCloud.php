@@ -19,14 +19,6 @@ class TencentCloud extends Facade
     }
 
     /**
-     * @return \Papaedu\Extension\TencentCloud\Vod\VodClient
-     */
-    public static function vod(): VodClient
-    {
-        return app('tencent_cloud.vod');
-    }
-
-    /**
      * @return \Papaedu\Extension\TencentCloud\Tiw\TiwClient
      */
     public static function tiw(): TiwClient
@@ -40,5 +32,13 @@ class TencentCloud extends Facade
     public static function trtc(): TrtcClient
     {
         return app('tencent_cloud.trtc');
+    }
+
+    /**
+     * @return \Papaedu\Extension\TencentCloud\Vod\VodClient
+     */
+    public static function vod(): VodClient
+    {
+        return app('tencent_cloud.vod');
     }
 }
