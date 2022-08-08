@@ -208,7 +208,7 @@ abstract class MediaLibraryAbstract
 
     public function parseUrl(string $url): string
     {
-        if (parse_url($url, PHP_URL_HOST) == $this->cdnUrl) {
+        if (parse_url($url, PHP_URL_HOST) == $this->getDisk()->url('')) {
             return ltrim(parse_url($url, PHP_URL_PATH), '/');
         }
 
