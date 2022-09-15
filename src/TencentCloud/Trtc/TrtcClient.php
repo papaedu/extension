@@ -6,6 +6,9 @@ use Papaedu\Extension\TencentCloud\Kernel\TencentCloudClient;
 use TencentCloud\Common\Credential;
 use TencentCloud\Trtc\V20190722\TrtcClient as TencentTrtcClient;
 
+/**
+ * @method \Papaedu\Extension\TencentCloud\Trtc\TrtcClient getClient()
+ */
 class TrtcClient extends TencentCloudClient
 {
     protected function initClient()

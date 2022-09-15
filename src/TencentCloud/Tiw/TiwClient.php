@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 use TencentCloud\Common\Credential;
 use TencentCloud\Tiw\V20190919\TiwClient as TencentTiwClient;
 
+/**
+ * @method \TencentCloud\Tiw\V20190919\TiwClient getClient()
+ */
 class TiwClient extends TencentCloudClient
 {
     protected function initClient()

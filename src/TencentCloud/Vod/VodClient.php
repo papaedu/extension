@@ -6,6 +6,9 @@ use Papaedu\Extension\TencentCloud\Kernel\TencentCloudClient;
 use TencentCloud\Common\Credential;
 use TencentCloud\Vod\V20180717\VodClient as TencentVodClient;
 
+/**
+ * @method \TencentCloud\Vod\V20180717\VodClient getClient()
+ */
 class VodClient extends TencentCloudClient
 {
     protected function initClient()
