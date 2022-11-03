@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Illuminate\Validation\Rules\Password;
 use Overtrue\EasySms\EasySms;
 use Papaedu\Extension\Filesystem\Disk;
-use Papaedu\Extension\MediaLibrary\Disk;
+use Papaedu\Extension\MediaLibrary\Disk as MediaLibraryDisk;
 use Papaedu\Extension\UmengPush\UmengPush;
 use Papaedu\Extension\Validation\Rules\AllStringMax;
 use Papaedu\Extension\Validation\Rules\AuthCaptcha;
