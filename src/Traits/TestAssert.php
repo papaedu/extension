@@ -42,15 +42,12 @@ trait TestAssert
                     $data,
                 ],
                 'links' => [
-                    'first',
-                    'last',
-                    'prev',
                     'next',
                 ],
                 'meta' => [
+                    'has_next_page',
                     'current_page',
                     'from',
-                    'path',
                     'per_page',
                     'to',
                 ],

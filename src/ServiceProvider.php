@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Illuminate\Validation\Rules\Password;
 use Overtrue\EasySms\EasySms;
 use Papaedu\Extension\Filesystem\Disk;
-use Papaedu\Extension\MediaLibrary\MediaLibrary;
+use Papaedu\Extension\MediaLibrary\Disk;
 use Papaedu\Extension\UmengPush\UmengPush;
 use Papaedu\Extension\Validation\Rules\AllStringMax;
 use Papaedu\Extension\Validation\Rules\AuthCaptcha;
@@ -105,7 +105,7 @@ class ServiceProvider extends LaravelProvider
 
         $this->app['validator']->extend(
             'video_exists',
-            fn ($attribute, $value, $parameters, $validator) => MediaLibrary::video()->exists($value),
+            fn ($attribute, $value, $parameters, $validator) => Disk::video()->exists($value),
             ':attribute不存在或上传失败'
         );
 

@@ -5,7 +5,7 @@ namespace Papaedu\Extension\MediaLibrary;
 use getID3;
 use Papaedu\Extension\Enums\MediaType;
 
-class Video extends MediaLibraryAbstract
+class Video extends DiskAbstract
 {
     protected MediaType $type = MediaType::VIDEO;
 

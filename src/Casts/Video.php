@@ -3,7 +3,7 @@
 namespace Papaedu\Extension\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Papaedu\Extension\MediaLibrary\MediaLibrary;
+use Papaedu\Extension\MediaLibrary\Disk;
 
 class Video implements CastsAttributes
 {
@@ -18,7 +18,7 @@ class Video implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return MediaLibrary::video()->url((string) $value);
+        return Disk::video()->url((string) $value);
     }
 
     /**
@@ -32,6 +32,6 @@ class Video implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return MediaLibrary::video()->parseUrl($value);
+        return Disk::video()->parseUrl($value);
     }
 }

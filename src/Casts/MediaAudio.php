@@ -3,7 +3,7 @@
 namespace Papaedu\Extension\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Papaedu\Extension\MediaLibrary\MediaLibrary;
+use Papaedu\Extension\MediaLibrary\Disk;
 
 class MediaAudio implements CastsAttributes
 {
@@ -18,7 +18,7 @@ class MediaAudio implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return MediaLibrary::audio()->url((string) $value);
+        return Disk::audio()->url((string) $value);
     }
 
     /**
@@ -32,6 +32,6 @@ class MediaAudio implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return MediaLibrary::audio()->parseUrl($value);
+        return Disk::audio()->parseUrl($value);
     }
 }

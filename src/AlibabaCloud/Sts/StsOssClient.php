@@ -7,7 +7,7 @@ use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Exception\ServerException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-use Papaedu\Extension\MediaLibrary\MediaLibrary;
+use Papaedu\Extension\MediaLibrary\Disk;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StsOssClient
@@ -21,8 +21,8 @@ class StsOssClient
 
     public function assumeRole(string $bucket): array
     {
-        $path1 = MediaLibrary::image()->getPreDir().Carbon::today()->format('Y/m/d');
-        $path2 = MediaLibrary::image()->getPreDir().Carbon::tomorrow()->format('Y/m/d');
+        $path1 = Disk::image()->getPreDir().Carbon::today()->format('Y/m/d');
+        $path2 = Disk::image()->getPreDir().Carbon::tomorrow()->format('Y/m/d');
 
         try {
             $result = AlibabaCloud::rpc()

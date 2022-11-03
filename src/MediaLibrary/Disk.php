@@ -11,7 +11,7 @@ use InvalidArgumentException;
  * @method static \Papaedu\Extension\MediaLibrary\File file()
  * @method static \Papaedu\Extension\MediaLibrary\Vod vod()
  */
-class MediaLibrary
+class Disk
 {
     private static array $mediaLibraries = [];
 

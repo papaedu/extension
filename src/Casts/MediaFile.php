@@ -4,7 +4,7 @@ namespace Papaedu\Extension\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Papaedu\Extension\Filesystem\Disk;
-use Papaedu\Extension\MediaLibrary\MediaLibrary;
+use Papaedu\Extension\MediaLibrary\Disk;
 
 class MediaFile implements CastsAttributes
 {
@@ -19,7 +19,7 @@ class MediaFile implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return MediaLibrary::file()->url((string) $value);
+        return Disk::file()->url((string) $value);
     }
 
     /**

@@ -4,17 +4,13 @@ namespace Papaedu\Extension\MediaLibrary;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Papaedu\Extension\AlibabaCloud\Green\Enums\GreenScanResult;
-use Papaedu\Extension\Enums\MediaStatus;
 use Papaedu\Extension\Enums\MediaType;
-use Papaedu\Extension\Models\MediaLibrary as MediaLibraryModel;
 
-abstract class MediaLibraryAbstract
+abstract class DiskAbstract
 {
     protected string $diskType;
 
@@ -70,21 +66,12 @@ abstract class MediaLibraryAbstract
 
     public function generatePaths(string $ext, int $number): array
     {
-        $now = now();
         $data = [];
         for ($index = 0; $index < $number; $index++) {
-            $data[] = [
-                'type' => $this->type->value,
-                'path' => $this->generatePath($ext),
-                'status' => MediaStatus::GENERATED,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ];
+            $data[] = $this->generatePath($ext);
         }
 
-        MediaLibraryModel::insert($data);
-
-        return Arr::pluck($data, 'path');
+        return $data;
     }
 
     public function generatePath(string $ext): string
@@ -95,101 +82,6 @@ abstract class MediaLibraryAbstract
         }
 
         return $path;
-    }
-
-    public function setUploaded(string $path, int $height, int $width, int $size, bool $green = false)
-    {
-        if (! $path || ! $this->exists($path)) {
-            return;
-        }
-
-        /** @var MediaLibraryModel $mediaLibrary */
-        $mediaLibrary = MediaLibraryModel::query()
-            ->where('path', $path)
-            ->where('status', MediaStatus::GENERATED)
-            ->first([
-                'id',
-            ]);
-
-        if (! $mediaLibrary) {
-            return;
-        }
-
-        $mediaLibrary->status = MediaStatus::UPLOADED;
-        $mediaLibrary->height = $height;
-        $mediaLibrary->width = $width;
-        $mediaLibrary->size = $size;
-        $mediaLibrary->scan_result = $green === true ? $this->validateGreen($this->url($path), $mediaLibrary) : GreenScanResult::REVIEW;
-        $mediaLibrary->save();
-    }
-
-    public function setUsed(string $path, string $modelType, $builder)
-    {
-        if (! $this->exists($path)) {
-            return null;
-        }
-
-        $media = MediaLibraryModel::query()
-            ->where('path', $path)
-            ->first([
-                'id',
-                'height',
-                'width',
-                'model_type',
-                'model_id',
-                'status',
-            ]);
-        if ($media) {
-            if ($media->scan_result == GreenScanResult::BLOCK->value) {
-                $config = config("extension.media_library.ban.{$modelType}", config('extension.media_library.ban.default'));
-                $data = [
-                    'image_url' => $config['url'],
-                    'width' => $config['width'],
-                    'height' => $config['height'],
-                ];
-            } else {
-                $data = [
-                    'height' => $media->height,
-                    'width' => $media->width,
-                    'image_url' => $path,
-                ];
-            }
-            $model = $builder->create($data);
-
-            if ($media->status != MediaStatus::USED->value) {
-                $media->status = MediaStatus::USED;
-            }
-
-            if (! $media->model_id) {
-                $media->model_type = $modelType;
-                $media->model_id = $model->id;
-            }
-
-            $media->save();
-
-            return $model;
-        }
-
-        return null;
-    }
-
-    protected function validateGreen(string $path, MediaLibraryModel $mediaLibrary): GreenScanResult
-    {
-        return GreenScanResult::REVIEW;
-    }
-
-    public function check(string $path): bool
-    {
-        if (! $this->exists($path)) {
-            return false;
-        }
-        MediaLibraryModel::query()
-            ->where('path', $path)
-            ->update([
-                'status' => MediaStatus::USED,
-            ]);
-
-        return true;
     }
 
     public function url(string $path, string $default = ''): string
