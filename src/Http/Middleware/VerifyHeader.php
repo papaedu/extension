@@ -101,7 +101,6 @@ class VerifyHeader
     protected function getPayload(Request $request): array
     {
         $payload = $this->getHeaders($request, $this->headerKeys);
-        $payload = array_filter($payload);
 
         if (! $payload) {
             throw new HttpException(403, 'Forbidden');
@@ -115,7 +114,6 @@ class VerifyHeader
 
         $payload['path'] = $request->path();
         $payload += $request->all();
-        $payload = array_filter($payload);
 
         return Arr::sortRecursive($payload);
     }
