@@ -19,10 +19,19 @@ class StsOssClient
         $this->config = $config;
     }
 
-    public function assumeRole(string $bucket): array
+    public function assumeRole(string $bucket, array $paths = []): array
     {
-        $path1 = Disk::image()->getPreDir().Carbon::today()->format('Y/m/d');
-        $path2 = Disk::image()->getPreDir().Carbon::tomorrow()->format('Y/m/d');
+        if (empty($paths)) {
+            $paths = [
+                Disk::image()->getPreDir().Carbon::today()->format('Y/m/d*'),
+                Disk::image()->getPreDir().Carbon::tomorrow()->format('Y/m/d*'),
+            ];
+        }
+
+        $resources = [];
+        foreach ($paths as $path) {
+            $resources[] = "acs:oss:*:*:{$bucket}/{$path}";
+        }
 
         try {
             $result = AlibabaCloud::rpc()
@@ -45,10 +54,7 @@ class StsOssClient
                                         'oss:PutObject',
                                     ],
                                     'Effect' => 'Allow',
-                                    'Resource' => [
-                                        "acs:oss:*:*:{$bucket}/{$path1}*",
-                                        "acs:oss:*:*:{$bucket}/{$path2}*",
-                                    ],
+                                    'Resource' => $resources,
                                 ],
                             ],
                             'Version' => '1',
