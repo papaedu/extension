@@ -14,7 +14,7 @@ class Extend
      * @param  string  $numeral
      * @return bool
      */
-    public static function isRomanNumeral(string $numeral)
+    public static function isRomanNumeral(string $numeral): bool
     {
         return in_array($numeral, self::ROMAN_NUMERAL);
     }
@@ -23,14 +23,16 @@ class Extend
      * 随机数字
      *
      * @param  int  $length
-     * @return false|string
+     * @return int
      */
-    public static function randomNumeric($length = 6)
+    public static function randomNumeric(int $length = 6): int
     {
-        $str = '1234567890';
-        $rand_str = str_shuffle($str);
+        $str = mt_rand(1, 9);
+        for ($i = 1; $i < $length; $i++) {
+            $str .= mt_rand(0, 9);
+        }
 
-        return substr($rand_str, 0, $length);
+        return intval($str);
     }
 
     /**
