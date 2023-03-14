@@ -5,6 +5,7 @@ namespace Papaedu\Extension\Channels\EasySms;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
 use Overtrue\EasySms\EasySms;
 
 class EasySmsChannel
@@ -36,6 +37,11 @@ class EasySmsChannel
             return;
         }
         $message = $notification->toEasySms($to);
+        if (is_null($message)) {
+            Log::warning(class_basename($notification).' not found method toEasySms.');
+
+            return;
+        }
 
         $this->easySms->send($to, $message);
     }
