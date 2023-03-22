@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\EasySms;
+use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 
 class EasySmsChannel
 {
@@ -43,6 +45,25 @@ class EasySmsChannel
             return;
         }
 
-        $this->easySms->send($to, $message);
+        try {
+            $this->easySms->send($to, $message);
+        } catch (NoGatewayAvailableException $e) {
+            if ($to instanceof PhoneNumberInterface) {
+                $toMessage = [
+                    'idd_code' => $to->getIDDCode(),
+                    'number' => $to->getNumber(),
+                ];
+            } else {
+                $toMessage = $to;
+            }
+
+            Log::error('短信发送失败：未找到匹配网关', [
+                'error' => [
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ],
+                'to' => $toMessage,
+            ]);
+        }
     }
 }
