@@ -46,7 +46,7 @@ class VerifyHeader
         }
 
         if (false === $this->validate($request)) {
-            throw new HttpException(403, 'Forbidden');
+            throw new HttpException(403, 'Forbidden', code: 10001);
         }
 
         if (Redis::sismember(config('extension.device.ban_list'), $request->header(Header::DEVICE_ID->value))) {
@@ -103,10 +103,10 @@ class VerifyHeader
         $payload = $this->getHeaders($request, $this->headerKeys);
 
         if (! $payload) {
-            throw new HttpException(403, 'Forbidden');
+            throw new HttpException(403, 'Forbidden', code: 10002);
         }
         if (isset($payload[Header::TIMESTAMP->value]) && now()->diffInSeconds(Carbon::createFromTimestamp($payload[Header::TIMESTAMP->value])) > self::TIMESTAMP_OFFSET_SECONDS) {
-            throw new HttpException(403, 'Forbidden');
+            throw new HttpException(403, 'Forbidden', code: 10003);
         }
         if (in_array(platform(), [Platform::MINI_PROGRAM, Platform::H5])) {
             unset($payload[Header::USER_AGENT->value]);
