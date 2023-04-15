@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Papaedu\Extension\Facades\TencentCloud;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class VerifyTIWTranscodeCallback
+class VerifyTIWPushCallback
 {
     /**
      * Handle an incoming request.
@@ -19,11 +19,11 @@ class VerifyTIWTranscodeCallback
      */
     public function handle(Request $request, Closure $next)
     {
-        if (TencentCloud::tiw()->checkTranscodeSign($request->input('ExpireTime'), $request->input('Sign'))) {
+        if (TencentCloud::tiw()->checkPushSign($request->input('ExpireTime'), $request->input('Sign'))) {
             return $next($request);
         }
 
-        Log::warning('TIW 文档转码回调异常');
+        Log::warning('TIW 推流回调签名错误');
         throw new HttpException(500, 'Internal Server Error');
     }
 }

@@ -23,7 +23,7 @@ class VerifyTIWRecordCallback
             return $next($request);
         }
 
-        Log::warning('TIW record callback sign error.');
+        Log::warning('TIW 实时录制回调签名错误');
         throw new HttpException(500, 'Internal Server Error');
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Papaedu\Extension\Facades\TencentCloud;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class VerifyTrtcCommonCallback
+class VerifyTrtcRoomCallback
 {
     /**
      * Handle an incoming request.
@@ -19,11 +19,11 @@ class VerifyTrtcCommonCallback
      */
     public function handle(Request $request, Closure $next)
     {
-        if (TencentCloud::trtc()->checkCommonSign($request->getContent(), $request->header('sign'))) {
+        if (TencentCloud::trtc()->checkSign($request->getContent(), $request->header('sign'))) {
             return $next($request);
         }
 
-        Log::warning('TRTC common callback sign error.');
+        Log::warning('TRTC 房间回调签名错误');
         throw new HttpException(500, 'Internal Server Error');
     }
 }

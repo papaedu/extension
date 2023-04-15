@@ -17,18 +17,8 @@ class TrtcClient extends TencentCloudClient
         $this->client = new TencentTrtcClient($credential, $this->config['region']);
     }
 
-    public function checkRecordSign(string $body, string $sign): bool
+    public function checkSign(string $body, string $sign): bool
     {
-        return $this->checkSign($body, $sign, $this->config['record_callback_key']);
-    }
-
-    public function checkCommonSign(string $body, string $sign): bool
-    {
-        return $this->checkSign($body, $sign, $this->config['common_callback_key']);
-    }
-
-    protected function checkSign(string $body, string $sign, string $key): bool
-    {
-        return $sign === base64_encode(hash_hmac('sha256', $body, $key, true));
+        return $sign === base64_encode(hash_hmac('sha256', $body, $this->config['callback_key'], true));
     }
 }

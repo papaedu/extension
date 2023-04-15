@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Papaedu\Extension\Facades\TencentCloud;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class VerifyTrtcRecordCallback
+class VerifyTrtcMeidaCallback
 {
     /**
      * Handle an incoming request.
@@ -19,11 +19,11 @@ class VerifyTrtcRecordCallback
      */
     public function handle(Request $request, Closure $next)
     {
-        if (TencentCloud::trtc()->checkRecordSign($request->getContent(), $request->header('sign'))) {
+        if (TencentCloud::trtc()->checkSign($request->getContent(), $request->header('sign'))) {
             return $next($request);
         }
 
-        Log::warning('TRTC record callback sign error.');
+        Log::warning('TRTC 媒体回调签名错误');
         throw new HttpException(500, 'Internal Server Error');
     }
 }

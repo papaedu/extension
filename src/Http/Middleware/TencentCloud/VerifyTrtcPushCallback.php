@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Papaedu\Extension\Facades\TencentCloud;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class VerifyTIWTranscodeCallback
+class VerifyTrtcPushCallback
 {
     /**
      * Handle an incoming request.
@@ -19,11 +19,11 @@ class VerifyTIWTranscodeCallback
      */
     public function handle(Request $request, Closure $next)
     {
-        if (TencentCloud::tiw()->checkTranscodeSign($request->input('ExpireTime'), $request->input('Sign'))) {
+        if (TencentCloud::trtc()->checkSign($request->getContent(), $request->header('sign'))) {
             return $next($request);
         }
 
-        Log::warning('TIW 文档转码回调异常');
+        Log::warning('TRTC 转推回调签名错误');
         throw new HttpException(500, 'Internal Server Error');
     }
 }
