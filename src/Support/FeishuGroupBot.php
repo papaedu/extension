@@ -58,6 +58,10 @@ class FeishuGroupBot
 
     protected function getCard(string $message, string $headerTitle, string $template): array
     {
+        if (! app()->environment('production')) {
+            $headerTitle .= '（非正式环境）';
+        }
+
         return [
             'config' => [
                 'wide_screen_mode' => true,
