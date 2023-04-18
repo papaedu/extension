@@ -19,7 +19,7 @@ class Extend
             $shouldReplace[':'.($key ?? '')] = $value;
         }
 
-        return strstr($line, $shouldReplace);
+        return strtr($line, $shouldReplace);
     }
 
     /**
