@@ -8,6 +8,20 @@ class Extend
 {
     private const ROMAN_NUMERAL = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'xiii'];
 
+    public static function replacements($line, array $replace): string
+    {
+        if (empty($replace)) {
+            return $line;
+        }
+
+        $shouldReplace = [];
+        foreach ($replace as $key => $value) {
+            $shouldReplace[':'.($key ?? '')] = $value;
+        }
+
+        return strstr($line, $shouldReplace);
+    }
+
     /**
      * 是否为罗马数字
      *
