@@ -4,6 +4,9 @@ namespace Papaedu\Extension\Support;
 
 use Illuminate\Support\Str;
 
+/**
+ * @deprecated
+ */
 class AES
 {
     private const DEFAULT_KEY = 'p@pA3NgL!2HO12#4';
