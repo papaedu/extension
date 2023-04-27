@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Support;
+namespace Papaedu\Extension\Support\Cache;
 
 trait CacheLockParameter
 {

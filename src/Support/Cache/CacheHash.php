@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Support;
+namespace Papaedu\Extension\Support\Cache;
 
 use Illuminate\Support\Facades\Redis;
 use Papaedu\Extension\Exceptions\EmptyCacheException;
