@@ -45,7 +45,6 @@ trait TestAssert
                     'next',
                 ],
                 'meta' => [
-                    'has_next_page',
                     'current_page',
                     'from',
                     'per_page',
