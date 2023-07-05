@@ -7,13 +7,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class GeetestClient
 {
-    /**
-     * @param  string  $configName
-     * @param  string  $clientType
-     * @param  string  $userId
-     * @return array
-     */
-    public static function config(string $configName, string $clientType, $userId = 'UnLoginUser'): array
+    public function getSenseBotConfig(string $configName, string $clientType, string $userId = 'UnLoginUser'): array
     {
         $status = Geetest::senseBot($configName)->preProcess([
             'user_id' => $userId,
@@ -26,16 +20,10 @@ class GeetestClient
         return Geetest::senseBot($configName)->getResponse();
     }
 
-    /**
-     * @param  string  $configName
-     * @param  array  $data
-     * @param  string  $clientType
-     * @param  string  $userId
-     */
-    public static function validate(string $configName, array $data, string $clientType, $userId = 'UnLoginUser')
+    public function validateSenseBot(string $configName, array $data, string $clientType, string $userId = 'UnLoginUser'): void
     {
         [$challenge, $validate, $secCode] = array_values($data);
-        if (!$challenge || !$validate || !$secCode) {
+        if (! $challenge || ! $validate || ! $secCode) {
             throw new HttpException(400, trans('extension::auth.geetest_failed'));
         }
 

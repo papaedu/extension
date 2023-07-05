@@ -2,25 +2,13 @@
 
 namespace Papaedu\Extension\Channels\EasySms;
 
+use Illuminate\Notifications\Notification;
 use Overtrue\EasySms\PhoneNumber;
-use Propaganistas\LaravelPhone\PhoneNumber as PhoneNumberFormatter;
 
 trait NotificationForEasySms
 {
-    /**
-     * @param  \Illuminate\Notifications\Notification|null  $notification
-     * @return \Overtrue\EasySms\PhoneNumber
-     */
-    public function routeNotificationForEasySms($notification)
+    public function routeNotificationForEasySms(?Notification $notification): PhoneNumber
     {
-        $formatter = PhoneNumberFormatter::make(
-            $this->username,
-            $this->idd_code ?? config('extension.locale.iso_code')
-        );
-
-        return new PhoneNumber(
-            $this->username,
-            $formatter->getPhoneNumberInstance()->getCountryCode()
-        );
+        return new PhoneNumber($this->username, $this->idd_code ?? config('extension.locale.idd_code'));
     }
 }

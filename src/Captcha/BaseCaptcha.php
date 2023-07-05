@@ -10,20 +10,15 @@ use Papaedu\Extension\Support\Phone;
 
 trait BaseCaptcha
 {
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $type
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function captcha(Request $request, string $type): JsonResponse
     {
         $this->validateCaptcha($request);
 
-        GeetestClient::validate(
-            $request->header(Header::APP_NAME->value, ''),
-            $request->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'),
-            $type
-        );
+//        app(GeetestClient::class)->validateSenseBot(
+//            $request->header(Header::APP_NAME->value, ''),
+//            $request->only('geetest_challenge', 'geetest_validate', 'geetest_seccode'),
+//            $type
+//        );
 
         $this->sendCaptcha($request);
 
@@ -39,8 +34,8 @@ trait BaseCaptcha
         $phoneNumber = $request->input($this->username());
         $iddCode = (string) Phone::getCountryCode($phoneNumber, $isoCode);
 
-        $captcha = CaptchaValidator::generate($phoneNumber, $isoCode);
-        CaptchaNotification::send($phoneNumber, $iddCode, $captcha);
+        $captcha = app(CaptchaValidator::class)->generate($phoneNumber, $isoCode);
+        CaptchaSender::send($phoneNumber, $iddCode, $captcha);
     }
 
     /**

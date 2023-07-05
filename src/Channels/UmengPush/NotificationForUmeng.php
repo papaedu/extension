@@ -2,13 +2,11 @@
 
 namespace Papaedu\Extension\Channels\UmengPush;
 
+use Illuminate\Notifications\Notification;
+
 trait NotificationForUmeng
 {
-    /**
-     * @param  \Illuminate\Notifications\Notification|null  $notification
-     * @return string
-     */
-    public function routeNotificationForUmengPush($notification)
+    public function routeNotificationForUmengPush(?Notification $notification): string
     {
         return $this->username;
     }

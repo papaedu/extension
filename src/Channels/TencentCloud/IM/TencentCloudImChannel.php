@@ -2,37 +2,46 @@
 
 namespace Papaedu\Extension\Channels\TencentCloud\IM;
 
-use Illuminate\Database\Eloquent\Model;
+use Exception;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
+use Papaedu\Extension\Exceptions\InvalidArgumentException;
 use Papaedu\Extension\TencentCloud\Tim\TencentCloudTim;
 
 class TencentCloudImChannel
 {
-    /**
-     * @var \Papaedu\Extension\TencentCloud\Tim\TencentCloudTim
-     */
-    protected TencentCloudTim $tencentCloudTim;
-
-    public function __construct(TencentCloudTim $tencentCloudTim)
+    public function __construct(protected TencentCloudTim $tencentCloudTim)
     {
-        $this->tencentCloudTim = $tencentCloudTim;
     }
 
     /**
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
+     * @throws \Papaedu\Extension\Exceptions\InvalidArgumentException
      */
     public function send($notifiable, Notification $notification)
     {
-        if ($notifiable instanceof Model) {
-            $to = $notifiable->routeNotificationFor('tencent_cloud_im');
-        } elseif (is_array($notifiable)) {
-            $to = $notifiable;
-        } else {
-            return;
+        if (! method_exists($notifiable, 'routeNotificationFor')) {
+            throw new InvalidArgumentException('The notifiable is invalid, not found method routeNotificationFor.');
+        }
+        if (! method_exists($notification, 'toTencentCloudIm')) {
+            throw new InvalidArgumentException('The notifiable is invalid, not found method toTencentCloudIm.');
+        }
+
+        $receiver = $notifiable->routeNotificationFor('tencent_cloud_im');
+        if (! is_string($receiver) || empty($receiver)) {
+            throw new InvalidArgumentException('The to is invalid, is not string or empty.');
         }
         $message = $notification->toTencentCloudIm($notifiable);
 
-        $this->tencentCloudTim->sendPrivateMsg($to, $message);
+        try {
+            $this->tencentCloudTim->sendPrivateMsg($receiver, $message);
+        } catch (Exception $e) {
+            Log::error('[tencent_cloud_im_channel]发送失败：未找到匹配网关', [
+                'error' => [
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ],
+                'to' => $receiver,
+            ]);
+        }
     }
 }

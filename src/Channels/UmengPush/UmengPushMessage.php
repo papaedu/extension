@@ -4,35 +4,16 @@ namespace Papaedu\Extension\Channels\UmengPush;
 
 class UmengPushMessage
 {
-    /**
-     * @var string
-     */
-    private string $title = '';
+    protected string $title = '';
 
-    /**
-     * @var string
-     */
-    private string $content = '';
+    protected string $content = '';
 
-    /**
-     * @var array
-     */
-    private array $customField = [];
+    protected array $customField = [];
 
-    /**
-     * @var string
-     */
-    private string $afterOpen = '';
+    protected string $afterOpen = '';
 
-    /**
-     * @var string
-     */
-    private string $activity = '';
+    protected string $activity = '';
 
-    /**
-     * @param  string  $title
-     * @return $this
-     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -40,10 +21,6 @@ class UmengPushMessage
         return $this;
     }
 
-    /**
-     * @param  string  $content
-     * @return $this
-     */
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -51,10 +28,6 @@ class UmengPushMessage
         return $this;
     }
 
-    /**
-     * @param  array  $customField
-     * @return $this
-     */
     public function setCustomField(array $customField): self
     {
         $this->customField = $customField;
@@ -62,10 +35,6 @@ class UmengPushMessage
         return $this;
     }
 
-    /**
-     * @param  string  $afterOpen
-     * @return $this
-     */
     public function setAfterOpen(string $afterOpen): self
     {
         $this->afterOpen = $afterOpen;
@@ -73,10 +42,6 @@ class UmengPushMessage
         return $this;
     }
 
-    /**
-     * @param  string  $activity
-     * @return $this
-     */
     public function setActivity(string $activity): self
     {
         $this->activity = $activity;
@@ -84,9 +49,6 @@ class UmengPushMessage
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getPredefinedForIOS(): array
     {
         return [
@@ -100,9 +62,6 @@ class UmengPushMessage
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getPredefinedForAndroid(): array
     {
         return [
@@ -115,9 +74,6 @@ class UmengPushMessage
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getCustomField(): array
     {
         return $this->customField;

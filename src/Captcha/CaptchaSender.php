@@ -8,24 +8,20 @@ use Illuminate\Support\Facades\Notification;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 use Overtrue\EasySms\PhoneNumber;
-use Papaedu\Extension\Channels\EasySms\EasySmsChannel;
-use Papaedu\Extension\Notifications\Captcha;
+use Papaedu\Extension\Channels\GetherCloudSms\GetherCloudSmsChannel;
+use Papaedu\Extension\Notifications\CaptchaNotification;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class CaptchaNotification
+class CaptchaSender
 {
-    /**
-     * @param  int  $phoneNumber
-     * @param  string  $IDDCode
-     * @param  string  $captcha
-     */
-    public static function send(int $phoneNumber, string $IDDCode, string $captcha)
+    public static function send(string $phoneNumber, string $IDDCode, string $captcha): void
     {
+        Notification::route(GetherCloudSmsChannel::class, new PhoneNumber($phoneNumber, $IDDCode))
+            ->notify(new CaptchaNotification($captcha));
+
         try {
-            Notification::route(
-                EasySmsChannel::class,
-                new PhoneNumber($phoneNumber, $IDDCode)
-            )->notify(new Captcha($captcha));
+            Notification::route(GetherCloudSmsChannel::class, new PhoneNumber($phoneNumber, $IDDCode))
+                ->notify(new CaptchaNotification($captcha));
         } catch (GatewayErrorException $e) {
             $message = trans('extension::validator.sms.others_error');
             foreach ($e->getExceptions() as $gateway => $exception) {
@@ -66,49 +62,21 @@ class CaptchaNotification
         }
     }
 
-    /**
-     * @param  array  $raw
-     * @return string
-     */
     protected static function exceptionAliYun(array $raw): string
     {
-        switch ($raw['result']) {
-            case 'isv.MOBILE_NUMBER_ILLEGAL':
-                $message = trans('extension::validator.mobile_number_illegal');
-                break;
-            case 'isv.DAY_LIMIT_CONTROL':
-            case 'isv.MOBILE_COUNT_OVER_LIMIT':
-            case 'isv.BUSINESS_LIMIT_CONTROL':
-                $message = trans('extension::validator.sms.business_limit_control');
-                break;
-            default:
-                $message = trans('extension::validator.sms.others_error');
-        }
-
-        return $message;
+        return match ($raw['result']) {
+            'isv.MOBILE_NUMBER_ILLEGAL' => trans('extension::validator.mobile_number_illegal'),
+            'isv.DAY_LIMIT_CONTROL', 'isv.MOBILE_COUNT_OVER_LIMIT', 'isv.BUSINESS_LIMIT_CONTROL' => trans('extension::validator.sms.business_limit_control'),
+            default => trans('extension::validator.sms.others_error'),
+        };
     }
 
-    /**
-     * @param  array  $raw
-     * @return string
-     */
     protected static function exceptionTencentCloud(array $raw): string
     {
-        switch ($raw['result']) {
-            case 1016:
-                $message = trans('extension::validator.mobile_number_illegal');
-                break;
-            case 1022:
-            case 1023:
-            case 1024:
-            case 1025:
-            case 1026:
-                $message = trans('extension::validator.sms.business_limit_control');
-                break;
-            default:
-                $message = trans('extension::validator.sms.others_error');
-        }
-
-        return $message;
+        return match ($raw['result']) {
+            1016 => trans('extension::validator.mobile_number_illegal'),
+            1022, 1023, 1024, 1025, 1026 => trans('extension::validator.sms.business_limit_control'),
+            default => trans('extension::validator.sms.others_error'),
+        };
     }
 }

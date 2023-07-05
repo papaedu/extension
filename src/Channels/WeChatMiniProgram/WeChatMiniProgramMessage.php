@@ -4,45 +4,20 @@ namespace Papaedu\Extension\Channels\WeChatMiniProgram;
 
 class WeChatMiniProgramMessage
 {
-    /**
-     * @var string
-     */
-    private string $channel = '';
+    protected string $channel = '';
 
-    /**
-     * @var string
-     */
-    private string $toUser = '';
+    protected string $toUser = '';
 
-    /**
-     * @var string
-     */
-    private string $templateId = '';
+    protected string $templateId = '';
 
-    /**
-     * @var string
-     */
-    private string $page = '';
+    protected string $page = '';
 
-    /**
-     * @var array
-     */
-    private array $data = [];
+    protected array $data = [];
 
-    /**
-     * @var string
-     */
-    private string $miniProgramState = '';
+    protected string $miniProgramState = '';
 
-    /**
-     * @var string
-     */
-    private string $lang = '';
+    protected string $lang = '';
 
-    /**
-     * @param  string  $channel
-     * @return $this
-     */
     public function setChannel(string $channel): self
     {
         $this->channel = $channel;
@@ -50,10 +25,6 @@ class WeChatMiniProgramMessage
         return $this;
     }
 
-    /**
-     * @param  string  $toUser
-     * @return $this
-     */
     public function setToUser(string $toUser): self
     {
         $this->toUser = $toUser;
@@ -61,10 +32,6 @@ class WeChatMiniProgramMessage
         return $this;
     }
 
-    /**
-     * @param  string  $templateId
-     * @return $this
-     */
     public function setTemplateId(string $templateId): self
     {
         $this->templateId = $templateId;
@@ -72,10 +39,6 @@ class WeChatMiniProgramMessage
         return $this;
     }
 
-    /**
-     * @param  string  $page
-     * @return $this
-     */
     public function setPage(string $page): self
     {
         $this->page = $page;
@@ -83,10 +46,6 @@ class WeChatMiniProgramMessage
         return $this;
     }
 
-    /**
-     * @param  array  $data
-     * @return $this
-     */
     public function setData(array $data): self
     {
         $this->data = $data;
@@ -94,10 +53,6 @@ class WeChatMiniProgramMessage
         return $this;
     }
 
-    /**
-     * @param  string  $miniProgramState
-     * @return $this
-     */
     public function setMiniProgramState(string $miniProgramState): self
     {
         $this->miniProgramState = $miniProgramState;
@@ -105,10 +60,6 @@ class WeChatMiniProgramMessage
         return $this;
     }
 
-    /**
-     * @param  string  $lang
-     * @return $this
-     */
     public function setLang(string $lang): self
     {
         $this->lang = $lang;
@@ -116,17 +67,11 @@ class WeChatMiniProgramMessage
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getChannel(): string
     {
         return $this->channel;
     }
 
-    /**
-     * @return array
-     */
     public function toSendData(): array
     {
         return array_filter([

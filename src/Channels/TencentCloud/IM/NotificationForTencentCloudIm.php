@@ -2,13 +2,11 @@
 
 namespace Papaedu\Extension\Channels\TencentCloud\IM;
 
+use Illuminate\Notifications\Notification;
+
 trait NotificationForTencentCloudIm
 {
-    /**
-     * @param  \Illuminate\Notifications\Notification|null  $notification
-     * @return string
-     */
-    public function routeNotificationForTencentCloudIm($notification)
+    public function routeNotificationForTencentCloudIm(?Notification $notification): string
     {
         return $this->uuid;
     }

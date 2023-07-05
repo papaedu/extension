@@ -39,7 +39,7 @@ class ServiceProvider extends LaravelProvider
             'extension',
             'alibaba-cloud',
             'tencent-cloud',
-//            'gether-cloud',
+            'gether-cloud',
             'geetest',
             'payment',
         ]);

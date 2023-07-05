@@ -2,67 +2,50 @@
 
 namespace Papaedu\Extension\Channels\EasySms;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
+use Papaedu\Extension\Exceptions\InvalidArgumentException;
 
 class EasySmsChannel
 {
-    /**
-     * @var \Overtrue\EasySms\EasySms
-     */
-    private $easySms;
-
-    public function __construct(EasySms $easySms)
+    public function __construct(protected EasySms $easySms)
     {
-        $this->easySms = $easySms;
     }
 
     /**
-     * Send the notification.
-     *
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
-     * @return void
+     * @throws \Papaedu\Extension\Exceptions\InvalidArgumentException
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      */
-    public function send($notifiable, Notification $notification)
+    public function send(object $notifiable, Notification $notification): void
     {
-        if ($notifiable instanceof Model) {
-            $to = $notifiable->routeNotificationFor('easy_sms', $notification);
-        } elseif ($notifiable instanceof AnonymousNotifiable) {
-            $to = $notifiable->routes[__CLASS__];
-        } else {
-            return;
+        if (! method_exists($notifiable, 'routeNotificationFor')) {
+            throw new InvalidArgumentException('The notifiable is invalid, not found method routeNotificationFor.');
         }
-        $message = $notification->toEasySms($to);
-        if (is_null($message)) {
-            Log::warning(class_basename($notification).' not found method toEasySms.');
+        if (! method_exists($notification, 'toEasySms')) {
+            throw new InvalidArgumentException('The notifiable is invalid, not found method toEasySms.');
+        }
 
-            return;
+        $receiver = $notifiable->routeNotificationFor('sms', $notification);
+        if (!$receiver instanceof PhoneNumberInterface) {
+            throw new InvalidArgumentException('The to is invalid, not instanceof PhoneNumberInterface');
         }
+        $message = $notification->toEasySms($receiver);
 
         try {
-            $this->easySms->send($to, $message);
+            $this->easySms->send($receiver, $message);
         } catch (NoGatewayAvailableException $e) {
-            if ($to instanceof PhoneNumberInterface) {
-                $toMessage = [
-                    'idd_code' => $to->getIDDCode(),
-                    'number' => $to->getNumber(),
-                ];
-            } else {
-                $toMessage = $to;
-            }
-
-            Log::error('短信发送失败：未找到匹配网关', [
+            Log::error('[easy_sms_channel]发送失败：未找到匹配网关', [
                 'error' => [
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ],
-                'to' => $toMessage,
+                'to' => [
+                    'idd_code' => $receiver->getIDDCode(),
+                    'number' => $receiver->getNumber(),
+                ],
             ]);
         }
     }

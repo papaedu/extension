@@ -2,43 +2,46 @@
 
 namespace Papaedu\Extension\Channels\UmengPush;
 
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
+use Papaedu\Extension\Exceptions\InvalidArgumentException;
+use Papaedu\Extension\Http\Exceptions\UmengNotificationException;
 use Papaedu\Extension\UmengPush\UmengPush;
 
 class UmengPushChannel
 {
-    /**
-     * @var \Papaedu\Extension\UmengPush\UmengPush
-     */
-    private $umengPush;
-
-    /**
-     * @var \Illuminate\Contracts\Events\Dispatcher
-     */
-    private $events;
-
-    public function __construct(UmengPush $umengPush, Dispatcher $events)
+    public function __construct(protected UmengPush $umengPush)
     {
-        $this->umengPush = $umengPush;
-        $this->events = $events;
     }
 
     /**
-     * Send the notification.
-     *
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
-     * @throws \Papaedu\Extension\Http\Exceptions\UmengNotificationException
+     * @throws \Papaedu\Extension\Exceptions\InvalidArgumentException
      */
-    public function send($notifiable, Notification $notification)
+    public function send(object $notifiable, Notification $notification): void
     {
-        if (!$receiver = $notifiable->routeNotificationFor('umeng_push')) {
-            return;
+        if (! method_exists($notifiable, 'routeNotificationFor')) {
+            throw new InvalidArgumentException('The notifiable is invalid, not found method routeNotificationFor.');
+        }
+        if (! method_exists($notification, 'toUmengPush')) {
+            throw new InvalidArgumentException('The notifiable is invalid, not found method toUmengPush.');
         }
 
-        $message = $notification->toUmengPush($notifiable);
+        $receiver = $notifiable->routeNotificationFor('umeng_push', $notification);
+        if (! is_string($receiver) || empty($receiver)) {
+            throw new InvalidArgumentException('The to is invalid, is not string or empty.');
+        }
+        $message = $notification->toUmengPush($receiver);
 
-        $this->umengPush->send($receiver, $message);
+        try {
+            $this->umengPush->send($receiver, $message);
+        } catch (UmengNotificationException $e) {
+            Log::error('[umeng_push_channel]发送失败', [
+                'error' => [
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ],
+                'to' => $receiver,
+            ]);
+        }
     }
 }

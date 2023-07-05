@@ -11,12 +11,7 @@ use TencentCloud\Common\Exception\TencentCloudSDKException;
 
 class TencentClient
 {
-    /**
-     * @param  string  $ticket
-     * @param  string  $userIp
-     * @param  string  $configName
-     */
-    public static function validate(string $ticket, string $userIp, string $configName = '')
+    public function validate(string $ticket, string $userIp, string $configName = ''): void
     {
         try {
             $cred = new Credential(
@@ -30,7 +25,7 @@ class TencentClient
             $req->setUserIp($userIp);
 
             $captchaConfigName = $configName ? "tencent_cloud.captcha.{$configName}" : 'tencent_cloud.captcha';
-            $req->setCaptchaAppId((int)config("{$captchaConfigName}.app_id"));
+            $req->setCaptchaAppId((int) config("{$captchaConfigName}.app_id"));
             $req->setAppSecretKey(config("{$captchaConfigName}.secret_key"));
 
             $resp = $client->DescribeCaptchaMiniResult($req);

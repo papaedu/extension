@@ -8,7 +8,7 @@ trait CaptchaInternational
 {
     use BaseCaptcha;
 
-    protected function validateCaptcha(Request $request)
+    protected function validateCaptcha(Request $request): void
     {
         $request->validate([
             'geetest_challenge' => ['required'],
