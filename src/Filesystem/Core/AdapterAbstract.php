@@ -17,7 +17,7 @@ abstract class AdapterAbstract
 
     private const TEST_DIR = 'test/';
 
-    protected const TOKEN_EXPIRED = 300;
+    protected const TOKEN_EXPIRED = 900;
 
     public function __construct(protected string $diskName = '', string $domain = '')
     {

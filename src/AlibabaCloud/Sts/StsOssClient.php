@@ -17,7 +17,7 @@ class StsOssClient
         $this->config = $config;
     }
 
-    public function assumeRole(string $bucket, int $expires = 300, array $paths = []): array
+    public function assumeRole(string $bucket, int $expires = 900, array $paths = []): array
     {
         $resources = [];
         foreach ($paths as $path) {
@@ -34,7 +34,7 @@ class StsOssClient
                 ->scheme('https')
                 ->options([
                     'query' => [
-                        'DurationSeconds' => $expires,
+                        'DurationSeconds' => max($expires, 900),// 不能小于900s
                         'RegionId' => $this->config['region_id'],
                         'RoleArn' => $this->config['oss']['role_arn'],
                         'RoleSessionName' => $this->config['oss']['role_session_name'],

@@ -25,35 +25,4 @@ abstract class AliyunAdapterAbstract extends AdapterAbstract
             'expiration' => $assumeRole['Credentials']['Expiration'],
         ];
     }
-
-    public function getSignatureConfig(string $ext = '', ?int $size = null, string $mineType = '', ?int $height = null, ?int $width = null): string
-    {
-        $dir = $this->getDir();
-        $filename = $this->getFilename($ext);
-        if ($this->exists($dir.$filename)) {
-            return $this->getSignatureConfig($ext, $size, $mineType, $height, $width);
-        }
-
-        if ($this->diskType == 'oss') {
-            $customData = array_filter([
-                'filename' => $filename,
-                'size' => $size,
-                'mimeType' => $mineType,
-                'height' => $height,
-                'width' => $width,
-            ]);
-
-            return $this->getDisk()->signatureConfig($dir, '', $customData, 300);
-        } else {
-            $policy = [];
-            if ($mineType) {
-                $policy['mimeLimit'] = $mineType;
-            }
-            if ($size) {
-                $policy['fsizeLimit'] = $size;
-            }
-
-            return $this->getDisk()->getUploadToken($dir.$filename, 300, $policy);
-        }
-    }
 }
