@@ -3,6 +3,7 @@
 namespace Papaedu\Extension\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Papaedu\Extension\Filesystem\Core\AdapterAbstract;
 use Papaedu\Extension\Filesystem\Disk;
 
 class Image implements CastsAttributes
@@ -18,7 +19,7 @@ class Image implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return Disk::image()->url((string) $value);
+        return Disk::qiniu()->image()->url((string) $value);
     }
 
     /**
@@ -32,6 +33,11 @@ class Image implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return Disk::image()->parseUrl($value);
+        $path = Disk::qiniu()->image()->path($value);
+        if (str_starts_with($path, AdapterAbstract::TMP_DIR)) {
+            return Disk::qiniu()->image()->move($value);
+        }
+
+        return $path;
     }
 }

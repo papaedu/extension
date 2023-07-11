@@ -6,7 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Papaedu\Extension\Filesystem\Core\AdapterAbstract;
 use Papaedu\Extension\Filesystem\Disk;
 
-class Audio implements CastsAttributes
+class QiniuFile implements CastsAttributes
 {
     /**
      * Cast the given value.
@@ -19,7 +19,7 @@ class Audio implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return Disk::qiniu()->audio()->url((string) $value);
+        return Disk::qiniu()->file()->url((string) $value);
     }
 
     /**
@@ -33,9 +33,9 @@ class Audio implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        $path = Disk::qiniu()->audio()->path($value);
+        $path = Disk::qiniu()->file()->path($value);
         if (str_starts_with($path, AdapterAbstract::TMP_DIR)) {
-            return Disk::qiniu()->audio()->move($value);
+            return Disk::qiniu()->file()->move($value);
         }
 
         return $path;

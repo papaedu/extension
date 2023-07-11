@@ -1,15 +1,12 @@
 <?php
 
-namespace Papaedu\Extension\MediaLibrary;
+namespace Papaedu\Extension\Filesystem\Traits;
 
 use getID3;
-use Papaedu\Extension\Enums\MediaType;
 
-class Video extends DiskAbstract
+trait DurationTrait
 {
-    protected MediaType $type = MediaType::VIDEO;
-
-    public function getDuration(string $url)
+    public function getDuration(string $url): int
     {
         if ($remote = fopen($this->url($url), 'rb')) {
             $tmp = tempnam('/tmp', 'getID3');

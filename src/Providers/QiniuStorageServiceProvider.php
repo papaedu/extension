@@ -5,11 +5,11 @@ namespace Papaedu\Extension\Providers;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
-use Papaedu\Extension\Filesystem\QiniuAdapter;
+use Papaedu\Extension\Filesystem\Qiniu\QiniuAdapter;
 
 class QiniuStorageServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         app('filesystem')->extend('qiniu', function ($app, $config) {
             $adapter = new QiniuAdapter(

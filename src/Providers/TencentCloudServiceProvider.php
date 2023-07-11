@@ -15,13 +15,13 @@ class TencentCloudServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerSdkAppId();
         $this->registerSecretId();
     }
 
-    protected function registerSdkAppId()
+    protected function registerSdkAppId(): void
     {
         $apps = [
             'tim' => TimClient::class,
@@ -36,7 +36,7 @@ class TencentCloudServiceProvider extends ServiceProvider
         }
     }
 
-    protected function registerSecretId()
+    protected function registerSecretId(): void
     {
         $apps = [
             'tiw' => TiwClient::class,
@@ -49,9 +49,15 @@ class TencentCloudServiceProvider extends ServiceProvider
                 continue;
             }
 
-            $config['secret_id'] ?? $config['secret_id'] = config('tencent-cloud.secret_id');
-            $config['secret_key'] ?? $config['secret_key'] = config('tencent-cloud.secret_key');
-            $config['region'] ?? $config['region'] = config('tencent-cloud.region');
+            if (! isset($config['secret_id'])) {
+                $config['secret_id'] = config('tencent-cloud.secret_id');
+            }
+            if (! isset($config['secret_key'])) {
+                $config['secret_key'] = config('tencent-cloud.secret_key');
+            }
+            if (! isset($config['region'])) {
+                $config['region'] = config('tencent-cloud.region');
+            }
 
             $this->app->singleton("tencent_cloud.{$name}", fn ($app) => new $class($config));
         }

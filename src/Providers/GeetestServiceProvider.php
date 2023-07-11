@@ -13,7 +13,7 @@ class GeetestServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $apps = [
             'sense_bot' => SenseBot::class,
@@ -25,7 +25,7 @@ class GeetestServiceProvider extends ServiceProvider
                 continue;
             }
 
-            if (!empty(config("geetest.{$name}.app_id"))) {
+            if (! empty(config("geetest.{$name}.app_id"))) {
                 $accounts = [
                     'default' => config("geetest.{$name}"),
                 ];

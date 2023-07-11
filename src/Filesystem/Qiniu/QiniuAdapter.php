@@ -1,6 +1,6 @@
 <?php
 
-namespace Papaedu\Extension\Filesystem;
+namespace Papaedu\Extension\Filesystem\Qiniu;
 
 use Overtrue\Flysystem\Qiniu\QiniuAdapter as BaseQiniuAdapter;
 

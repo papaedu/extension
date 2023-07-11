@@ -13,7 +13,7 @@ class AlibabaCloudServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $apps = [
             'green' => GreenClient::class,

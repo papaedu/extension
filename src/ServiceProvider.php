@@ -5,12 +5,16 @@ namespace Papaedu\Extension;
 use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Illuminate\Validation\Rules\Password;
 use Overtrue\EasySms\EasySms;
-use Papaedu\Extension\Filesystem\Disk;
-use Papaedu\Extension\MediaLibrary\Disk as MediaLibraryDisk;
 use Papaedu\Extension\UmengPush\UmengPush;
 use Papaedu\Extension\Validation\Rules\AllStringMax;
 use Papaedu\Extension\Validation\Rules\AuthCaptcha;
 use Papaedu\Extension\Validation\Rules\Captcha;
+use Papaedu\Extension\Validation\Rules\Filesystem\AudioExistsOfAliyun;
+use Papaedu\Extension\Validation\Rules\Filesystem\AudioExistsOfQiniu;
+use Papaedu\Extension\Validation\Rules\Filesystem\FileExistsOfAliyun;
+use Papaedu\Extension\Validation\Rules\Filesystem\FileExistsOfQiniu;
+use Papaedu\Extension\Validation\Rules\Filesystem\ImageExistsOfAliyun;
+use Papaedu\Extension\Validation\Rules\Filesystem\ImageExistsOfQiniu;
 use Papaedu\Extension\Validation\Rules\RequiredMultiIf;
 
 class ServiceProvider extends LaravelProvider
@@ -23,19 +27,22 @@ class ServiceProvider extends LaravelProvider
         $this->setupConfig();
 
         $this->registerChannels();
-//        $this->registerCommands();
         $this->registerMigrations();
     }
 
-    protected function setupConfig()
+    protected function setupConfig(): void
     {
-        $sources = [
-            'extension' => realpath(__DIR__.'/../config/extension.php'),
-            'alibaba-cloud' => realpath(__DIR__.'/../config/alibaba-cloud.php'),
-            'tencent-cloud' => realpath(__DIR__.'/../config/tencent-cloud.php'),
-            'geetest' => realpath(__DIR__.'/../config/geetest.php'),
-            'payment' => realpath(__DIR__.'/../config/payment.php'),
-        ];
+        $sources = [];
+        array_map(function ($item) use (&$sources) {
+            $sources[$item] = realpath(__DIR__."/../config/{$item}.php");
+        }, [
+            'extension',
+            'alibaba-cloud',
+            'tencent-cloud',
+//            'gether-cloud',
+            'geetest',
+            'payment',
+        ]);
 
         if ($this->app->runningInConsole()) {
             foreach ($sources as $name => $source) {
@@ -48,10 +55,14 @@ class ServiceProvider extends LaravelProvider
         }
     }
 
-    protected function registerChannels()
+    protected function registerChannels(): void
     {
         $this->app->singleton(EasySms::class, function ($app) {
             return new EasySms($app['config']['easysms']);
+        });
+
+        $this->app->singleton(GetherCloudSms::class, function ($app) {
+            return new GetherCloudSms($app['config']['gether-cloud']['sms']);
         });
 
         $this->app->singleton(UmengPush::class, function ($app) {
@@ -59,7 +70,7 @@ class ServiceProvider extends LaravelProvider
         });
     }
 
-    protected function registerMigrations()
+    protected function registerMigrations(): void
     {
         $this->publishes([
             __DIR__.'/Database/Migrations/' => database_path('migrations'),
@@ -79,7 +90,7 @@ class ServiceProvider extends LaravelProvider
         Password::defaults(fn () => Password::min(8)->mixedCase()->numbers()->symbols());
     }
 
-    protected function bootValidationTranslation()
+    protected function bootValidationTranslation(): void
     {
         $source = __DIR__.'/../resources/lang';
         if ($this->app->runningInConsole()) {
@@ -89,34 +100,26 @@ class ServiceProvider extends LaravelProvider
         $this->loadTranslationsFrom($source.'/', 'extension');
     }
 
-    protected function bootValidators()
+    protected function bootValidators(): void
     {
-        $this->app['validator']->extend(
-            'image_exists',
-            fn ($attribute, $value, $parameters, $validator) => Disk::image()->exists($value),
-            ':attribute不存在或上传失败'
-        );
+        // Common
+        $this->app['validator']->extend('image_exists', ImageExistsOfQiniu::class.'@passes');
+        $this->app['validator']->extend('audio_exists', AudioExistsOfQiniu::class.'@passes');
+        $this->app['validator']->extend('file_exists', FileExistsOfQiniu::class.'@passes');
 
-        $this->app['validator']->extend(
-            'audio_exists',
-            fn ($attribute, $value, $parameters, $validator) => Disk::audio()->exists($value),
-            ':attribute不存在或上传失败'
-        );
+        // Aliyun
+        $this->app['validator']->extend('aliyun_image_exists', ImageExistsOfAliyun::class.'@passes');
+        $this->app['validator']->extend('aliyun_audio_exists', AudioExistsOfAliyun::class.'@passes');
+        $this->app['validator']->extend('aliyun_file_exists', FileExistsOfAliyun::class.'@passes');
 
-        $this->app['validator']->extend(
-            'video_exists',
-            fn ($attribute, $value, $parameters, $validator) => Disk::video()->exists($value),
-            ':attribute不存在或上传失败'
-        );
+        // Qiniu
+        $this->app['validator']->extend('qiniu_image_exists', ImageExistsOfQiniu::class.'@passes');
+        $this->app['validator']->extend('qiniu_audio_exists', AudioExistsOfQiniu::class.'@passes');
+        $this->app['validator']->extend('qiniu_file_exists', FileExistsOfQiniu::class.'@passes');
 
-        $this->app['validator']->extend(
-            'file_exists',
-            fn ($attribute, $value, $parameters, $validator) => Disk::file()->exists($value),
-            ':attribute不存在或上传失败'
-        );
-
-        $this->app['validator']->extend('captcha', Captcha::class.'@validate');
+        // Captcha
         $this->app['validator']->extend('auth_captcha', AuthCaptcha::class.'@validate');
+        $this->app['validator']->extend('captcha', Captcha::class.'@validate');
 
         $this->app['validator']->extend('all_string_max', function ($attributes, $value, $parameters, $validator) {
             return (new AllStringMax($parameters))->passes($attributes, $value);

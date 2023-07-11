@@ -11,7 +11,7 @@ use TencentCloud\Vod\V20180717\VodClient as TencentVodClient;
  */
 class VodClient extends TencentCloudClient
 {
-    protected function initClient()
+    protected function initClient(): void
     {
         $credential = new Credential($this->config['secret_id'], $this->config['secret_key']);
         $this->client = new TencentVodClient($credential, $this->config['region']);

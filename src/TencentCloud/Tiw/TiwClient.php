@@ -13,12 +13,15 @@ use TencentCloud\Tiw\V20190919\TiwClient as TencentTiwClient;
  */
 class TiwClient extends TencentCloudClient
 {
-    protected function initClient()
+    protected function initClient(): void
     {
         $credential = new Credential($this->config['secret_id'], $this->config['secret_key']);
         $this->client = new TencentTiwClient($credential, $this->config['region']);
     }
 
+    /**
+     * @throws \Papaedu\Extension\TencentCloud\Exceptions\InvalidArgumentException
+     */
     public function notify(Closure $closure): Response
     {
         return (new Notify())->handle($closure);

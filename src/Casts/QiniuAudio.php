@@ -3,9 +3,10 @@
 namespace Papaedu\Extension\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Papaedu\Extension\MediaLibrary\Disk;
+use Papaedu\Extension\Filesystem\Core\AdapterAbstract;
+use Papaedu\Extension\Filesystem\Disk;
 
-class MediaVod implements CastsAttributes
+class QiniuAudio implements CastsAttributes
 {
     /**
      * Cast the given value.
@@ -18,7 +19,7 @@ class MediaVod implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return Disk::vod()->url((string) $value);
+        return Disk::qiniu()->audio()->url((string) $value);
     }
 
     /**
@@ -32,6 +33,11 @@ class MediaVod implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return Disk::vod()->parseUrl($value);
+        $path = Disk::qiniu()->audio()->path($value);
+        if (str_starts_with($path, AdapterAbstract::TMP_DIR)) {
+            return Disk::qiniu()->audio()->move($value);
+        }
+
+        return $path;
     }
 }

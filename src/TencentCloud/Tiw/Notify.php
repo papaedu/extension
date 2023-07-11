@@ -39,7 +39,10 @@ class Notify implements NotifyInterface
         return new JsonResponse(['code' => 0], $this->statusCode);
     }
 
-    public function getMessage()
+    /**
+     * @throws \Papaedu\Extension\TencentCloud\Exceptions\InvalidArgumentException
+     */
+    public function getMessage(): array
     {
         if ($this->message) {
             return $this->message;

@@ -3,9 +3,10 @@
 namespace Papaedu\Extension\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Papaedu\Extension\MediaLibrary\Disk;
+use Papaedu\Extension\Filesystem\Core\AdapterAbstract;
+use Papaedu\Extension\Filesystem\Disk;
 
-class MediaFile implements CastsAttributes
+class AliyunAudio implements CastsAttributes
 {
     /**
      * Cast the given value.
@@ -18,7 +19,7 @@ class MediaFile implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return Disk::file()->url((string) $value);
+        return Disk::aliyun()->audio()->url((string) $value);
     }
 
     /**
@@ -32,6 +33,11 @@ class MediaFile implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return Disk::file()->parseUrl($value);
+        $path = Disk::aliyun()->audio()->path($value);
+        if (str_starts_with($path, AdapterAbstract::TMP_DIR)) {
+            return Disk::aliyun()->audio()->move($path);
+        }
+
+        return $path;
     }
 }

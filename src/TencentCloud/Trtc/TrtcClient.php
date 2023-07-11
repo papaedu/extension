@@ -11,7 +11,7 @@ use TencentCloud\Trtc\V20190722\TrtcClient as TencentTrtcClient;
  */
 class TrtcClient extends TencentCloudClient
 {
-    protected function initClient()
+    protected function initClient(): void
     {
         $credential = new Credential($this->config['secret_id'], $this->config['secret_key']);
         $this->client = new TencentTrtcClient($credential, $this->config['region']);

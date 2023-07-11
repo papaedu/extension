@@ -25,7 +25,9 @@ return [
 
     // useless
     'filesystem' => [
-        'disk_type' => 'oss',
+        'delete_blocklist' => [
+            'system/',
+        ],
     ],
 
     'aes' => [
