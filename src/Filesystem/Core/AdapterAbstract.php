@@ -17,6 +17,8 @@ abstract class AdapterAbstract
 
     private const TEST_DIR = 'test/';
 
+    protected const TOKEN_EXPIRED = 300;
+
     public function __construct(protected string $diskName = '', string $domain = '')
     {
         $this->domain = preg_replace('~^(http|https)://~ixu', '', $domain);
@@ -192,20 +194,7 @@ abstract class AdapterAbstract
         return $paths;
     }
 
-    public function getUploadToken(string $path, string $mimeLimit = '', int $fSizeLimit = 0): string
-    {
-        $policy = [];
-        if ($mimeLimit) {
-            $policy['mimeLimit'] = $mimeLimit;
-        }
-        if ($fSizeLimit) {
-            $policy['fsizeLimit'] = $fSizeLimit;
-        }
-
-        return $this->getDisk()->getAdapter()->getUploadTokenFixed($path, 3600, $policy);
-    }
-
-    protected function generateDir(string $prefix = '', bool $isTmp = false, bool $needYmd = true): string
+    public function generateDir(string $prefix = '', bool $isTmp = false, bool $needYmd = true): string
     {
         $dir = $isTmp ? self::TMP_DIR : '';
         $dir .= app()->environment('production') ? '' : self::TEST_DIR;
