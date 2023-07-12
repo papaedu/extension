@@ -38,9 +38,8 @@ class Disk
     public static function callClient(string $adapter)
     {
         if (! isset(self::$adapters[$adapter])) {
-            $adapterClass = 'Papaedu\\Extension\\Filesystem\\Qiniu\\'.ucfirst($adapter).'Adapter';
 
-            self::$adapters[$adapter] = new $adapterClass($adapter);
+            self::$adapters[$adapter] = Disk::qiniu()->{$adapter}();
         }
 
         return self::$adapters[$adapter];
