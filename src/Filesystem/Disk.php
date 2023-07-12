@@ -3,7 +3,6 @@
 namespace Papaedu\Extension\Filesystem;
 
 use InvalidArgumentException;
-use Papaedu\Extension\Filesystem\Qiniu\QiniuAdapter;
 
 /**
  * @method static \Papaedu\Extension\Filesystem\Aliyun\Client aliyun()
@@ -36,7 +35,7 @@ class Disk
         return self::$clients[$client];
     }
 
-    public static function callClient(string $adapter): QiniuAdapter
+    public static function callClient(string $adapter)
     {
         if (! isset(self::$adapters[$adapter])) {
             $adapterClass = 'Papaedu\\Extension\\Filesystem\\Qiniu\\'.ucfirst($adapter).'Adapter';
