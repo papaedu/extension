@@ -3,25 +3,47 @@
 namespace Papaedu\Extension\Filesystem;
 
 use InvalidArgumentException;
+use Papaedu\Extension\Filesystem\Qiniu\QiniuAdapter;
 
 /**
  * @method static \Papaedu\Extension\Filesystem\Aliyun\Client aliyun()
  * @method static \Papaedu\Extension\Filesystem\Qiniu\Client qiniu()
+ *
+ * @method static \Papaedu\Extension\Filesystem\Qiniu\ImageAdapter image()
+ * @method static \Papaedu\Extension\Filesystem\Qiniu\AudioAdapter audio()
+ * @method static \Papaedu\Extension\Filesystem\Qiniu\FileAdapter file()
  */
 class Disk
 {
-    private static array $platforms = [];
+    private static array $clients = [];
 
-    public static function __callStatic(string $platform, array $arguments)
+    private static array $adapters = [];
+
+    public static function __callStatic(string $client, array $arguments)
     {
-        if (! isset(self::$platforms[$platform])) {
-            $clientClass = 'Papaedu\\Extension\\Filesystem\\'.ucfirst($platform).'\\Client';
-            if (! class_exists($clientClass)) {
-                throw new InvalidArgumentException("Platform name '{$platform}' is invalid.");
+        if (! isset(self::$clients[$client])) {
+            if (! in_array($client, ['aliyun', 'qiniu'])) {
+                return self::callClient($client);
             }
-            self::$platforms[$platform] = new $clientClass($platform);
+
+            $clientClass = 'Papaedu\\Extension\\Filesystem\\'.ucfirst($client).'\\Client';
+            if (! class_exists($clientClass)) {
+                throw new InvalidArgumentException("Client name '{$client}' is invalid.");
+            }
+            self::$clients[$client] = new $clientClass($client);
         }
 
-        return self::$platforms[$platform];
+        return self::$clients[$client];
+    }
+
+    public static function callClient(string $adapter): QiniuAdapter
+    {
+        if (! isset(self::$adapters[$adapter])) {
+            $adapterClass = 'Papaedu\\Extension\\Filesystem\\Qiniu\\'.ucfirst($adapter).'Adapter';
+
+            self::$adapters[$adapter] = new $adapterClass($adapter);
+        }
+
+        return self::$adapters[$adapter];
     }
 }
