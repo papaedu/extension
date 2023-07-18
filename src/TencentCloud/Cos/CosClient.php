@@ -15,7 +15,6 @@ class CosClient extends QCloudClient
             'region' => $this->config['region'],
             'schema' => 'https',
             'signHost' => true,
-            'domain' => $this->config['domain'],
             'credentials' => [
                 'secretId' => $this->config['secret_id'],
                 'secretKey' => $this->config['secret_key'],
