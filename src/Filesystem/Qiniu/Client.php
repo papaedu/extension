@@ -15,16 +15,4 @@ class Client extends ClientAbstract
     {
         return new $class("qiniu-{$disk}", config("filesystems.disks.qiniu-{$disk}.domain"));
     }
-
-    /**
-     * @return mixed|\Papaedu\Extension\Filesystem\Vod
-     */
-    public static function vod()
-    {
-        if (! isset(self::$disks['vod'])) {
-            self::$disks['vod'] = new Vod('', config('tencent-cloud.vod.host', ''));
-        }
-
-        return self::$disks['vod'];
-    }
 }

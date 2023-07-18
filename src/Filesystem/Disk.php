@@ -7,6 +7,7 @@ use InvalidArgumentException;
 /**
  * @method static \Papaedu\Extension\Filesystem\Aliyun\Client aliyun()
  * @method static \Papaedu\Extension\Filesystem\Qiniu\Client qiniu()
+ * @method static \Papaedu\Extension\Filesystem\Tencent\Client tencent()
  *
  * @method static \Papaedu\Extension\Filesystem\Qiniu\ImageAdapter image()
  * @method static \Papaedu\Extension\Filesystem\Qiniu\AudioAdapter audio()
@@ -21,7 +22,7 @@ class Disk
     public static function __callStatic(string $client, array $arguments)
     {
         if (! isset(self::$clients[$client])) {
-            if (! in_array($client, ['aliyun', 'qiniu'])) {
+            if (! in_array($client, ['aliyun', 'qiniu', 'tencent'])) {
                 return self::callClient($client);
             }
 
@@ -38,6 +39,9 @@ class Disk
     public static function callClient(string $adapter)
     {
         if (! isset(self::$adapters[$adapter])) {
+            if (! in_array($adapter, ['image', 'audio', 'file'])) {
+                throw new InvalidArgumentException("Adapter name '{$adapter}' in Qiniu is invalid.");
+            }
 
             self::$adapters[$adapter] = Disk::qiniu()->{$adapter}();
         }

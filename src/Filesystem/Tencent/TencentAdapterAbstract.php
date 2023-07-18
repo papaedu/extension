@@ -1,39 +1,33 @@
 <?php
 
-namespace Papaedu\Extension\Filesystem\Core;
+namespace Papaedu\Extension\Filesystem\Tencent;
 
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
+use Papaedu\Extension\Facades\TencentCloud;
+use Qcloud\Cos\Client as TencentCosClient;
 
-abstract class AdapterAbstract
+abstract class TencentAdapterAbstract
 {
-    protected string $domain = '';
+    protected string $domain;
 
-    protected Filesystem $disk;
+    protected TencentCosClient $client;
 
     public const TMP_DIR = 'tmp/';
 
     private const TEST_DIR = 'test/';
 
-    protected const TOKEN_EXPIRED = 900;
-
-    public function __construct(protected string $diskName = '', string $domain = '')
+    public function __construct(protected string $bucket, protected string $region, string $domain)
     {
-        $this->domain = preg_replace('~^(http|https)://~ixu', '', $domain);
+        $this->domain = preg_replace('~^(http|https)://~ixu', '', rtrim($domain, '/'));
     }
 
-    public function getDisk(): Filesystem
+    public function getClient(): TencentCosClient
     {
-        if (! $this->diskName) {
-            throw new InvalidArgumentException('Disk Name is empty.');
-        }
-        if (isset($this->disk)) {
-            $this->disk = Storage::disk($this->diskName);
+        if (! isset($this->client)) {
+            $this->client = TencentCloud::cos()->getClient();
         }
 
-        return $this->disk;
+        return $this->client;
     }
 
     public function url(string $path): string
@@ -46,7 +40,7 @@ abstract class AdapterAbstract
             return $path;
         }
 
-        return $this->getDisk()->url($path);
+        return 'https://'.$this->domain.'/'.ltrim($path, '/');
     }
 
     public function path(string $url): string
@@ -62,20 +56,9 @@ abstract class AdapterAbstract
     {
         $path = is_string($file) ? $this->generatePath($ext, $prefix, $isTmp) : $this->generateDir($prefix);
 
-        $result = $this->getDisk()->put($path, $file);
+        $result = $this->getClient()->upload($this->bucket, $path, $file);
 
         return is_string($file) ? $path : $result;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function simplePut(string $path, string $content, string $ext = '', bool $isTmp = false): string
-    {
-        $path = $this->generateDir($path, $isTmp, false).$this->generateFilename($ext);
-        $this->getDisk()->put($path, $content);
-
-        return $path;
     }
 
     public function move(string $from, string $to = ''): string
@@ -98,7 +81,8 @@ abstract class AdapterAbstract
             }
         }
 
-        $result = $this->getDisk()->move($from, $to);
+        $this->copy($from, $to);
+        $result = $this->delete($from);
 
         if ($result) {
             return $to;
@@ -127,7 +111,11 @@ abstract class AdapterAbstract
             $to = $this->generatePath($ext, isTmp: false);
         }
 
-        $this->getDisk()->copy($from, $to);
+        $this->getClient()->copy($this->bucket, $to, [
+            'Bucket' => $this->bucket,
+            'Region' => $this->region,
+            'Key' => $from,
+        ]);
 
         return $to;
     }
@@ -139,7 +127,7 @@ abstract class AdapterAbstract
             return false;
         }
 
-        return $this->getDisk()->exists($path);
+        return $this->getClient()->doesObjectExist($this->bucket, $path);
     }
 
     public function delete(string $path): bool
@@ -158,7 +146,25 @@ abstract class AdapterAbstract
             return true;
         }
 
-        return $this->getDisk()->delete($path);
+        try {
+            $this->getClient()->DeleteObject([
+                'Bucket' => $this->bucket,
+                'Key' => $path,
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function getPutPreSignedUrl(string $ext, ?string $expires = '+10 minutes'): string
+    {
+        return $this->getClient()->getPresignedUrl('putObject', [
+            'Bucket' => $this->bucket,
+            'Key' => $this->getKey($ext),
+            'Body' => '',
+        ], $expires);
     }
 
     public function getKey(string $ext, string $prefix = ''): string
@@ -178,20 +184,6 @@ abstract class AdapterAbstract
         }
 
         return $key;
-    }
-
-    public function generatePaths(int $number, string $ext, string $prefix, bool $isTmp = true): array
-    {
-        if (! $ext) {
-            return [];
-        }
-
-        $paths = [];
-        for ($i = 0; $i < $number; $i++) {
-            $paths[] = $this->generatePath($ext, $prefix, $isTmp);
-        }
-
-        return $paths;
     }
 
     public function generateDir(string $prefix = '', bool $isTmp = false, bool $needYmd = true): string

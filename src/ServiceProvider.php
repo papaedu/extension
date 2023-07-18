@@ -61,9 +61,9 @@ class ServiceProvider extends LaravelProvider
             return new EasySms($app['config']['easysms']);
         });
 
-        $this->app->singleton(GetherCloudSms::class, function ($app) {
-            return new GetherCloudSms($app['config']['gether-cloud']['sms']);
-        });
+//        $this->app->singleton(GetherCloudSms::class, function ($app) {
+//            return new GetherCloudSms($app['config']['gether-cloud']['sms']);
+//        });
 
         $this->app->singleton(UmengPush::class, function ($app) {
             return new UmengPush($app['config']['umeng']);

@@ -28,7 +28,8 @@
         "tencentcloud/trtc": "^3.0",
         "vinkla/hashids": "^10.0",
         "yansongda/pay": "^3.1",
-        "yansongda/laravel-pay": "^3.1"
+        "yansongda/laravel-pay": "^3.1",
+        "qcloud/cos-sdk-v5": "^2.6"
     },
     "require-dev": {
         "laravel/framework": "^9.2",

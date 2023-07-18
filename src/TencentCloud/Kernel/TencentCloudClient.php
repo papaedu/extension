@@ -16,11 +16,8 @@ abstract class TencentCloudClient
         $this->initClient();
     }
 
-    abstract protected function initClient();
+    abstract protected function initClient(): void;
 
-    /**
-     * @return \TencentCloud\Common\AbstractClient
-     */
     public function getClient(): AbstractClient
     {
         return $this->client;
