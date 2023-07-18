@@ -38,6 +38,10 @@ return [
         ],
     ],
 
+    'ocr' => [
+        'region' => env('TENCENT_CLOUD_OCR_REGION'),
+    ],
+
     'tim' => [
         'sdk_app_id' => env('TENCENT_CLOUD_TIM_SDK_APP_ID'),
         'identifier' => env('TENCENT_CLOUD_TIM_IDENTIFIER'),

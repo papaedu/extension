@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Papaedu\Extension\TencentCloud\Cos\CosClient;
+use Papaedu\Extension\TencentCloud\Ocr\OcrClient;
 use Papaedu\Extension\TencentCloud\Tim\TimClient;
 use Papaedu\Extension\TencentCloud\Tiw\TiwClient;
 use Papaedu\Extension\TencentCloud\Trtc\TrtcClient;
@@ -42,6 +43,10 @@ class TencentCloudServiceProvider extends ServiceProvider
             'cos' => [
                 'name' => CosClient::class,
                 'must_key' => 'bucket',
+            ],
+            'ocr' => [
+                'name' => OcrClient::class,
+                'must_key' => 'region',
             ],
             'tiw' => [
                 'name' => TiwClient::class,

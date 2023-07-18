@@ -43,6 +43,11 @@ abstract class TencentAdapterAbstract
         return 'https://'.$this->domain.'/'.ltrim($path, '/');
     }
 
+    public function getSignedUrl(string $path): string
+    {
+        return $this->getClient()->getObjectUrl($this->bucket, $path);
+    }
+
     public function path(string $url): string
     {
         if (! $url) {

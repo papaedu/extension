@@ -24,9 +24,10 @@
         "qcloud/cos-sdk-v5": "^2.6",
         "s1lentium/iptools": "^1.1",
         "tencentcloud/captcha": "^3.0",
-        "tencentcloud/vod": "^3.0",
+        "tencentcloud/ocr": "^3.0",
         "tencentcloud/tiw": "^3.0",
         "tencentcloud/trtc": "^3.0",
+        "tencentcloud/vod": "^3.0",
         "vinkla/hashids": "^10.0",
         "yansongda/pay": "^3.1",
         "yansongda/laravel-pay": "^3.1"

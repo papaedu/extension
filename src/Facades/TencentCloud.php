@@ -4,6 +4,7 @@ namespace Papaedu\Extension\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Papaedu\Extension\TencentCloud\Cos\CosClient;
+use Papaedu\Extension\TencentCloud\Ocr\OcrClient;
 use Papaedu\Extension\TencentCloud\Tim\TimClient;
 use Papaedu\Extension\TencentCloud\Tiw\TiwClient;
 use Papaedu\Extension\TencentCloud\Trtc\TrtcClient;
@@ -14,6 +15,11 @@ class TencentCloud extends Facade
     public static function cos(string $name = ''): CosClient
     {
         return $name ? app('tencent_cloud.cos.'.$name) : app('tencent_cloud.cos');
+    }
+
+    public static function ocr(string $name = ''): OcrClient
+    {
+        return $name ? app('tencent_cloud.ocr.'.$name) : app('tencent_cloud.ocr');
     }
 
     public static function tim(string $name = ''): TimClient
