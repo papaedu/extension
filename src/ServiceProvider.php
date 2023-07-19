@@ -11,10 +11,14 @@ use Papaedu\Extension\Validation\Rules\AuthCaptcha;
 use Papaedu\Extension\Validation\Rules\Captcha;
 use Papaedu\Extension\Validation\Rules\Filesystem\AudioExistsOfAliyun;
 use Papaedu\Extension\Validation\Rules\Filesystem\AudioExistsOfQiniu;
+use Papaedu\Extension\Validation\Rules\Filesystem\AudioExistsOfTencent;
 use Papaedu\Extension\Validation\Rules\Filesystem\FileExistsOfAliyun;
 use Papaedu\Extension\Validation\Rules\Filesystem\FileExistsOfQiniu;
+use Papaedu\Extension\Validation\Rules\Filesystem\FileExistsOfTencent;
 use Papaedu\Extension\Validation\Rules\Filesystem\ImageExistsOfAliyun;
 use Papaedu\Extension\Validation\Rules\Filesystem\ImageExistsOfQiniu;
+use Papaedu\Extension\Validation\Rules\Filesystem\ImageExistsOfTencent;
+use Papaedu\Extension\Validation\Rules\Filesystem\VideoExistsOfTencent;
 use Papaedu\Extension\Validation\Rules\RequiredMultiIf;
 
 class ServiceProvider extends LaravelProvider
@@ -106,6 +110,12 @@ class ServiceProvider extends LaravelProvider
         $this->app['validator']->extend('image_exists', ImageExistsOfQiniu::class.'@passes');
         $this->app['validator']->extend('audio_exists', AudioExistsOfQiniu::class.'@passes');
         $this->app['validator']->extend('file_exists', FileExistsOfQiniu::class.'@passes');
+
+        // Tencent
+        $this->app['validator']->extend('tencent_image_exists', ImageExistsOfTencent::class.'@passes');
+        $this->app['validator']->extend('tencent_audio_exists', AudioExistsOfTencent::class.'@passes');
+        $this->app['validator']->extend('tencent_video_exists', VideoExistsOfTencent::class.'@passes');
+        $this->app['validator']->extend('tencent_file_exists', FileExistsOfTencent::class.'@passes');
 
         // Aliyun
         $this->app['validator']->extend('aliyun_image_exists', ImageExistsOfAliyun::class.'@passes');
