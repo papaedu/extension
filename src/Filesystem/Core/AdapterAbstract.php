@@ -29,7 +29,7 @@ abstract class AdapterAbstract
         if (! $this->diskName) {
             throw new InvalidArgumentException('Disk Name is empty.');
         }
-        if (isset($this->disk)) {
+        if (! isset($this->disk)) {
             $this->disk = Storage::disk($this->diskName);
         }
 
