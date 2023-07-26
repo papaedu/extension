@@ -18,7 +18,7 @@ class Vod implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return Disk::vod()->url((string)$value);
+        return Disk::tencent()->vod()->url((string)$value);
     }
 
     /**
@@ -32,6 +32,6 @@ class Vod implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return Disk::vod()->parseUrl($value);
+        return Disk::tencent()->vod()->path($value);
     }
 }

@@ -19,15 +19,12 @@ class VodAdapter
         return Str::finish(config('tencent-cloud.vod.host', ''), '/').ltrim($path, '/');
     }
 
-    /**
-     * @return mixed|\Papaedu\Extension\Filesystem\Vod
-     */
-    public static function vod()
+    public function path(string $url): string
     {
-        if (! isset(self::$disks['vod'])) {
-            self::$disks['vod'] = new Vod('', config('tencent-cloud.vod.host', ''));
+        if (! $url) {
+            return '';
         }
 
-        return self::$disks['vod'];
+        return preg_replace('~^(http|https)://[^/]+/~ixu', '', $url);
     }
 }
