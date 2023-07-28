@@ -3,7 +3,6 @@
 namespace Papaedu\Extension\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Papaedu\Extension\AlibabaCloud\Green\GreenClient;
 use Papaedu\Extension\AlibabaCloud\Sts\StsClient;
 
 class AlibabaCloudServiceProvider extends ServiceProvider
@@ -16,7 +15,6 @@ class AlibabaCloudServiceProvider extends ServiceProvider
     public function register(): void
     {
         $apps = [
-            'green' => GreenClient::class,
             'sts' => StsClient::class,
         ];
 

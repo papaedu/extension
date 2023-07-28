@@ -5,9 +5,7 @@ namespace Papaedu\Extension\AlibabaCloud\Sts;
 use AlibabaCloud\Client\AlibabaCloud;
 use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Exception\ServerException;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-use Papaedu\Extension\MediaLibrary\Disk;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StsOssClient
@@ -19,15 +17,8 @@ class StsOssClient
         $this->config = $config;
     }
 
-    public function assumeRole(string $bucket, array $paths = []): array
+    public function assumeRole(string $bucket, int $expires = 900, array $paths = []): array
     {
-        if (empty($paths)) {
-            $paths = [
-                Disk::image()->getPreDir().Carbon::today()->format('Y/m/d*'),
-                Disk::image()->getPreDir().Carbon::tomorrow()->format('Y/m/d*'),
-            ];
-        }
-
         $resources = [];
         foreach ($paths as $path) {
             $resources[] = "acs:oss:*:*:{$bucket}/{$path}";
@@ -43,7 +34,7 @@ class StsOssClient
                 ->scheme('https')
                 ->options([
                     'query' => [
-                        'DurationSeconds' => 900,
+                        'DurationSeconds' => max($expires, 900),// 不能小于900s
                         'RegionId' => $this->config['region_id'],
                         'RoleArn' => $this->config['oss']['role_arn'],
                         'RoleSessionName' => $this->config['oss']['role_session_name'],

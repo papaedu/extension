@@ -3,6 +3,8 @@
 namespace Papaedu\Extension\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Papaedu\Extension\TencentCloud\Cos\CosClient;
+use Papaedu\Extension\TencentCloud\Ocr\OcrClient;
 use Papaedu\Extension\TencentCloud\Tim\TimClient;
 use Papaedu\Extension\TencentCloud\Tiw\TiwClient;
 use Papaedu\Extension\TencentCloud\Trtc\TrtcClient;
@@ -10,6 +12,8 @@ use Papaedu\Extension\TencentCloud\Vod\VodClient;
 
 class TencentCloudServiceProvider extends ServiceProvider
 {
+    use MultipleAccountsTrait;
+
     /**
      * Register services.
      *
@@ -24,31 +28,41 @@ class TencentCloudServiceProvider extends ServiceProvider
     protected function registerSdkAppId(): void
     {
         $apps = [
-            'tim' => TimClient::class,
+            'tim' => [
+                'name' => TimClient::class,
+                'must_key' => 'sdk_app_id',
+            ],
         ];
 
-        foreach ($apps as $name => $class) {
-            if (empty($config = config("tencent-cloud.{$name}"))) {
-                continue;
-            }
-
-            $this->app->singleton("tencent_cloud.{$name}", fn ($app) => new $class($config));
-        }
+        $this->singletonMultipleAccountsApp('tencent-cloud', $apps);
     }
 
     protected function registerSecretId(): void
     {
         $apps = [
-            'tiw' => TiwClient::class,
-            'trtc' => TrtcClient::class,
-            'vod' => VodClient::class,
+            'cos' => [
+                'name' => CosClient::class,
+                'must_key' => 'bucket',
+            ],
+            'ocr' => [
+                'name' => OcrClient::class,
+                'must_key' => 'region',
+            ],
+            'tiw' => [
+                'name' => TiwClient::class,
+                'must_key' => 'sdk_app_id',
+            ],
+            'trtc' => [
+                'name' => TrtcClient::class,
+                'must_key' => 'sdk_app_id',
+            ],
+            'vod' => [
+                'name' => VodClient::class,
+                'must_key' => 'sub_app_id',
+            ],
         ];
 
-        foreach ($apps as $name => $class) {
-            if (empty($config = config("tencent-cloud.{$name}"))) {
-                continue;
-            }
-
+        $this->singletonMultipleAccountsApp('tencent-cloud', $apps, function (&$config) {
             if (! isset($config['secret_id'])) {
                 $config['secret_id'] = config('tencent-cloud.secret_id');
             }
@@ -58,9 +72,7 @@ class TencentCloudServiceProvider extends ServiceProvider
             if (! isset($config['region'])) {
                 $config['region'] = config('tencent-cloud.region');
             }
-
-            $this->app->singleton("tencent_cloud.{$name}", fn ($app) => new $class($config));
-        }
+        });
     }
 
     /**

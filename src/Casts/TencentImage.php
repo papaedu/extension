@@ -3,9 +3,10 @@
 namespace Papaedu\Extension\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Papaedu\Extension\Filesystem\Core\AdapterAbstract;
 use Papaedu\Extension\Filesystem\Disk;
 
-class Vod implements CastsAttributes
+class TencentImage implements CastsAttributes
 {
     /**
      * Cast the given value.
@@ -18,7 +19,7 @@ class Vod implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return Disk::tencent()->vod()->url((string) $value);
+        return Disk::tencent()->image()->url((string) $value);
     }
 
     /**
@@ -32,6 +33,11 @@ class Vod implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): string
     {
-        return Disk::tencent()->vod()->path($value);
+        $path = Disk::tencent()->image()->path($value);
+        if (str_starts_with($path, AdapterAbstract::TMP_DIR)) {
+            return Disk::tencent()->image()->move($value);
+        }
+
+        return $path;
     }
 }

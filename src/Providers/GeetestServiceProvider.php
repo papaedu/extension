@@ -8,6 +8,8 @@ use Papaedu\Extension\Geetest\SenseBot;
 
 class GeetestServiceProvider extends ServiceProvider
 {
+    use MultipleAccountsTrait;
+
     /**
      * Register services.
      *
@@ -16,31 +18,17 @@ class GeetestServiceProvider extends ServiceProvider
     public function register(): void
     {
         $apps = [
-            'sense_bot' => SenseBot::class,
-            'one_pass' => OnePass::class,
+            'sense_bot' => [
+                'name' => SenseBot::class,
+                'must_key' => 'app_id',
+            ],
+            'one_pass' => [
+                'name' => OnePass::class,
+                'must_key' => 'app_id',
+            ],
         ];
 
-        foreach ($apps as $name => $class) {
-            if (empty(config("geetest.{$name}"))) {
-                continue;
-            }
-
-            if (! empty(config("geetest.{$name}.app_id"))) {
-                $accounts = [
-                    'default' => config("geetest.{$name}"),
-                ];
-                config(["geetest.{$name}.default" => $accounts['default']]);
-            } else {
-                $accounts = config("geetest.{$name}");
-            }
-
-            foreach ($accounts as $account => $config) {
-                $this->app->singleton("geetest.{$name}.{$account}", function ($app) use ($config, $class) {
-                    return new $class($config);
-                });
-            }
-            $this->app->alias("geetest.{$name}.default", "geetest.{$name}");
-        }
+        $this->singletonMultipleAccountsApp('geetest', $apps);
     }
 
     /**

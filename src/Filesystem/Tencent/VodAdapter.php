@@ -18,4 +18,13 @@ class VodAdapter
 
         return Str::finish(config('tencent-cloud.vod.host', ''), '/').ltrim($path, '/');
     }
+
+    public function path(string $url): string
+    {
+        if (! $url) {
+            return '';
+        }
+
+        return preg_replace('~^(http|https)://[^/]+/~ixu', '', $url);
+    }
 }
