@@ -18,7 +18,7 @@ class Vod implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): string
     {
-        return Disk::tencent()->vod()->url((string)$value);
+        return Disk::tencent()->vod()->url((string) $value);
     }
 
     /**
