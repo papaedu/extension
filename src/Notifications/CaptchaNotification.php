@@ -51,6 +51,7 @@ class CaptchaNotification extends Notification
             ->setTemplateCode($templateId)
             ->setParams([
                 'code' => $this->captcha,
+                'minutes' => config('extension.auth.captcha.ttl') / 60,
             ]);
     }
 }

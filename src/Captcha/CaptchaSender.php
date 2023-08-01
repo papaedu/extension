@@ -18,7 +18,7 @@ class CaptchaSender
     {
         Notification::route(GetherCloudSmsChannel::class, new PhoneNumber($phoneNumber, $IDDCode))
             ->notify(new CaptchaNotification($captcha));
-
+dd(1);
         try {
             Notification::route(GetherCloudSmsChannel::class, new PhoneNumber($phoneNumber, $IDDCode))
                 ->notify(new CaptchaNotification($captcha));

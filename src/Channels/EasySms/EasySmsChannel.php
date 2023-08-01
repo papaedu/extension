@@ -4,13 +4,14 @@ namespace Papaedu\Extension\Channels\EasySms;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
-use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
-use Papaedu\Extension\Exceptions\InvalidArgumentException;
+use Papaedu\Extension\Channels\ReceiverTrait;
 
 class EasySmsChannel
 {
+    use ReceiverTrait;
+
     public function __construct(protected EasySms $easySms)
     {
     }
@@ -21,17 +22,7 @@ class EasySmsChannel
      */
     public function send(object $notifiable, Notification $notification): void
     {
-        if (! method_exists($notifiable, 'routeNotificationFor')) {
-            throw new InvalidArgumentException('The notifiable is invalid, not found method routeNotificationFor.');
-        }
-        if (! method_exists($notification, 'toEasySms')) {
-            throw new InvalidArgumentException('The notifiable is invalid, not found method toEasySms.');
-        }
-
-        $receiver = $notifiable->routeNotificationFor('sms', $notification);
-        if (!$receiver instanceof PhoneNumberInterface) {
-            throw new InvalidArgumentException('The to is invalid, not instanceof PhoneNumberInterface');
-        }
+        $receiver = $this->getReceiver('toEasySms', $notifiable, $notification);
         $message = $notification->toEasySms($receiver);
 
         try {

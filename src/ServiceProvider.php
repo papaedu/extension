@@ -5,6 +5,7 @@ namespace Papaedu\Extension;
 use Illuminate\Support\ServiceProvider as LaravelProvider;
 use Illuminate\Validation\Rules\Password;
 use Overtrue\EasySms\EasySms;
+use Papaedu\Extension\GetherCloud\GetherCloudSms;
 use Papaedu\Extension\UmengPush\UmengPush;
 use Papaedu\Extension\Validation\Rules\AllStringMax;
 use Papaedu\Extension\Validation\Rules\AuthCaptcha;
@@ -65,9 +66,9 @@ class ServiceProvider extends LaravelProvider
             return new EasySms($app['config']['easysms']);
         });
 
-//        $this->app->singleton(GetherCloudSms::class, function ($app) {
-//            return new GetherCloudSms($app['config']['gether-cloud']['sms']);
-//        });
+        $this->app->singleton(GetherCloudSms::class, function ($app) {
+            return new GetherCloudSms($app['config']['gether-cloud']['sms']);
+        });
 
         $this->app->singleton(UmengPush::class, function ($app) {
             return new UmengPush($app['config']['umeng']);

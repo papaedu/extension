@@ -19,9 +19,9 @@ class GetherCloudSms
     public function send(PhoneNumberInterface $receiver, GetherCloudSmsMessage $message): Response
     {
         if ($receiver->getIDDCode() == config('extension.locale.idd_code')) {
-            $this->sendByDomestic($receiver, $message);
+            return $this->sendByDomestic($receiver, $message);
         } else {
-            $this->sendByInternational($receiver, $message);
+            return $this->sendByInternational($receiver, $message);
         }
     }
 

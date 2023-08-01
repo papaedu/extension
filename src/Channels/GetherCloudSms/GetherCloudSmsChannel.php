@@ -3,12 +3,14 @@
 namespace Papaedu\Extension\Channels\GetherCloudSms;
 
 use Illuminate\Notifications\Notification;
-use Overtrue\EasySms\Contracts\PhoneNumberInterface;
-use Papaedu\Extension\Exceptions\InvalidArgumentException;
+use Overtrue\EasySms\PhoneNumber;
+use Papaedu\Extension\Channels\ReceiverTrait;
 use Papaedu\Extension\GetherCloud\GetherCloudSms;
 
 class GetherCloudSmsChannel
 {
+    use ReceiverTrait;
+
     public function __construct(protected GetherCloudSms $getherCloudSms)
     {
     }
@@ -18,23 +20,14 @@ class GetherCloudSmsChannel
      */
     public function send(object $notifiable, Notification $notification): void
     {
-        if (! method_exists($notifiable, 'routeNotificationFor')) {
-            throw new InvalidArgumentException('The notifiable is invalid, not found method routeNotificationFor.');
-        }
-        if (! method_exists($notification, 'toGetherCloudSms')) {
-            throw new InvalidArgumentException('The notifiable is invalid, not found method toEasySms.');
-        }
+//        $receiver = $this->getReceiver('toGetherCloudSms', $notifiable, $notification);
 
-        $receiver = $notifiable->routeNotificationFor('sms', $notification);
-        if (! $receiver instanceof PhoneNumberInterface) {
-            throw new InvalidArgumentException('The to is invalid, not instanceof PhoneNumberInterface');
-        }
+        $receiver = new PhoneNumber('204', '3121157');
 
         $message = $notification->toGetherCloudSms($receiver);
 
-      $resp =   $this->getherCloudSms->send($receiver, $message);
+        $resp = $this->getherCloudSms->send($receiver, $message);
 
-
-      dd($resp->json());
+        dd($resp->json());
     }
 }
