@@ -41,11 +41,13 @@ class Captcha extends Notification
         }
 
         if ($IDDCode == config('extension.locale.idd_code')) {
-            $templateId = config('extension.auth.captcha.sms_template_id.domestic.aliyun');
-            $gateways = ['aliyun'];
+            $templateId = config('extension.auth.captcha.sms_template_id.domestic');
         } else {
-            $templateId = config('extension.auth.captcha.sms_template_id.foreign.qcloud');
-            $gateways = ['qcloud'];
+            $templateId = config('extension.auth.captcha.sms_template_id.foreign');
+        }
+
+        if (! $templateId) {
+            return;
         }
 
         return (new EasySmsMessage())
@@ -53,6 +55,6 @@ class Captcha extends Notification
             ->setData([
                 'code' => $this->captcha,
             ])
-            ->setGateways($gateways);
+            ->setGateways(['aliyun']);
     }
 }

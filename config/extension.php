@@ -9,14 +9,8 @@ return [
 
         'captcha' => [
             'sms_template_id' => [
-                'domestic' => [
-                    'aliyun' => '',
-                    'qcloud' => '',
-                ],
-                'foreign' => [
-                    'aliyun' => '',
-                    'qcloud' => '',
-                ],
+                'domestic' => '',
+                'foreign' => '',
             ],
             'length' => 6,
             'ttl' => 300,
