@@ -135,6 +135,21 @@ abstract class TencentAdapterAbstract
         return $this->getClient()->doesObjectExist($this->bucket, $path);
     }
 
+    public function size(string $path): int
+    {
+        $path = $this->path($path);
+        if (! $path) {
+            return 0;
+        }
+
+        $result = $this->getClient()->HeadObject([
+            'Bucket' => $this->bucket,
+            'Key' => $path,
+        ]);
+
+        return $result['ContentLength'];
+    }
+
     public function delete(string $path): bool
     {
         $path = $this->path($path);

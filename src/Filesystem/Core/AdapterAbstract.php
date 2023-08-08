@@ -142,6 +142,16 @@ abstract class AdapterAbstract
         return $this->getDisk()->exists($path);
     }
 
+    public function size(string $path): int
+    {
+        $path = $this->path($path);
+        if (! $path) {
+            return 0;
+        }
+
+        return $this->getDisk()->size($path);
+    }
+
     public function delete(string $path): bool
     {
         $path = $this->path($path);
