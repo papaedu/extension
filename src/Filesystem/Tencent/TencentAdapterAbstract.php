@@ -3,7 +3,6 @@
 namespace Papaedu\Extension\Filesystem\Tencent;
 
 use Illuminate\Support\Str;
-use Papaedu\Extension\Facades\TencentCloud;
 use Qcloud\Cos\Client as TencentCosClient;
 
 abstract class TencentAdapterAbstract
@@ -21,14 +20,7 @@ abstract class TencentAdapterAbstract
         $this->domain = preg_replace('~^(http|https)://~ixu', '', rtrim($domain, '/'));
     }
 
-    public function getClient(): TencentCosClient
-    {
-        if (! isset($this->client)) {
-            $this->client = TencentCloud::cos()->getClient();
-        }
-
-        return $this->client;
-    }
+    abstract public function getClient(): TencentCosClient;
 
     public function url(string $path): string
     {
