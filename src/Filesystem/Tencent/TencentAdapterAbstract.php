@@ -37,6 +37,11 @@ abstract class TencentAdapterAbstract
 
     public function getSignedUrl(string $path): string
     {
+        $path = $this->path($path);
+        if (! $path) {
+            return '';
+        }
+
         return $this->getClient()->getObjectUrl($this->bucket, $path);
     }
 
