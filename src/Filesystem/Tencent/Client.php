@@ -5,6 +5,7 @@ namespace Papaedu\Extension\Filesystem\Tencent;
 use Papaedu\Extension\Filesystem\Core\ClientAbstract;
 
 /**
+ * @method \Papaedu\Extension\Filesystem\Tencent\CdnAdapter cdn()
  * @method \Papaedu\Extension\Filesystem\Tencent\ImageAdapter image()
  * @method \Papaedu\Extension\Filesystem\Tencent\AudioAdapter audio()
  * @method \Papaedu\Extension\Filesystem\Tencent\VideoAdapter video()
