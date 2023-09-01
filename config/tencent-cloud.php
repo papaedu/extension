@@ -16,6 +16,11 @@ return [
             'bucket' => env('TENCENT_CLOUD_COS_IMAGE_BUCKET'),
             'domain' => env('TENCENT_CLOUD_COS_IMAGE_DOMAIN'),
         ],
+        'cdn' => [
+            'region' => env('TENCENT_CLOUD_COS_REGION'),
+            'bucket' => env('TENCENT_CLOUD_COS_CDN_BUCKET'),
+            'domain' => env('TENCENT_CLOUD_COS_CDN_DOMAIN'),
+        ],
         'image' => [
             'region' => env('TENCENT_CLOUD_COS_REGION'),
             'bucket' => env('TENCENT_CLOUD_COS_IMAGE_BUCKET'),
